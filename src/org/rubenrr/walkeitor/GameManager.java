@@ -104,9 +104,7 @@ public class GameManager {
     public void createSprite(final String name, final float posX, final float posY) {
 
         final City city = new City(posX, posY);
-
         scene.attachChild(city);
-        this.getScene().registerTouchArea(city);
         //this.getScene().setTouchAreaBindingOnActionDownEnabled(true);
 
     }

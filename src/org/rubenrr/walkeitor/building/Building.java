@@ -1,5 +1,6 @@
 package org.rubenrr.walkeitor.building;
 
+import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.GameManager;
@@ -18,7 +19,17 @@ abstract class Building extends Sprite {
 
     @Override
     public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
-        this.menuOnClick();
+
+        switch (pSceneTouchEvent.getAction()) {
+            case TouchEvent.ACTION_DOWN:
+                this.menuOnClick();
+                break;
+            //case TouchEvent.ACTION_MOVE: {
+            //    break;}
+            //case TouchEvent.ACTION_UP:
+            //    break;
+        }
+
         return true;
     }
 
