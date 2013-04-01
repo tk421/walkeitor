@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.scene;
+package org.rubenrr.walkeitor.activity;
 
 import android.util.Log;
 import org.andengine.engine.camera.ZoomCamera;
@@ -23,7 +23,7 @@ import org.andengine.util.debug.Debug;
 /**
  * (c) 2013 Ruben Rubio Rey
  *
- * Main scene of the game. Also used as base for testing and develop
+ * Main activity of the game. Also used as base for testing and develop
  *
  *
  * @author Ruben Rubio
@@ -88,7 +88,7 @@ public class TiledPinchZoomBaseActivity extends SimpleBaseGameActivity implement
 	@Override
 	public Scene onCreateScene() {
 
-        Log.d("GameSample", "Starting generating scene");
+        Log.d("GameSample", "Starting generating activity");
 
 		this.mEngine.registerUpdateHandler(new FPSLogger());
 
