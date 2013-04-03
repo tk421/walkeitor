@@ -8,6 +8,17 @@ import org.rubenrr.walkeitor.GameManager;
  * Date: 23/03/13
  * Time: 4:20 PM
  */
+
+
+/*
+Backlog:
+  - Create a resource type mine type loading from the MainScene
+  - Refactor to generalize
+  - Make the Person walk to move to the Oil Resource
+  - Make the person Walk to the Oil Resource and start to construct an oil mine
+  - Make the person to construct an Oil Refinery
+  - Create resources in the game manager needed to construct buildings
+*/
 public class MainScene extends TiledPinchZoomBaseActivity {
 
     @Override
@@ -17,6 +28,7 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         GameManager.getInstance().setTextureManager(this.getTextureManager());
         GameManager.getInstance().setFontManger(this.getFontManager());
         GameManager.getInstance().setAssetManager(this.getAssets());
+        GameManager.getInstance().setEngineLock(this.mEngine.getEngineLock());
         GameManager.getInstance().loadBitmap();
     }
 

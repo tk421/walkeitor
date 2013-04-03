@@ -2,11 +2,13 @@ package org.rubenrr.walkeitor.building;
 
 import android.graphics.Typeface;
 import android.util.Log;
+import org.andengine.engine.Engine;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.rubenrr.walkeitor.GameManager;
+import org.rubenrr.walkeitor.unit.Person;
 
 /**
  * User: Ruben Rubio Rey
@@ -42,7 +44,19 @@ public class City extends Building {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+
                     Log.d("CitymenuOnClick","OnClick Option 1: " + this.getText() );
+
+                    Person person = new Person(this.getParent().convertLocalToSceneCoordinates(this.getX(), this.getY() + this.getHeight() + 10));
+                    GameManager.getInstance().getScene().attachChild(person);
+
+                    final Engine.EngineLock engineLock = GameManager.getInstance().getEngineLock();
+                    engineLock.lock();
+                    this.getParent().detachChild(this);
+                    engineLock.unlock();
+
+
+
                 }
                 return true;
             }
@@ -50,33 +64,6 @@ public class City extends Building {
         this.attachChild(option1);
         GameManager.getInstance().getScene().registerTouchArea(option1);
 
-
-        final Text option2 = new Text(this.getWidth() + 10, option1.getHeight() + 5, this.menufont , "option 2", "option 2".length(), GameManager.getInstance().getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    Log.d("CitymenuOnClick","OnClick Option 2: " + this.getText() );
-                }
-                return true;
-            }
-        };
-        this.attachChild(option2);
-        GameManager.getInstance().getScene().registerTouchArea(option2);
-
-
-        final Text option3 = new Text(this.getWidth() + 10, option1.getHeight() + option2.getHeight() + 5 + 5, this.menufont , "Another option", "Another option".length(), GameManager.getInstance().getVertexBufferObjectManager()){
-            @Override
-            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    Log.d("CitymenuOnClick","OnClick Option 3: " + this.getText() );
-                }
-                return true;
-            }
-        };
-        this.attachChild(option3);
-        GameManager.getInstance().getScene().registerTouchArea(option3);
-
-        //GameManager.getInstance().getScene().attachChild(menuTest);
     }
 
 }

@@ -1,7 +1,9 @@
 package org.rubenrr.walkeitor;
 
 import android.content.res.AssetManager;
+import org.andengine.engine.Engine;
 import org.andengine.entity.scene.Scene;
+import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
@@ -26,6 +28,7 @@ public class GameManager {
     private AssetManager assetmanager;
     private VertexBufferObjectManager vertexbufferobjectmanager;
     private FontManager fontmanger;
+    private Engine.EngineLock enginelock;
 
     private static GameManager instance = null;
 
@@ -37,6 +40,14 @@ public class GameManager {
 
         }
         return instance;
+    }
+
+    public Engine.EngineLock getEngineLock() {
+        return enginelock;
+    }
+
+    public void setEngineLock(Engine.EngineLock enginelock) {
+        this.enginelock = enginelock;
     }
 
     public FontManager getFontManger() {
@@ -88,6 +99,8 @@ public class GameManager {
      */
     public void loadBitmap () {
         TextureRegionManager.getInstance().loadBitmap("gfx/building/city/normal_city.png");
+        TextureRegionManager.getInstance().loadBitmap("gfx/unit/person/normal_person.png");
+        TextureRegionManager.getInstance().loadBitmap("gfx/resource/mine/normal_oil.png");
     }
 
 
@@ -103,8 +116,14 @@ public class GameManager {
      */
     public void createSprite(final String name, final float posX, final float posY) {
 
-        final City city = new City(posX, posY);
-        scene.attachChild(city);
+        Sprite element = null;
+
+        if ( name.equals("city")) {
+            element = new City(posX, posY);
+        } else if ( name.equals("oil")) {
+            //element = new Mine(posX, posY, "oil");
+        }
+        scene.attachChild(element);
         //this.getScene().setTouchAreaBindingOnActionDownEnabled(true);
 
     }
