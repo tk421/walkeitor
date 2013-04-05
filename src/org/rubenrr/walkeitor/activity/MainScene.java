@@ -2,6 +2,7 @@ package org.rubenrr.walkeitor.activity;
 
 import org.andengine.entity.scene.Scene;
 import org.rubenrr.walkeitor.GameManager;
+import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
  * User: Ruben Rubio Rey
@@ -12,8 +13,9 @@ import org.rubenrr.walkeitor.GameManager;
 
 /*
 Backlog:
-  - Create a resource type mine type loading from the MainScene
+  - Create a resource type resource type loading from the MainScene
   - Refactor to generalize
+  - Use enum instead strings
   - Make the Person walk to move to the Oil Resource
   - Make the person Walk to the Oil Resource and start to construct an oil mine
   - Make the person to construct an Oil Refinery
@@ -41,7 +43,10 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         GameManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
 
 
-        GameManager.getInstance().createSprite("city", this.getCameraWidth() / 2, this.getCameraHeight() / 2);
+        GameManager.getInstance().createSprite(new ElementWrapper("building", "city"), this.getCameraWidth() / 2, this.getCameraHeight() / 2);
+
+        /* TODO I AM HERE, THE RESOURCE IS NOT LOADING THE PROPER SPRITE */
+        GameManager.getInstance().createSprite(new ElementWrapper("resource", "ore", "oil"), 100, 100);
 
         return scene;
     }

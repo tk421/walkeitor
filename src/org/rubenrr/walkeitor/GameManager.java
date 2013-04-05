@@ -1,6 +1,7 @@
 package org.rubenrr.walkeitor;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 import org.andengine.engine.Engine;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
@@ -8,7 +9,10 @@ import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.rubenrr.walkeitor.building.City;
+import org.rubenrr.walkeitor.building.Mine;
+import org.rubenrr.walkeitor.resource.Ore;
 import org.rubenrr.walkeitor.utils.TextureRegionManager;
+import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
  * User: Ruben Rubio Rey
@@ -110,24 +114,22 @@ public class GameManager {
      * Game manager will initialize the object
      *
      *
-     * @param name name of the object to be created. TODO consider using type of object ?
+     * @param elementwrapper name of the object to be created.
      * @param posX relative position to the scene
      * @param posY relative position to the scene
      */
-    public void createSprite(final String name, final float posX, final float posY) {
+    public void createSprite(final ElementWrapper elementwrapper, final float posX, final float posY) {
 
         Sprite element = null;
 
-        if ( name.equals("city")) {
-            element = new City(posX, posY);
-        } else if ( name.equals("oil")) {
-            //element = new Mine(posX, posY, "oil");
+        if ( elementwrapper.getSubtype().equals("city")) {
+            element = new City(posX, posY,elementwrapper);
+        }else if ( elementwrapper.getSubtype().equals("oil")) {
+            element = new Ore(posX, posY, elementwrapper);
         }
         scene.attachChild(element);
-        //this.getScene().setTouchAreaBindingOnActionDownEnabled(true);
 
     }
-
 
 
 

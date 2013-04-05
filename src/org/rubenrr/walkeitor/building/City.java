@@ -9,6 +9,7 @@ import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.rubenrr.walkeitor.GameManager;
 import org.rubenrr.walkeitor.unit.Person;
+import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
  * User: Ruben Rubio Rey
@@ -22,9 +23,8 @@ public class City extends Building {
 
     private Font menufont;
 
-    public City(float pX, float pY) {
-
-        super(pX, pY, "gfx/building/city/normal_city.png");
+    public City(float pX, float pY, ElementWrapper buildingwrapper) {
+        super(pX, pY, buildingwrapper);
         this.menufont = FontFactory.create(GameManager.getInstance().getFontManger(), GameManager.getInstance().getTextureManager(), 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 20);
         this.menufont.load();
         GameManager.getInstance().getScene().registerTouchArea(this);

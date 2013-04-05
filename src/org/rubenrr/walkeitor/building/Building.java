@@ -1,10 +1,10 @@
 package org.rubenrr.walkeitor.building;
 
-import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.GameManager;
 import org.rubenrr.walkeitor.utils.TextureRegionManager;
+import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
  * User: Ruben Rubio Rey
@@ -13,8 +13,8 @@ import org.rubenrr.walkeitor.utils.TextureRegionManager;
  */
 abstract class Building extends Sprite {
 
-    public Building(float pX, float pY, String bitmap) {
-        super(pX, pY, TextureRegionManager.getInstance().getTextureRegion(bitmap), GameManager.getInstance().getVertexBufferObjectManager());
+    public Building(float pX, float pY, ElementWrapper buildingwrapper) {
+        super(pX, pY, TextureRegionManager.getInstance().getTextureRegion(buildingwrapper.getImagePathNormal()), GameManager.getInstance().getVertexBufferObjectManager());
    }
 
     @Override
