@@ -1,8 +1,5 @@
-package org.rubenrr.walkeitor.resource;
+package org.rubenrr.walkeitor.element.resource;
 
-import android.graphics.Typeface;
-import org.andengine.opengl.font.FontFactory;
-import org.rubenrr.walkeitor.GameManager;
 import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**

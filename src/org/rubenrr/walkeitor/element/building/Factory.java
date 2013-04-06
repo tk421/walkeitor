@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.building;
+package org.rubenrr.walkeitor.element.building;
 
 /**
  * User: Ruben Rubio Rey

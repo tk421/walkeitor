@@ -1,8 +1,8 @@
-package org.rubenrr.walkeitor.resource;
+package org.rubenrr.walkeitor.element.resource;
 
 import org.andengine.entity.sprite.Sprite;
-import org.rubenrr.walkeitor.GameManager;
-import org.rubenrr.walkeitor.utils.TextureRegionManager;
+import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
@@ -15,7 +15,7 @@ abstract class Resource extends Sprite{
     ElementWrapper elementwrapper;
 
     public Resource(float pX, float pY, ElementWrapper elementwrapper) {
-        super(pX, pY, TextureRegionManager.getInstance().getTextureRegion(elementwrapper.getImagePathNormal()), GameManager.getInstance().getVertexBufferObjectManager());
+        super(pX, pY, TextureRegionManager.getInstance().get(elementwrapper.getImagePathNormal()), GameManager.getInstance().getVertexBufferObjectManager());
         this.elementwrapper = elementwrapper;
 
     }

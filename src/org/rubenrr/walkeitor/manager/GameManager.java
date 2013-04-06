@@ -1,17 +1,15 @@
-package org.rubenrr.walkeitor;
+package org.rubenrr.walkeitor.manager;
 
 import android.content.res.AssetManager;
-import android.util.Log;
+import android.graphics.Typeface;
 import org.andengine.engine.Engine;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.rubenrr.walkeitor.building.City;
-import org.rubenrr.walkeitor.building.Mine;
-import org.rubenrr.walkeitor.resource.Ore;
-import org.rubenrr.walkeitor.utils.TextureRegionManager;
+import org.rubenrr.walkeitor.element.building.City;
+import org.rubenrr.walkeitor.element.resource.Ore;
 import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
@@ -102,9 +100,20 @@ public class GameManager {
      * TODO within the Buildings and Unit objects.
      */
     public void loadBitmap () {
-        TextureRegionManager.getInstance().loadBitmap("gfx/building/city/normal_city.png");
-        TextureRegionManager.getInstance().loadBitmap("gfx/unit/person/normal_person.png");
-        TextureRegionManager.getInstance().loadBitmap("gfx/resource/ore/normal_oil.png");
+        TextureRegionManager.getInstance().put("gfx/building/city/normal_city.png", "gfx/building/city/normal_city.png");
+        TextureRegionManager.getInstance().put("gfx/unit/person/normal_person.png", "gfx/unit/person/normal_person.png");
+        TextureRegionManager.getInstance().put("gfx/resource/ore/normal_oil.png", "gfx/resource/ore/normal_oil.png");
+    }
+
+    /**
+     *  Preload all possible fonts available in the system
+     *  This is useful so we will load all the fonts OnCreateResources
+     *
+     * TODO I would like to centralize all configuration parameters as they are duplicated
+     * TODO within the Buildings and Unit objects.
+     */
+    public void loadFont() {
+        FontLoadManager.getInstance().put("menustandardfont",256,256, Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 20);
     }
 
 

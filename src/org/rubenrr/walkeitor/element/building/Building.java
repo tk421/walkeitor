@@ -1,9 +1,10 @@
-package org.rubenrr.walkeitor.building;
+package org.rubenrr.walkeitor.element.building;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
-import org.rubenrr.walkeitor.GameManager;
-import org.rubenrr.walkeitor.utils.TextureRegionManager;
+import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.TextureRegionManager;
+import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
@@ -13,8 +14,10 @@ import org.rubenrr.walkeitor.wrapper.ElementWrapper;
  */
 abstract class Building extends Sprite {
 
+    private MenuStrategy menu;
+
     public Building(float pX, float pY, ElementWrapper buildingwrapper) {
-        super(pX, pY, TextureRegionManager.getInstance().getTextureRegion(buildingwrapper.getImagePathNormal()), GameManager.getInstance().getVertexBufferObjectManager());
+        super(pX, pY, TextureRegionManager.getInstance().get(buildingwrapper.getImagePathNormal()), GameManager.getInstance().getVertexBufferObjectManager());
    }
 
     @Override
@@ -22,7 +25,7 @@ abstract class Building extends Sprite {
 
         switch (pSceneTouchEvent.getAction()) {
             case TouchEvent.ACTION_DOWN:
-                this.menuOnClick();
+                this.menu.actionOnTouch(this);
                 break;
             //case TouchEvent.ACTION_MOVE: {
             //    break;}
@@ -33,9 +36,7 @@ abstract class Building extends Sprite {
         return true;
     }
 
-    /**
-     * Displays menu when someone clicks on the entity
-     */
-    abstract void menuOnClick();
-
+    public void setMenu(MenuStrategy menu) {
+        this.menu = menu;
+    }
 }

@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.unit;
+package org.rubenrr.walkeitor.element.unit;
 
 import android.graphics.Typeface;
 import android.util.Log;
@@ -6,7 +6,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
-import org.rubenrr.walkeitor.GameManager;
+import org.rubenrr.walkeitor.manager.GameManager;
 
 /**
  * Created with IntelliJ IDEA.

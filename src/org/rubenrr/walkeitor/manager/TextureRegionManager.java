@@ -1,39 +1,30 @@
-package org.rubenrr.walkeitor.utils;
+package org.rubenrr.walkeitor.manager;
 
 import android.util.Log;
+import org.andengine.opengl.font.Font;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.TextureRegion;
 import org.andengine.opengl.texture.region.TextureRegionFactory;
 import org.andengine.util.adt.io.in.IInputStreamOpener;
-import org.andengine.util.debug.Debug;
-import org.rubenrr.walkeitor.GameManager;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NavigableMap;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  *
- * Tools of methods to manage BitMaps.
- *
+ * This class preload all the bitmaps that will be converted to
+ * TextureRegion following the AndEngine conventions
  *
  * User: Ruben Rubio Rey
  * Date: 1/04/13
  * Time: 6:58 PM
  */
-public class TextureRegionManager {
+public class TextureRegionManager extends MemoryStorage {
 
     private static TextureRegionManager instance = null;
-
-    Map<String, TextureRegion> textureMap;
-
-    TextureRegionManager() {
-        this.textureMap = new HashMap<String, TextureRegion>();
-    }
 
     public static TextureRegionManager getInstance() {
         if (instance == null) {
@@ -46,31 +37,24 @@ public class TextureRegionManager {
      * Load bitmaps and keeps it in a NavigableMap.
      * The bitmap will be stored in memory as a TextureRegionManager
      *
-     * @param path
+     * @param key
      */
-    public void loadBitmap (String path) {
-        if ( ! textureMap.containsKey(path)) {
-            TextureRegion valueTexture = this.getTexttureRegionFromBitmap(path);
-            Log.d("TextureRegionManager","PUT key: " + path + " value: " + valueTexture);
-            textureMap.put(path, valueTexture);
-        } else {
-            Log.d("TextureRegionManager","PUT key: " + path + " already exists");
+    public void put (String key, String path) {
+        Log.d("TextureRegionManager", "PUT: " + key);
+        if (this.get(key) == null) {
+            TextureRegion value = this.getTexttureRegionFromBitmap(path);
+            Log.d("TextureRegionManager", "Put " + key + " is empty, storing value " + value);
+            super.put(key, value);
         }
     }
 
-    public TextureRegion getTextureRegion(String path) {
-        //make sure that the key is loaded
-        TextureRegion valueTexture = textureMap.get(path);
-
-        Log.d("TextureRegionManager","GET: key: " + path + " value " + valueTexture);
-
-        if ( valueTexture == null ) {
-            Log.w("TextureRegionManager", "GET: key: " + path + " value was not preloaded");
-            this.loadBitmap(path);
-            valueTexture = textureMap.get(path);
+    public TextureRegion get (String key) {
+        TextureRegion value = (TextureRegion)super.get(key);
+        Log.d("TextureRegionManager", "GET: key " + key + " value " + value);
+        if ( value == null ) {
+            Log.e("TextureRegionManager", "Font " + key + " not loaded");
         }
-
-        return valueTexture;
+        return value;
     }
 
     private TextureRegion getTexttureRegionFromBitmap( final String path ) {

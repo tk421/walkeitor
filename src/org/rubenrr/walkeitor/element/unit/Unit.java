@@ -1,10 +1,9 @@
-package org.rubenrr.walkeitor.unit;
+package org.rubenrr.walkeitor.element.unit;
 
-import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
-import org.rubenrr.walkeitor.GameManager;
-import org.rubenrr.walkeitor.utils.TextureRegionManager;
+import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.TextureRegionManager;
 
 /**
  * User: Ruben Rubio Rey
@@ -17,7 +16,7 @@ import org.rubenrr.walkeitor.utils.TextureRegionManager;
 abstract class Unit extends Sprite {
 
     public Unit(float pX, float pY, String bitmap) {
-        super(pX, pY, TextureRegionManager.getInstance().getTextureRegion(bitmap), GameManager.getInstance().getVertexBufferObjectManager());
+        super(pX, pY, TextureRegionManager.getInstance().get(bitmap), GameManager.getInstance().getVertexBufferObjectManager());
    }
 
     @Override
