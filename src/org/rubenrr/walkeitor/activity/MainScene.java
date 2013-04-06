@@ -13,7 +13,7 @@ import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /*
 Backlog:
-  - Create a resource type resource type loading from the MainScene
+  - Create a resource type resource type loading from the MainScene DONE 06/04/2013
   - Refactor to generalize
   - Use enum instead strings
   - Make the Person walk to move to the Oil Resource

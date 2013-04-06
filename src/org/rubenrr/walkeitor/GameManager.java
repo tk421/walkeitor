@@ -104,7 +104,7 @@ public class GameManager {
     public void loadBitmap () {
         TextureRegionManager.getInstance().loadBitmap("gfx/building/city/normal_city.png");
         TextureRegionManager.getInstance().loadBitmap("gfx/unit/person/normal_person.png");
-        TextureRegionManager.getInstance().loadBitmap("gfx/resource/mine/normal_oil.png");
+        TextureRegionManager.getInstance().loadBitmap("gfx/resource/ore/normal_oil.png");
     }
 
 

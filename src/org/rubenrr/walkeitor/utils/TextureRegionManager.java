@@ -11,6 +11,8 @@ import org.rubenrr.walkeitor.GameManager;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NavigableMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 
@@ -27,10 +29,10 @@ public class TextureRegionManager {
 
     private static TextureRegionManager instance = null;
 
-    NavigableMap<String, TextureRegion> textureMap;
+    Map<String, TextureRegion> textureMap;
 
     TextureRegionManager() {
-        this.textureMap = new ConcurrentSkipListMap<String, TextureRegion>();
+        this.textureMap = new HashMap<String, TextureRegion>();
     }
 
     public static TextureRegionManager getInstance() {
@@ -47,19 +49,28 @@ public class TextureRegionManager {
      * @param path
      */
     public void loadBitmap (String path) {
-        Log.d("TextureRegionManager","Loading path: " + path);
-        if (textureMap.ceilingEntry(path) == null ) {
-            textureMap.put(path, this.getTexttureRegionFromBitmap(path));
+        if ( ! textureMap.containsKey(path)) {
+            TextureRegion valueTexture = this.getTexttureRegionFromBitmap(path);
+            Log.d("TextureRegionManager","PUT key: " + path + " value: " + valueTexture);
+            textureMap.put(path, valueTexture);
+        } else {
+            Log.d("TextureRegionManager","PUT key: " + path + " already exists");
         }
     }
 
     public TextureRegion getTextureRegion(String path) {
-        Log.d("TextureRegionManager","Getting path: " + path + " that is " + textureMap.ceilingEntry(path));
-        if ( textureMap.ceilingEntry(path) == null ) {
-            Log.w("TextureRegionManager", "Getting path: " + path + " is NULL, loading AGAIN");
-            textureMap.put(path, this.getTexttureRegionFromBitmap(path));
+        //make sure that the key is loaded
+        TextureRegion valueTexture = textureMap.get(path);
+
+        Log.d("TextureRegionManager","GET: key: " + path + " value " + valueTexture);
+
+        if ( valueTexture == null ) {
+            Log.w("TextureRegionManager", "GET: key: " + path + " value was not preloaded");
+            this.loadBitmap(path);
+            valueTexture = textureMap.get(path);
         }
-        return textureMap.ceilingEntry(path).getValue();
+
+        return valueTexture;
     }
 
     private TextureRegion getTexttureRegionFromBitmap( final String path ) {
@@ -82,7 +93,7 @@ public class TextureRegionManager {
 
 
         } catch (IOException e) {
-            Debug.e(e);
+            Log.e("TextureRegionManager", "Error loading texture " + path, e);
         }
 
         return texttureregion;
