@@ -1,8 +1,10 @@
 package org.rubenrr.walkeitor.activity;
 
 import org.andengine.entity.scene.Scene;
+import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.element.building.City;
+import org.rubenrr.walkeitor.element.resource.Ore;
 import org.rubenrr.walkeitor.manager.GameManager;
-import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
  * User: Ruben Rubio Rey
@@ -41,8 +43,8 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         GameManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
 
 
-        GameManager.getInstance().createSprite(new ElementWrapper("building", "city"), this.getCameraWidth() / 2, this.getCameraHeight() / 2);
-        GameManager.getInstance().createSprite(new ElementWrapper("resource", "ore", "oil"), 100, 100);
+        GameManager.getInstance().attachChild(new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY));
+        GameManager.getInstance().attachChild(new Ore(100, 100, ElementConfig.RESOURCE_OIL));
 
         return scene;
     }

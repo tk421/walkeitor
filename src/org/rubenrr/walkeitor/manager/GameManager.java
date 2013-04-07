@@ -1,15 +1,17 @@
 package org.rubenrr.walkeitor.manager;
 
 import android.content.res.AssetManager;
-import android.graphics.Typeface;
 import org.andengine.engine.Engine;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
+import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.element.building.City;
 import org.rubenrr.walkeitor.element.resource.Ore;
+import org.rubenrr.walkeitor.element.unit.Person;
 import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
@@ -95,49 +97,29 @@ public class GameManager {
     /**
      * Take all available objects and load all bitmaps in related with the Scene in a Singleton
      *  This is useful so we will load all images at the phase OnCreateResources
-     *
-     * TODO I would like to centralize all configuration parameters as they are duplicated
-     * TODO within the Buildings and Unit objects.
      */
     public void loadBitmap () {
-        TextureRegionManager.getInstance().put("gfx/building/city/normal_city.png", "gfx/building/city/normal_city.png");
-        TextureRegionManager.getInstance().put("gfx/unit/person/normal_person.png", "gfx/unit/person/normal_person.png");
-        TextureRegionManager.getInstance().put("gfx/resource/ore/normal_oil.png", "gfx/resource/ore/normal_oil.png");
+        for (ElementConfig ec : ElementConfig.values()) {
+            TextureRegionManager.getInstance().put(ec);
+        }
     }
 
     /**
      *  Preload all possible fonts available in the system
      *  This is useful so we will load all the fonts OnCreateResources
-     *
-     * TODO I would like to centralize all configuration parameters as they are duplicated
-     * TODO within the Buildings and Unit objects.
      */
     public void loadFont() {
-        FontLoadManager.getInstance().put("menustandardfont",256,256, Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 20);
+        for (FontConfig fc : FontConfig.values()) {
+            FontLoadManager.getInstance().put(fc);
+        }
     }
 
-
     /**
-     * Create script behaves as a factory pattern
-     * it receives the type of object that should be created and the position.
-     * Game manager will initialize the object
-     *
-     *
-     * @param elementwrapper name of the object to be created.
-     * @param posX relative position to the scene
-     * @param posY relative position to the scene
+     * Attach sprite to scene
+     * @param sprite
      */
-    public void createSprite(final ElementWrapper elementwrapper, final float posX, final float posY) {
-
-        Sprite element = null;
-
-        if ( elementwrapper.getSubtype().equals("city")) {
-            element = new City(posX, posY,elementwrapper);
-        }else if ( elementwrapper.getSubtype().equals("oil")) {
-            element = new Ore(posX, posY, elementwrapper);
-        }
-        scene.attachChild(element);
-
+    public void attachChild(final Sprite sprite) {
+        scene.attachChild(sprite);
     }
 
 

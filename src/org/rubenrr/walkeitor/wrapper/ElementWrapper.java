@@ -1,6 +1,7 @@
 package org.rubenrr.walkeitor.wrapper;
 
 import android.util.Log;
+import org.rubenrr.walkeitor.config.ElementConfig;
 
 /**
  * Element wrapper represents to every object that can be used in the scene
@@ -12,49 +13,14 @@ import android.util.Log;
  */
 public class ElementWrapper {
 
-    public ElementWrapper(String category, String type) {
-        this(category, type, type);
+    public ElementWrapper(final ElementConfig element) {
+        this.element = element;
     }
 
-    public ElementWrapper(String category, String type, String subtype) {
-        this.category = category;
-        this.subtype = subtype;
-        this.type = type;
+    private final ElementConfig element;
+
+    public ElementConfig getElement() {
+        return this.element;
     }
-
-    private String category;
-    private String subtype;
-    private String type;
-
-    public String getSubtype() {
-        return subtype;
-    }
-
-    public void setSubtype(String subtype) {
-        this.subtype = subtype;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
-
-    public String getImagePathNormal() {
-        Log.d("ElementWrapper", "gfx/" + this.category + "/" + this.type + "/normal_" + this.subtype + ".png");
-        return "gfx/" + this.category + "/" + this.type + "/normal_" + this.subtype + ".png";
-    }
-
-
 
 }

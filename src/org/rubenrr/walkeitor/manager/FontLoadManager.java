@@ -1,9 +1,9 @@
 package org.rubenrr.walkeitor.manager;
 
-import android.graphics.Typeface;
 import android.util.Log;
 import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
+import org.rubenrr.walkeitor.config.FontConfig;
 
 /**
  *
@@ -25,23 +25,22 @@ public class FontLoadManager extends MemoryStorage {
     }
 
     /**
-     * @param key name that we will use for the text
-     * @param textureHeight not sure what is this parameter. Very likely the "space" that has available for the text
-     * @param textureWidth Very likely the "space" that has available for the text
-     * @param typeFace standard Android typeFace
-     * @param size font size
+     *
+     * @param font fontType
      */
-    public void put ( String key, int textureHeight, int textureWidth, Typeface typeFace, float size ) {
-        Log.d("FontLoadManager", "PUT: " + key);
+    public void put ( final FontConfig font ) {
+        Log.d("FontLoadManager", "PUT: " + font.toString());
+        final String key = font.toString();
         if (this.get(key) == null) {
-            Font value = this.getFont(textureHeight, textureWidth, typeFace, size);
+            Font value = this.getFont(font);
             value.load();
             Log.d("FontLoadManager", "Put " + key + " is empty, storing value " + value);
             super.put(key, value);
         }
     }
 
-    public Font get(String key) {
+    public Font get(final FontConfig font) {
+        final String key = font.toString();
         Font value = (Font)super.get(key);
         Log.d("FontLoadManager", "GET: key " + key + " value " + value);
         if ( value == null ) {
@@ -50,8 +49,8 @@ public class FontLoadManager extends MemoryStorage {
         return value;
     }
 
-    private Font getFont(int textureHeigh, int textureWidth, Typeface typeFace, float size) {
-        return FontFactory.create(GameManager.getInstance().getFontManger(), GameManager.getInstance().getTextureManager(), textureHeigh, textureWidth, typeFace, size);
+    private Font getFont(final FontConfig font) {
+        return FontFactory.create(GameManager.getInstance().getFontManger(), GameManager.getInstance().getTextureManager(), font.getTextureHeight(), font.getTextureWidth(), font.getTypeFace(), font.getSize());
     }
 
 }

@@ -2,8 +2,10 @@ package org.rubenrr.walkeitor.element.unit;
 
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
+import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
+import org.rubenrr.walkeitor.menu.MenuStrategy;
 
 /**
  * User: Ruben Rubio Rey
@@ -15,8 +17,10 @@ import org.rubenrr.walkeitor.manager.TextureRegionManager;
  */
 abstract class Unit extends Sprite {
 
-    public Unit(float pX, float pY, String bitmap) {
-        super(pX, pY, TextureRegionManager.getInstance().get(bitmap), GameManager.getInstance().getVertexBufferObjectManager());
+    private MenuStrategy menu;
+
+    public Unit(float pX, float pY, ElementConfig elementConfig) {
+        super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), GameManager.getInstance().getVertexBufferObjectManager());
    }
 
     @Override
@@ -24,7 +28,7 @@ abstract class Unit extends Sprite {
 
         switch (pSceneTouchEvent.getAction()) {
             case TouchEvent.ACTION_DOWN:
-                this.menuOnClick();
+                this.menu.actionOnTouch(this);
                 break;
             //case TouchEvent.ACTION_MOVE: {
             //    break;}
@@ -35,9 +39,7 @@ abstract class Unit extends Sprite {
         return true;
     }
 
-    /**
-     * Displays menu when someone clicks on the entity
-     */
-    abstract void menuOnClick();
-
+    protected void setMenu(MenuStrategy menu) {
+        this.menu = menu;
+    }
 }

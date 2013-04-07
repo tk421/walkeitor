@@ -1,5 +1,6 @@
 package org.rubenrr.walkeitor.element.resource;
 
+import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
@@ -9,7 +10,7 @@ import org.rubenrr.walkeitor.wrapper.ElementWrapper;
  */
 public class Ore extends Resource {
 
-    public Ore(float pX, float pY, ElementWrapper elementwrapper) {
-        super(pX, pY, elementwrapper);
+    public Ore(float pX, float pY, ElementConfig elementConfig) {
+        super(pX, pY, elementConfig);
     }
 }
