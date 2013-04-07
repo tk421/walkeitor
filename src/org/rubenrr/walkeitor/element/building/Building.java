@@ -3,6 +3,7 @@ package org.rubenrr.walkeitor.element.building;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.manager.ElementManager;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
@@ -21,6 +22,7 @@ abstract class Building extends Sprite {
     public Building(float pX, float pY, ElementConfig elementConfig) {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), GameManager.getInstance().getVertexBufferObjectManager());
         this.elementConfig = elementConfig;
+        ElementManager.getInstance().addBuilding(this);
    }
 
     @Override
@@ -37,6 +39,12 @@ abstract class Building extends Sprite {
         }
 
         return true;
+    }
+
+    @Override
+    public String toString() {
+        final String string = this.elementConfig.toString() + " " + super.toString();
+        return super.toString();
     }
 
     protected void setMenu(MenuStrategy menu) {

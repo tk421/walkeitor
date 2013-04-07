@@ -10,6 +10,7 @@ import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.element.unit.Person;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.menu.MenuBase;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 
 /**
@@ -17,7 +18,12 @@ import org.rubenrr.walkeitor.menu.MenuStrategy;
  * Date: 7/04/13
  * Time: 4:54 PM
  */
-public class PersonMenu implements MenuStrategy {
+public class WorkerMenu extends MenuBase {
+
+    public WorkerMenu(Sprite sprite) {
+        super(sprite);
+    }
+
     /**
      * If the city received one touch, a menu will be
      * - Construct worker: Will create a class person
@@ -38,5 +44,10 @@ public class PersonMenu implements MenuStrategy {
         sprite.attachChild(option1);
         GameManager.getInstance().getScene().registerTouchArea(option1);
 
+    }
+
+    @Override
+    public void clear() {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

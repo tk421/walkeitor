@@ -8,5 +8,9 @@ import org.andengine.entity.sprite.Sprite;
  * Time: 6:35 PM
  */
 public interface MenuStrategy {
+    //what happens when a menu gets click
     void actionOnTouch(Sprite sprite);
+
+    //clear menu from screen
+    void clear();
 }

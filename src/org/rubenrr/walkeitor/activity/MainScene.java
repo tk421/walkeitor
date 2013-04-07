@@ -17,7 +17,7 @@ import org.rubenrr.walkeitor.manager.GameManager;
 Backlog:
   - Create a resource type resource type loading from the MainScene DONE 06/04/2013
   - Refactor to generalize  DONE 06/04/2013
-  - Use enum instead strings
+  - Use enum instead strings DONE 07/04/2013
   - Make the Person walk to move to the Oil Resource
   - Make the person Walk to the Oil Resource and start to construct an oil mine
   - Make the person to construct an Oil Refinery
