@@ -1,127 +1,109 @@
 package org.rubenrr.walkeitor.manager;
 
-import android.content.res.AssetManager;
-import org.andengine.engine.Engine;
-import org.andengine.entity.scene.Scene;
+import android.util.Log;
+import org.andengine.entity.modifier.MoveModifier;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.opengl.font.FontManager;
-import org.andengine.opengl.texture.TextureManager;
-import org.andengine.opengl.vbo.VertexBufferObjectManager;
-import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.FontConfig;
-import org.rubenrr.walkeitor.element.building.City;
-import org.rubenrr.walkeitor.element.resource.Ore;
-import org.rubenrr.walkeitor.element.unit.Person;
-import org.rubenrr.walkeitor.wrapper.ElementWrapper;
+import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.element.unit.Unit;
+
+import java.util.ArrayList;
 
 /**
+ * This class handles all in-game elements (units, resources and buildings)
+ *
  * User: Ruben Rubio Rey
- * Date: 25/03/13
- * Time: 7:37 AM
- *
- * Game manager controls the game. This is the singleton that has access to the methods
- * of BaseGameActivity to modify the world.
- *
+ * Date: 7/04/13
+ * Time: 5:19 PM
  */
-
 public class GameManager {
-
-    // properties of game manager
-    private TextureManager texturemanager;
-    private Scene scene;
-    private AssetManager assetmanager;
-    private VertexBufferObjectManager vertexbufferobjectmanager;
-    private FontManager fontmanger;
-    private Engine.EngineLock enginelock;
 
     private static GameManager instance = null;
 
     public static GameManager getInstance() {
         if (instance == null) {
             instance = new GameManager();
-
-            // Actions to be done when the GameManager is created (like load bitmaps)
-
         }
         return instance;
     }
 
-    public Engine.EngineLock getEngineLock() {
-        return enginelock;
+    // Current scene status in the game
+    private StatusConfig status = StatusConfig.NONE;
+
+    // get the information about the elements that exists in the scene
+    private ArrayList<Sprite> buildings = new ArrayList<Sprite>();
+    private ArrayList<Sprite> resources = new ArrayList<Sprite>();
+    private ArrayList<Sprite> units = new ArrayList<Sprite>();
+
+    // TODO not convinced with the argument here
+    public void addBuilding(final Sprite building) {
+        this.buildings.add(building);
     }
 
-    public void setEngineLock(Engine.EngineLock enginelock) {
-        this.enginelock = enginelock;
+    public void addResource(final Sprite resource) {
+        this.buildings.add(resource);
     }
 
-    public FontManager getFontManger() {
-        return fontmanger;
+    public void addUnit(final Sprite unit) {
+        this.buildings.add(unit);
     }
 
-    public void setFontManger(FontManager fontmanger) {
-        this.fontmanger = fontmanger;
+    // get the information about the selected elements in the scene
+    private ArrayList<Sprite> unitsSelected = new ArrayList<Sprite>();
+
+    /**
+     * Unselect all selected units
+     */
+    public void unselectUnits() {
+        for (Sprite unit : unitsSelected ) {
+
+            // remove fade
+            unit.setColor(0, 0, 0, 1f);
+        }
+        unitsSelected.clear();
     }
 
-    public VertexBufferObjectManager getVertexBufferObjectManager() {
-        return vertexbufferobjectmanager;
-    }
+    public void selectUnit(final Unit unit) {
 
-    public void setVertexBufferObjectManager(VertexBufferObjectManager vertexbufferobjectmanager) {
-        this.vertexbufferobjectmanager = vertexbufferobjectmanager;
-    }
+        /**
+         * I AM PROGRAMMING HERE, WE HAVE UNITS SELECTED AND NOW WE ARE GOING TO MOVE THEM
+         */
 
-    public AssetManager getAssetManager() {
-        return assetmanager;
-    }
+        // so far we can just select units, therefore we could unselect everything and keep going!
+        this.unselectUnits();
+        this.status = StatusConfig.UNIT_SELECTED;
+        //unit.this
 
-    public void setAssetManager(AssetManager assetmanager) {
-        this.assetmanager = assetmanager;
-    }
+        Log.d("GameManager", "Unit selected: " + unit.toString());
 
-    public Scene getScene() {
-        return scene;
-    }
+        // set element look and feel "selected" fading it out
+        unit.setColor(0, 0, 0, 0.30f);
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
+        // set the element "selected"
+        this.unitsSelected.add(unit);
 
-    public TextureManager getTextureManager() {
-        return texturemanager;
-    }
-
-    public void setTextureManager(TextureManager texturemanager) {
-        this.texturemanager = texturemanager;
     }
 
     /**
-     * Take all available objects and load all bitmaps in related with the Scene in a Singleton
-     *  This is useful so we will load all images at the phase OnCreateResources
+     * Get the game status
+     * @return
      */
-    public void loadBitmap () {
-        for (ElementConfig ec : ElementConfig.values()) {
-            TextureRegionManager.getInstance().put(ec);
+    public StatusConfig getStatus() {
+        return status;
+    }
+
+    public void moveTo(float posX, float posY) {
+        // we will only move if there are units selected
+        if (this.status.equals(StatusConfig.UNIT_SELECTED)) {
+            // Temporarily simple algorithm to move units.
+            // TODO Improve it, dodge buildings and units and create paths.
+            // TODO get speed based on distance and unit capabilities
+            // TODO Unit should move to selected Tile
+            // TODO Several unit must support formation
+            for (Sprite unit : unitsSelected ) {
+                unit.registerEntityModifier(new MoveModifier(1, unit.getX(), posX, unit.getY(), posY));
+            }
+
         }
     }
-
-    /**
-     *  Preload all possible fonts available in the system
-     *  This is useful so we will load all the fonts OnCreateResources
-     */
-    public void loadFont() {
-        for (FontConfig fc : FontConfig.values()) {
-            FontLoadManager.getInstance().put(fc);
-        }
-    }
-
-    /**
-     * Attach sprite to scene
-     * @param sprite
-     */
-    public void attachChild(final Sprite sprite) {
-        scene.attachChild(sprite);
-    }
-
-
 
 }

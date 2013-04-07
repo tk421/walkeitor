@@ -3,7 +3,7 @@ package org.rubenrr.walkeitor.config;
 import android.graphics.Typeface;
 
 /**
- * The configuration for all in game fonts should be defined here and preloaded at GameManager
+ * The configuration for all in game fonts should be defined here and preloaded at SceneManager
  *
  * User: Ruben Rubio Rey
  * Date: 7/04/13

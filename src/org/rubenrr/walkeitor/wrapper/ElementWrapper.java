@@ -1,6 +1,5 @@
 package org.rubenrr.walkeitor.wrapper;
 
-import android.util.Log;
 import org.rubenrr.walkeitor.config.ElementConfig;
 
 /**

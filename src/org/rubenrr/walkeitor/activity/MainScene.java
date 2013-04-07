@@ -1,10 +1,14 @@
 package org.rubenrr.walkeitor.activity;
 
+import android.util.Log;
 import org.andengine.entity.scene.Scene;
+import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.element.building.City;
 import org.rubenrr.walkeitor.element.resource.Ore;
 import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.SceneManager;
 
 /**
  * User: Ruben Rubio Rey
@@ -15,10 +19,10 @@ import org.rubenrr.walkeitor.manager.GameManager;
 
 /*
 Backlog:
-  - Create a resource type resource type loading from the MainScene DONE 06/04/2013
-  - Refactor to generalize  DONE 06/04/2013
-  - Use enum instead strings DONE 07/04/2013
-  - Make the Person walk to move to the Oil Resource
+  - Create a resource type resource type loading from the MainScene - DONE 06/04/2013
+  - Refactor to generalize - DONE 06/04/2013
+  - Use enum instead strings - DONE 07/04/2013
+  - Make the Person walk to move to the Oil Resource  - Very Basic 08/04/2013
   - Make the person Walk to the Oil Resource and start to construct an oil mine
   - Make the person to construct an Oil Refinery
   - Create resources in the game manager needed to construct buildings
@@ -27,26 +31,48 @@ public class MainScene extends TiledPinchZoomBaseActivity {
 
     @Override
     public void onCreateResources() {
-        GameManager.getInstance().setTextureManager(this.getTextureManager());
-        GameManager.getInstance().setFontManger(this.getFontManager());
-        GameManager.getInstance().setAssetManager(this.getAssets());
-        GameManager.getInstance().setEngineLock(this.mEngine.getEngineLock());
-        GameManager.getInstance().loadBitmap();
-        GameManager.getInstance().loadFont();
+        SceneManager.getInstance().setTextureManager(this.getTextureManager());
+        SceneManager.getInstance().setFontManger(this.getFontManager());
+        SceneManager.getInstance().setAssetManager(this.getAssets());
+        SceneManager.getInstance().setEngineLock(this.mEngine.getEngineLock());
+        SceneManager.getInstance().loadBitmap();
+        SceneManager.getInstance().loadFont();
     }
 
     @Override
     public Scene onCreateScene() {
 
         Scene scene = super.onCreateScene();
-        GameManager.getInstance().setScene(scene);
-        GameManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
+        SceneManager.getInstance().setScene(scene);
+        SceneManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
 
 
-        GameManager.getInstance().attachChild(new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY));
-        GameManager.getInstance().attachChild(new Ore(100, 100, ElementConfig.RESOURCE_OIL));
+        SceneManager.getInstance().attachChild(new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY));
+        SceneManager.getInstance().attachChild(new Ore(100, 100, ElementConfig.RESOURCE_OIL));
 
         return scene;
+    }
+
+    @Override
+    public boolean onSceneTouchEvent(Scene pScene, TouchEvent pSceneTouchEvent) {
+
+        switch (pSceneTouchEvent.getAction()) {
+            case TouchEvent.ACTION_DOWN:
+                // If unit is selected then let's move it
+                Log.d("Walkeitor/TouchEvent", "ACTION_DOWN event in onSceneTouchEvent");
+                if ( GameManager.getInstance().getStatus().equals(StatusConfig.UNIT_SELECTED)  ) {
+                    Log.d("Walkeitor/TouchEvent", "Unit selected, moving unit");
+                    GameManager.getInstance().moveTo(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+                }
+                break;
+            //case TouchEvent.ACTION_MOVE: {
+            //    break;}
+            //case TouchEvent.ACTION_UP:
+            //    break;
+        }
+
+
+        return super.onSceneTouchEvent(pScene, pSceneTouchEvent);
     }
 
 }

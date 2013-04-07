@@ -3,11 +3,10 @@ package org.rubenrr.walkeitor.element.building;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.manager.ElementManager;
 import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
-import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
  * User: Ruben Rubio Rey
@@ -20,9 +19,9 @@ abstract class Building extends Sprite {
     private ElementConfig elementConfig;
 
     public Building(float pX, float pY, ElementConfig elementConfig) {
-        super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), GameManager.getInstance().getVertexBufferObjectManager());
+        super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
         this.elementConfig = elementConfig;
-        ElementManager.getInstance().addBuilding(this);
+        GameManager.getInstance().addBuilding(this);
    }
 
     @Override

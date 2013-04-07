@@ -50,7 +50,7 @@ public class FontLoadManager extends MemoryStorage {
     }
 
     private Font getFont(final FontConfig font) {
-        return FontFactory.create(GameManager.getInstance().getFontManger(), GameManager.getInstance().getTextureManager(), font.getTextureHeight(), font.getTextureWidth(), font.getTypeFace(), font.getSize());
+        return FontFactory.create(SceneManager.getInstance().getFontManger(), SceneManager.getInstance().getTextureManager(), font.getTextureHeight(), font.getTextureWidth(), font.getTypeFace(), font.getSize());
     }
 
 }

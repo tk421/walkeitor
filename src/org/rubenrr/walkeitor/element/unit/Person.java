@@ -2,8 +2,8 @@ package org.rubenrr.walkeitor.element.unit;
 
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.manager.ElementManager;
 import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.menu.person.WorkerMenu;
 
 /**
@@ -21,8 +21,8 @@ public class Person extends Unit {
 
     public Person(float pX, float pY, ElementConfig elementConfig) {
         super(pX, pY, elementConfig);
-        GameManager.getInstance().getScene().registerTouchArea(this);
-        ElementManager.getInstance().addUnit(this);
+        SceneManager.getInstance().getScene().registerTouchArea(this);
+        GameManager.getInstance().addUnit(this);
         this.setMenu(new WorkerMenu(this));
     }
 
@@ -32,8 +32,8 @@ public class Person extends Unit {
         switch (pSceneTouchEvent.getAction()) {
             case TouchEvent.ACTION_DOWN:
 
-                // Notify ElementManager that a unit has been selected
-                ElementManager.getInstance().selectUnit(this);
+                // Notify GameManager that a unit has been selected
+                GameManager.getInstance().selectUnit(this);
 
                 break;
         }

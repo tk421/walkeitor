@@ -1,7 +1,6 @@
 package org.rubenrr.walkeitor.manager;
 
 import android.util.Log;
-import org.andengine.opengl.font.Font;
 import org.andengine.opengl.texture.ITexture;
 import org.andengine.opengl.texture.bitmap.BitmapTexture;
 import org.andengine.opengl.texture.region.TextureRegion;
@@ -11,8 +10,6 @@ import org.rubenrr.walkeitor.config.ElementConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -70,10 +67,10 @@ public class TextureRegionManager extends MemoryStorage {
 
         // get the city
         try {
-            mTexture = new BitmapTexture(GameManager.getInstance().getTextureManager(), new IInputStreamOpener() {
+            mTexture = new BitmapTexture(SceneManager.getInstance().getTextureManager(), new IInputStreamOpener() {
                 @Override
                 public InputStream open() throws IOException {
-                    return GameManager.getInstance().getAssetManager().open(path);
+                    return SceneManager.getInstance().getAssetManager().open(path);
                 }
             });
 

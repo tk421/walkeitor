@@ -3,7 +3,7 @@ package org.rubenrr.walkeitor.menu;
 import org.andengine.engine.Engine;
 import org.andengine.entity.Entity;
 import org.andengine.entity.sprite.Sprite;
-import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.SceneManager;
 
 import java.util.ArrayList;
 
@@ -31,11 +31,12 @@ public abstract class MenuBase implements MenuStrategy {
 
     @Override
     public void clear() {
-        final Engine.EngineLock engineLock = GameManager.getInstance().getEngineLock();
+        final Engine.EngineLock engineLock = SceneManager.getInstance().getEngineLock();
         engineLock.lock();
         for (final Entity menuEntity: menuEntities) {
             this.sprite.detachChild(menuEntity);
         }
+        menuEntities.clear();
         engineLock.unlock();
     }
 }

@@ -1,7 +1,6 @@
 package org.rubenrr.walkeitor.element.resource;
 
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.wrapper.ElementWrapper;
 
 /**
  * User: Ruben Rubio Rey

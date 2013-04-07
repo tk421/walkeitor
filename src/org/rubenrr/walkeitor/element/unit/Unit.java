@@ -3,8 +3,8 @@ package org.rubenrr.walkeitor.element.unit;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.manager.ElementManager;
 import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 
@@ -13,7 +13,7 @@ import org.rubenrr.walkeitor.menu.MenuStrategy;
  * Date: 30/03/13
  * Time: 1:07 PM
  *
- * Note: this cannot be abstract as I need to recognize the object at ElementManager
+ * Note: this cannot be abstract as I need to recognize the object at GameManager
  *
  */
 public class Unit extends Sprite {
@@ -22,9 +22,9 @@ public class Unit extends Sprite {
     private MenuStrategy menu;
 
     public Unit(float pX, float pY, ElementConfig elementConfig) {
-        super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), GameManager.getInstance().getVertexBufferObjectManager());
+        super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
         this.elementConfig = elementConfig;
-        ElementManager.getInstance().addUnit(this);
+        GameManager.getInstance().addUnit(this);
    }
 
     @Override
