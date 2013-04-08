@@ -10,6 +10,7 @@ import org.rubenrr.walkeitor.config.ElementConfig;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  *
@@ -20,7 +21,7 @@ import java.io.InputStream;
  * Date: 1/04/13
  * Time: 6:58 PM
  */
-public class TextureRegionManager extends MemoryStorage {
+public class TextureRegionManager extends HashMap<String, TextureRegion> {
 
     private static TextureRegionManager instance = null;
 

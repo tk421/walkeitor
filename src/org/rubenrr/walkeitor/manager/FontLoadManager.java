@@ -5,6 +5,8 @@ import org.andengine.opengl.font.Font;
 import org.andengine.opengl.font.FontFactory;
 import org.rubenrr.walkeitor.config.FontConfig;
 
+import java.util.HashMap;
+
 /**
  *
  * This class pre-load all information related with fonts following andengine conventions
@@ -13,7 +15,7 @@ import org.rubenrr.walkeitor.config.FontConfig;
  * Date: 6/04/13
  * Time: 12:32 PM
  */
-public class FontLoadManager extends MemoryStorage {
+public class FontLoadManager extends HashMap<String, Font> {
 
     private static FontLoadManager instance = null;
 
