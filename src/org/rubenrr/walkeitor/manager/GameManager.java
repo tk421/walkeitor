@@ -6,6 +6,7 @@ import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.algorithm.path.Path;
 import org.andengine.util.math.MathUtils;
+import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.config.TileConfig;
 import org.rubenrr.walkeitor.element.building.Building;
@@ -106,15 +107,43 @@ public class GameManager {
             // Temporarily simple algorithm to move units.
             // TODO get speed based on distance and unit capabilities
             // TODO Several unit must support formation
+
+            //hack: not sure why buildings are not accepted as sprites
+            List<Sprite> buildingSprites = new ArrayList<Sprite>();
+            for (Building building : this.buildings) {
+                buildingSprites.add(building);
+            }
+
             for (Unit unit : unitsSelected ) {
                 unit.clearMenu();
-                Path path = Movement.generatePath(unit, buildings, posX,  posY);
-                unit.registerEntityModifier(new AStarPathModifier(2, path, tileDimensions));
+                Path path = Movement.generatePath(unit, buildingSprites, posX,  posY);
+                if (path != null ) { // TODO Better of to be handled with exceptions ?
+                    unit.registerEntityModifier(new AStarPathModifier(2, path, tileDimensions));
+                } else {
+                    Log.w("Movement", "Unable to generate path to destination");
+                }
             }
 
             this.unselectUnits();
 
         }
     }
+
+    /**
+     * Starts the construction process of a building
+     * @param elementConfig
+     */
+    public void constructBuilding(ElementConfig elementConfig) {
+        if ( ! elementConfig.getCategory().equals("building")) {
+            throw new IllegalArgumentException("ElemnentConfig should be a building");
+        }
+
+        ElementConfig dependence = elementConfig.getDependence();
+        if (  dependence != null ) {
+
+        }
+
+    }
+
 
 }

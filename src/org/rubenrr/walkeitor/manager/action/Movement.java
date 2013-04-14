@@ -40,7 +40,7 @@ public final class Movement {
      * @param posY
      * @return
      */
-    static public Path generatePath( final Unit unit, final List<Building> sprites, final float posX, final float posY) {
+    static public Path generatePath( final Unit unit, final List<Sprite> sprites, final float posX, final float posY) {
 
         final OccupiedTiles occupiedTiles = new OccupiedTiles(sprites);
 
@@ -104,7 +104,7 @@ public final class Movement {
         Log.d("Movement/generatePath", "From (" + unit.getTileColumn() + "," + unit.getTileRow() + ")");
         Log.d("Movement/generatePath", "To (" + destination.getTileColumn() + "," +  destination.getTileRow() + ")");
 
-        //Log.d("Movement", "Path " + path.toString())
+        //Log.d("Movement", "Path " + path.toString());
 
         return path;
 

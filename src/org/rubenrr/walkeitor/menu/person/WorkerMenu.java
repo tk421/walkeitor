@@ -26,13 +26,23 @@ public class WorkerMenu extends MenuBase {
      */
     public void actionOnTouch(Sprite sprite) {
 
-        String optionText = "Construct";
+        String optionText = "Build a oil mine";
 
         final Text option1 = new Text(sprite.getWidth() + 10, 0, FontLoadManager.getInstance().get(FontConfig.MENU_STANDARD) , optionText, optionText.length(), SceneManager.getInstance().getVertexBufferObjectManager()) {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    Log.d("PersonmenuOnClick", "OnClick Option 1: " + this.getText());
+                    Log.d("WorkerMenu", "OnClick Option 1: " + this.getText());
+                    /**
+                     * When a new building is created
+                     * we need to help the user to locate the building in the proper area
+                     * and then go a built it.
+                     *
+                     * WE NEED TO USE THE "FREE ALGORITHM" from OccupiedTiles two display where the building
+                     * could be set
+                     *
+                     * We should use BOTH algorithms, as a building could block the possible free tiles
+                     */
                 }
                 return true;
             }

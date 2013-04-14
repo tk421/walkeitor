@@ -14,7 +14,6 @@ import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
-import org.rubenrr.walkeitor.manager.action.Point;
 
 /**
  * User: Ruben Rubio Rey
@@ -70,8 +69,15 @@ public class SceneManager {
         }
     }
 
-    // for debugging purposes
-    // WARNING! Rectangles created will never be deleted!!!
+    //
+    //
+
+    /**
+     * Only for debugging purposes!
+     * WARNING! Rectangles created will never be deleted!!!
+     * @param row
+     * @param column
+     */
     public void setDebugTileBackfground(int row, int column) {
         Rectangle tileRectangle = new Rectangle(0, 0, this.tmxTiledMap.getTileWidth(), this.tmxTiledMap.getTileHeight(), this.getVertexBufferObjectManager());
         tileRectangle.setColor(0,0.5f,0, 0.2f);
