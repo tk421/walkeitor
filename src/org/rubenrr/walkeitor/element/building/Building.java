@@ -1,8 +1,11 @@
 package org.rubenrr.walkeitor.element.building;
 
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.util.math.MathUtils;
 import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
@@ -13,7 +16,7 @@ import org.rubenrr.walkeitor.menu.MenuStrategy;
  * Date: 30/03/13
  * Time: 1:07 PM
  */
-abstract class Building extends Sprite {
+public abstract class Building extends Sprite {
 
     private MenuStrategy menu;
     private ElementConfig elementConfig;
@@ -22,7 +25,17 @@ abstract class Building extends Sprite {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
         this.elementConfig = elementConfig;
         GameManager.getInstance().addBuilding(this);
-   }
+        this.setTiledPosition();
+    }
+
+    /**
+     * Set the position adjusted to the matched Tile
+     */
+    private void setTiledPosition() {
+        final TMXTile tmxtile = SceneManager.getInstance().getTile(this.getX(), this.getY());
+        this.setPosition(tmxtile.getTileX(), tmxtile.getTileY());
+    }
+
 
     @Override
     public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
@@ -49,4 +62,6 @@ abstract class Building extends Sprite {
     protected void setMenu(MenuStrategy menu) {
         this.menu = menu;
     }
+
+
 }

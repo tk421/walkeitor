@@ -1,8 +1,11 @@
 package org.rubenrr.walkeitor.activity;
 
 import android.util.Log;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
+import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
+import org.andengine.util.Constants;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.element.building.City;
@@ -22,7 +25,7 @@ Backlog:
   - Create a resource type resource type loading from the MainScene - DONE 06/04/2013
   - Refactor to generalize - DONE 06/04/2013
   - Use enum instead strings - DONE 07/04/2013
-  - Make the Person walk to move to the Oil Resource  - Very Basic 08/04/2013
+  - Make the Person walk to move to the Oil Resource  - DONE 14/04/2013
   - Make the person Walk to the Oil Resource and start to construct an oil mine
   - Make the person to construct an Oil Refinery
   - Create resources in the game manager needed to construct buildings
@@ -45,8 +48,8 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         Scene scene = super.onCreateScene();
         SceneManager.getInstance().setScene(scene);
         SceneManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
-
-
+        SceneManager.getInstance().setTmxLayer(this.getTmxLayer());
+        SceneManager.getInstance().setTmxTiledMap(this.getTmxTiledMap());
         SceneManager.getInstance().attachChild(new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY));
         SceneManager.getInstance().attachChild(new Ore(100, 100, ElementConfig.RESOURCE_OIL));
 
@@ -58,6 +61,7 @@ public class MainScene extends TiledPinchZoomBaseActivity {
 
         switch (pSceneTouchEvent.getAction()) {
             case TouchEvent.ACTION_DOWN:
+                SceneManager.getInstance().setTileRectangle(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
                 // If unit is selected then let's move it
                 Log.d("Walkeitor/TouchEvent", "ACTION_DOWN event in onSceneTouchEvent");
                 if ( GameManager.getInstance().getStatus().equals(StatusConfig.UNIT_SELECTED)  ) {
@@ -65,8 +69,9 @@ public class MainScene extends TiledPinchZoomBaseActivity {
                     GameManager.getInstance().moveTo(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
                 }
                 break;
-            //case TouchEvent.ACTION_MOVE: {
-            //    break;}
+            case TouchEvent.ACTION_MOVE:
+                GameManager.getInstance().moveTo(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+                break;
             //case TouchEvent.ACTION_UP:
             //    break;
         }

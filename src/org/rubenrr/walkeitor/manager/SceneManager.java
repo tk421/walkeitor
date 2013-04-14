@@ -1,14 +1,20 @@
 package org.rubenrr.walkeitor.manager;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 import org.andengine.engine.Engine;
+import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.extension.tmx.TMXLayer;
+import org.andengine.extension.tmx.TMXTile;
+import org.andengine.extension.tmx.TMXTiledMap;
 import org.andengine.opengl.font.FontManager;
 import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
+import org.rubenrr.walkeitor.manager.action.Point;
 
 /**
  * User: Ruben Rubio Rey
@@ -29,6 +35,10 @@ public class SceneManager {
     private VertexBufferObjectManager vertexbufferobjectmanager;
     private FontManager fontmanger;
     private Engine.EngineLock enginelock;
+    private TMXLayer tmxLayer;
+    private TMXTiledMap tmxTiledMap;
+
+    private Rectangle tileRectangle;
 
     private static SceneManager instance = null;
 
@@ -40,6 +50,66 @@ public class SceneManager {
 
         }
         return instance;
+    }
+
+    // just for debug purposes, using lazy initialization
+    public void setTileRectangle(float x, float y) {
+
+        if (this.tileRectangle == null ) {
+            this.tileRectangle = new Rectangle(0, 0, this.tmxTiledMap.getTileWidth(), this.tmxTiledMap.getTileHeight(), this.getVertexBufferObjectManager());
+            this.tileRectangle.setAlpha(0.5f);
+            Log.d("Movement", "Tilesize " + this.tmxTiledMap.getTileWidth() + "," + this.tmxTiledMap.getTileHeight());
+            this.scene.attachChild(this.tileRectangle);
+        }
+        final TMXTile tmxTile = this.tmxLayer.getTMXTileAt(x, y);
+
+        Log.d("Movement/SceneManager", "Tile Columns, rows:" + tmxTile.getTileColumn() + "," + tmxTile.getTileRow());
+
+        if(tmxTile != null) {
+            this.tileRectangle.setPosition(tmxTile.getTileX(), tmxTile.getTileY());
+        }
+    }
+
+    // for debugging purposes
+    // WARNING! Rectangles created will never be deleted!!!
+    public void setDebugTileBackfground(int row, int column) {
+        Rectangle tileRectangle = new Rectangle(0, 0, this.tmxTiledMap.getTileWidth(), this.tmxTiledMap.getTileHeight(), this.getVertexBufferObjectManager());
+        tileRectangle.setColor(0,0.5f,0, 0.2f);
+        this.scene.attachChild(tileRectangle);
+        final TMXTile tmxTile =  this.tmxLayer.getTMXTile(column,row);
+        if(tmxTile != null) {
+            tileRectangle.setPosition(tmxTile.getTileX(), tmxTile.getTileY());
+        }
+    }
+
+
+
+    /**
+     * Given the X and Y show the proper Tile
+     *
+     * @param x
+     * @param y
+     * @return
+     */
+    public TMXTile getTile (float x, float y) {
+        final TMXTile tmxTile = this.tmxLayer.getTMXTileAt(x, y);
+        return tmxTile;
+    }
+
+    public TMXTiledMap getTmxTiledMap() {
+        return tmxTiledMap;
+    }
+
+    public void setTmxTiledMap(TMXTiledMap tmxTiledMap) {
+        this.tmxTiledMap = tmxTiledMap;
+    }
+
+    public TMXLayer getTmxLayer() {
+        return tmxLayer;
+    }
+
+    public void setTmxLayer(TMXLayer tmxLayer) {
+        this.tmxLayer = tmxLayer;
     }
 
     public Engine.EngineLock getEngineLock() {
@@ -115,6 +185,7 @@ public class SceneManager {
      * @param sprite
      */
     public void attachChild(final Sprite sprite) {
+        // lets check that the position matches with a Tile
         scene.attachChild(sprite);
     }
 

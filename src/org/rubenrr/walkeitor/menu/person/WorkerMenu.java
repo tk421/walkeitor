@@ -37,13 +37,9 @@ public class WorkerMenu extends MenuBase {
                 return true;
             }
         };
-        sprite.attachChild(option1);
+        this.addEntity(option1);
         SceneManager.getInstance().getScene().registerTouchArea(option1);
 
     }
 
-    @Override
-    public void clear() {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 }

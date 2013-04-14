@@ -44,8 +44,8 @@ public class TiledPinchZoomBaseActivity extends SimpleBaseGameActivity implement
 	// ===========================================================
 
 	private BitmapTextureAtlas mBitmapTextureAtlas;
-    private TMXTiledMap mTMXTiledMap;
-
+    private TMXLayer tmxLayer;
+    private TMXTiledMap tmxTiledMap;
     private Scene scene;
 
     //Pinch and zoom
@@ -53,6 +53,14 @@ public class TiledPinchZoomBaseActivity extends SimpleBaseGameActivity implement
     private SurfaceScrollDetector mScrollDetector;
     private PinchZoomDetector mPinchZoomDetector;
     private float mPinchZoomStartedCameraZoomFactor;
+
+    public TMXTiledMap getTmxTiledMap() {
+        return tmxTiledMap;
+    }
+
+    public TMXLayer getTmxLayer() {
+        return tmxLayer;
+    }
 
     /**
      * Get the size of the camera
@@ -98,12 +106,12 @@ public class TiledPinchZoomBaseActivity extends SimpleBaseGameActivity implement
 
         try {
             final TMXLoader tmxLoader = new TMXLoader(this.getAssets(), this.mEngine.getTextureManager(), TextureOptions.BILINEAR_PREMULTIPLYALPHA, this.getVertexBufferObjectManager());
-            this.mTMXTiledMap = tmxLoader.loadFromAsset("tmx/desert.tmx");
+            this.tmxTiledMap = tmxLoader.loadFromAsset("tmx/desert.tmx");
         } catch (final TMXLoadException e) {
             Debug.e(e);
         }
 
-		final TMXLayer tmxLayer = this.mTMXTiledMap.getTMXLayers().get(0);
+		this.tmxLayer = this.tmxTiledMap.getTMXLayers().get(0);
         this.scene.attachChild(tmxLayer);
 
 		// avoid camera move away from bounds

@@ -2,14 +2,25 @@ package org.rubenrr.walkeitor.manager;
 
 import android.util.Log;
 import org.andengine.entity.modifier.MoveModifier;
+import org.andengine.entity.modifier.PathModifier;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.util.algorithm.path.Path;
+import org.andengine.util.math.MathUtils;
 import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.config.TileConfig;
+import org.rubenrr.walkeitor.element.building.Building;
+import org.rubenrr.walkeitor.element.resource.Resource;
 import org.rubenrr.walkeitor.element.unit.Unit;
+import org.rubenrr.walkeitor.manager.action.Movement;
+import org.rubenrr.walkeitor.util.AStarPathModifier;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class handles all in-game elements (units, resources and buildings)
+ *
+ * TODO The connotation <? extends Building> does not work in the ArrayList
  *
  * User: Ruben Rubio Rey
  * Date: 7/04/13
@@ -30,25 +41,25 @@ public class GameManager {
     private StatusConfig status = StatusConfig.NONE;
 
     // get the information about the elements that exists in the scene
-    private ArrayList<Sprite> buildings = new ArrayList<Sprite>();
-    private ArrayList<Sprite> resources = new ArrayList<Sprite>();
-    private ArrayList<Sprite> units = new ArrayList<Sprite>();
+    private List<Building> buildings = new ArrayList<Building>();
+    private List<Resource> resources = new ArrayList<Resource>();
+    private List<Unit> units = new ArrayList<Unit>();
 
     // TODO not convinced with the argument here
-    public void addBuilding(final Sprite building) {
+    public void addBuilding(final Building building) {
         this.buildings.add(building);
     }
 
-    public void addResource(final Sprite resource) {
-        this.buildings.add(resource);
+    public void addResource(final Resource resource) {
+        this.resources.add(resource);
     }
 
-    public void addUnit(final Sprite unit) {
-        this.buildings.add(unit);
+    public void addUnit(final Unit unit) {
+        this.units.add(unit);
     }
 
     // get the information about the selected elements in the scene
-    private ArrayList<Sprite> unitsSelected = new ArrayList<Sprite>();
+    private ArrayList<Unit> unitsSelected = new ArrayList<Unit>();
 
     /**
      * Unselect all selected units
@@ -64,15 +75,10 @@ public class GameManager {
 
     public void selectUnit(final Unit unit) {
 
-        /**
-         * I AM PROGRAMMING HERE, WE HAVE UNITS SELECTED AND NOW WE ARE GOING TO MOVE THEM
-         */
-
         // so far we can just select units, therefore we could unselect everything and keep going!
         this.unselectUnits();
         this.status = StatusConfig.UNIT_SELECTED;
         //unit.this
-
         Log.d("GameManager", "Unit selected: " + unit.toString());
 
         // set element look and feel "selected" fading it out
@@ -92,16 +98,21 @@ public class GameManager {
     }
 
     public void moveTo(float posX, float posY) {
+
+        final int[] tileDimensions = TileConfig.TILE_SIZE.getTileDimensions();
+
         // we will only move if there are units selected
         if (this.status.equals(StatusConfig.UNIT_SELECTED)) {
             // Temporarily simple algorithm to move units.
-            // TODO Improve it, dodge buildings and units and create paths.
             // TODO get speed based on distance and unit capabilities
-            // TODO Unit should move to selected Tile
             // TODO Several unit must support formation
-            for (Sprite unit : unitsSelected ) {
-                unit.registerEntityModifier(new MoveModifier(1, unit.getX(), posX, unit.getY(), posY));
+            for (Unit unit : unitsSelected ) {
+                unit.clearMenu();
+                Path path = Movement.generatePath(unit, buildings, posX,  posY);
+                unit.registerEntityModifier(new AStarPathModifier(2, path, tileDimensions));
             }
+
+            this.unselectUnits();
 
         }
     }
