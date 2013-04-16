@@ -4,8 +4,7 @@ import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.util.algorithm.path.IPathFinderMap;
-import org.andengine.util.modifier.ease.EaseStrongIn;
-import org.rubenrr.walkeitor.element.building.Building;
+import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.SceneManager;
 
 import java.util.ArrayList;
@@ -14,9 +13,9 @@ import java.util.List;
 /**
  * Manges the occupied or the free tiles.
  */
- class OccupiedTiles implements IPathFinderMap {
+ public class OccupiedTiles implements IPathFinderMap {
 
-    //TODO ArrayList here duplicates elements
+    //TODO ArrayList here duplicates elements (Use sets)
 
     //Two ways to set the information:
     // 1) All free by default, but we specify with tiles are occupied
@@ -27,9 +26,8 @@ import java.util.List;
     private List<Integer> freeRows    = new ArrayList<Integer>();
     private List<Integer> freeColumns = new ArrayList<Integer>();
 
-    // TODO parameter should be sprites
-    OccupiedTiles(final List<Sprite> sprites ) {
-        this.setOccupied(sprites);
+    public OccupiedTiles() {
+
     }
 
     @Override
@@ -37,15 +35,18 @@ import java.util.List;
         return this.isTileOccupied(pX, pY);
     }
 
-    public void setOccupied(final List<Sprite> sprites) {
-        this.setAllocation(sprites, false);
+    public void setOccupied(final List<Sprite> sprites, ElementConfig elementConfig) {
+        this.setAllocation(sprites, false, elementConfig);
     }
 
-    public void setFree( final List<Sprite> sprites ) {
-        this.setAllocation(sprites, true);
+    public void setFree( final List<Sprite> sprites, ElementConfig elementConfig) {
+        this.setAllocation(sprites, true, elementConfig);
     }
 
-    private void setAllocation (final List<Sprite> sprites, Boolean isFree) {
+    private void setAllocation (final List<Sprite> sprites, Boolean isFree, ElementConfig elementConfig) {
+
+        SceneManager.getInstance().getBackgroundTile().clearAll();
+
         for (Sprite sprite: sprites) {
             final float fromX = sprite.getX();
             final float sizeX = sprite.getWidth();
@@ -53,11 +54,12 @@ import java.util.List;
             final float sizeY = sprite.getHeight();
 
             final TMXTile tileFrom = SceneManager.getInstance().getTile(fromX, fromY);
-            final TMXTile tileTo   = SceneManager.getInstance().getTile(fromX + sizeX, fromY + sizeY);
+            final int tileToRow = tileFrom.getTileRow() + elementConfig.getTileRow();
+            final int tileToColumn = tileFrom.getTileColumn() + elementConfig.getTileColumn();
 
             // All sprites are square
-            for(int column = tileFrom.getTileColumn(); column < tileTo.getTileColumn(); column = column+1) {
-                for(int row = tileFrom.getTileRow(); row < tileTo.getTileRow(); row = row+1) {
+            for(int column = tileFrom.getTileColumn(); column < tileToColumn; column = column+1) {
+                for(int row = tileFrom.getTileRow(); row < tileToRow; row = row+1) {
                     Log.d("Movement/OccupiedTiles", "Adding (" + column + "," + row + "). Is Free ? " + isFree);
                     if (! isFree ) {
                         this.occuppiedColumns.add(column);
@@ -67,8 +69,6 @@ import java.util.List;
                         this.freeRows.add(row);
                     }
 
-                    //Just for debug purposes to colour the tiles that are 'Occupied' or Free
-                    SceneManager.getInstance().setDebugTileBackfground(row, column);
                 }
             }
         }
@@ -98,5 +98,19 @@ import java.util.List;
         return  columnOccupied && rowOccupied;
     }
 
+    public void draw() {
+        for (int row : this.occuppiedRows ) {
+            for (int column: this.occuppiedColumns) {
+            SceneManager.getInstance().getBackgroundTile().setTileBackground(row, column, 1, 0, 0, 0.2f);
+            }
+        }
+
+        for (int row : this.freeRows   ) {
+            for (int column: this.freeColumns) {
+                SceneManager.getInstance().getBackgroundTile().setTileBackground(row, column, 0, 1, 0, 0.2f);
+            }
+        }
+
+    }
 
 }

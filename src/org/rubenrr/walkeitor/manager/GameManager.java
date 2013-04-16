@@ -59,6 +59,24 @@ public class GameManager {
         this.units.add(unit);
     }
 
+
+    /**
+     * Get resources filtering by subtype
+     *
+     * @param subtype
+     * @return
+     */
+    public List<Sprite> getSpriteSubtype(String subtype) {
+
+        List<Sprite> resourceSubtype = new ArrayList<Sprite>();
+
+        for (Resource resource: this.resources ) {
+            resourceSubtype.add(resource);
+        }
+
+        return resourceSubtype;
+    }
+
     // get the information about the selected elements in the scene
     private ArrayList<Unit> unitsSelected = new ArrayList<Unit>();
 

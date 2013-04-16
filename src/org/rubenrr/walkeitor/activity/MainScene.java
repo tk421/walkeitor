@@ -69,9 +69,9 @@ public class MainScene extends TiledPinchZoomBaseActivity {
                     GameManager.getInstance().moveTo(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
                 }
                 break;
-            case TouchEvent.ACTION_MOVE:
-                GameManager.getInstance().moveTo(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
-                break;
+            //case TouchEvent.ACTION_MOVE:
+            //    GameManager.getInstance().moveTo(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+            //    break;
             //case TouchEvent.ACTION_UP:
             //    break;
         }

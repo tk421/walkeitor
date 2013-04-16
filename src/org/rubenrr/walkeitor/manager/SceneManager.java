@@ -14,6 +14,7 @@ import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
+import org.rubenrr.walkeitor.manager.action.BackgroundTile;
 
 /**
  * User: Ruben Rubio Rey
@@ -36,19 +37,25 @@ public class SceneManager {
     private Engine.EngineLock enginelock;
     private TMXLayer tmxLayer;
     private TMXTiledMap tmxTiledMap;
+    private BackgroundTile backgroundTile;
 
     private Rectangle tileRectangle;
 
     private static SceneManager instance = null;
 
+    public SceneManager() {
+        this.backgroundTile = new BackgroundTile();
+    }
+
     public static SceneManager getInstance() {
         if (instance == null) {
             instance = new SceneManager();
-
-            // Actions to be done when the SceneManager is created (like load bitmaps)
-
         }
         return instance;
+    }
+
+    public BackgroundTile getBackgroundTile() {
+        return backgroundTile;
     }
 
     // just for debug purposes, using lazy initialization
@@ -68,27 +75,6 @@ public class SceneManager {
             this.tileRectangle.setPosition(tmxTile.getTileX(), tmxTile.getTileY());
         }
     }
-
-    //
-    //
-
-    /**
-     * Only for debugging purposes!
-     * WARNING! Rectangles created will never be deleted!!!
-     * @param row
-     * @param column
-     */
-    public void setDebugTileBackfground(int row, int column) {
-        Rectangle tileRectangle = new Rectangle(0, 0, this.tmxTiledMap.getTileWidth(), this.tmxTiledMap.getTileHeight(), this.getVertexBufferObjectManager());
-        tileRectangle.setColor(0,0.5f,0, 0.2f);
-        this.scene.attachChild(tileRectangle);
-        final TMXTile tmxTile =  this.tmxLayer.getTMXTile(column,row);
-        if(tmxTile != null) {
-            tileRectangle.setPosition(tmxTile.getTileX(), tmxTile.getTileY());
-        }
-    }
-
-
 
     /**
      * Given the X and Y show the proper Tile

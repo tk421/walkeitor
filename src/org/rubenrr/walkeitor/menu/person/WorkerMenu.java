@@ -4,10 +4,19 @@ import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
+import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
+import org.rubenrr.walkeitor.element.building.City;
+import org.rubenrr.walkeitor.element.building.Mine;
+import org.rubenrr.walkeitor.element.resource.Resource;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
+import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
+import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
 import org.rubenrr.walkeitor.menu.MenuBase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Ruben Rubio Rey
@@ -33,6 +42,23 @@ public class WorkerMenu extends MenuBase {
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
                     Log.d("WorkerMenu", "OnClick Option 1: " + this.getText());
+
+                    SceneManager.getInstance().getBackgroundTile().clearAll();
+
+                    List<Sprite> resourceOil = GameManager.getInstance().getSpriteSubtype("oil");
+
+                    OccupiedTiles occupiedTiles = new OccupiedTiles();
+                    //TODO this sounds weird, to pass the second parameter of the configuration
+                    occupiedTiles.setFree(resourceOil, ElementConfig.RESOURCE_OIL);
+                    occupiedTiles.draw();
+
+
+                    Mine newMine = new Mine(pSceneTouchEvent.getX() - 100, pSceneTouchEvent.getY(), ElementConfig.MINE_OIL);
+                    newMine.setDragAndDropLocation();
+
+                    SceneManager.getInstance().attachChild(newMine);
+
+
                     /**
                      * When a new building is created
                      * we need to help the user to locate the building in the proper area

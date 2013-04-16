@@ -11,8 +11,10 @@ package org.rubenrr.walkeitor.config;
  * Time: 6:02 PM
  */
 public enum StatusConfig {
+
     NONE("None"),
-    UNIT_SELECTED("Unit Selected");
+    UNIT_SELECTED("Unit Selected"),
+    SET_LOCATION("Location is being set for this object");
 
     private final String name;
 

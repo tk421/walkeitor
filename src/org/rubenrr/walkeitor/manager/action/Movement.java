@@ -12,6 +12,7 @@ import org.andengine.util.algorithm.path.astar.AStarPathFinder;
 import org.andengine.util.algorithm.path.astar.EuclideanHeuristic;
 import org.andengine.util.algorithm.path.astar.IAStarHeuristic;
 import org.andengine.util.algorithm.path.astar.NullHeuristic;
+import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.GameManager;
@@ -42,8 +43,6 @@ public final class Movement {
      */
     static public Path generatePath( final Unit unit, final List<Sprite> sprites, final float posX, final float posY) {
 
-        final OccupiedTiles occupiedTiles = new OccupiedTiles(sprites);
-
         // translate posX and poxY to Tiles
         TMXTile destination = SceneManager.getInstance().getTile(posX, posY);
 
@@ -61,7 +60,12 @@ public final class Movement {
         //    }
         //};
 
-        IPathFinderMap<TMXLayer> pathMap = new OccupiedTiles(sprites);
+        final OccupiedTiles occupiedTiles = new OccupiedTiles();
+        // TODO This is definitely very weird
+        // One solution might be to get it from Game Manager
+        occupiedTiles.setOccupied(sprites, ElementConfig.BUILDING_CITY);
+        occupiedTiles.draw();
+        IPathFinderMap<TMXLayer> pathMap = occupiedTiles;
 
         ICostFunction<TMXLayer>  costCallback = new ICostFunction<TMXLayer>() {
             @Override
