@@ -3,6 +3,7 @@ package org.rubenrr.walkeitor.menu.building;
 import org.andengine.entity.sprite.Sprite;
 import org.rubenrr.walkeitor.element.building.Mine;
 import org.rubenrr.walkeitor.menu.MenuBase;
+import org.rubenrr.walkeitor.menu.MenuExtendable;
 
 /**
  * User: Ruben Rubio Rey
@@ -13,7 +14,9 @@ public class MineMenu extends MenuBase {
     public MineMenu(Mine sprite) {
         super(sprite);
     }
+
     @Override
-    public void actionOnTouch(Sprite sprite) {
+    public void display(MenuExtendable sprite) {
+
     }
 }

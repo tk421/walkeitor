@@ -33,7 +33,7 @@ public class WorkerMenu extends MenuBase {
      * If the city received one touch, a menu will be
      * - Construct worker: Will create a class person
      */
-    public void actionOnTouch(Sprite sprite) {
+    public void display(Sprite sprite) {
 
         String optionText = "Build a oil mine";
 

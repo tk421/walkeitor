@@ -53,7 +53,7 @@ public abstract class Unit extends Sprite {
 
         switch (pSceneTouchEvent.getAction()) {
             case TouchEvent.ACTION_DOWN:
-                this.menu.actionOnTouch(this);
+                this.menu.display(this);
                 break;
             //case TouchEvent.ACTION_MOVE: {
             //    break;}

@@ -15,12 +15,12 @@ import java.util.ArrayList;
 public abstract class MenuBase implements MenuStrategy {
 
     // the sprite that we are generating the menu from
-    private Sprite sprite;
+    private MenuExtendable sprite;
 
     // list of all elements are generated as menu
     private ArrayList<Entity> menuEntities = new ArrayList<Entity>();
 
-    protected MenuBase(Sprite sprite) {
+    protected MenuBase(MenuExtendable sprite) {
         this.sprite = sprite;
     }
 

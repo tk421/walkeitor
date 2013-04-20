@@ -11,6 +11,7 @@ import org.rubenrr.walkeitor.element.unit.Person;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.menu.MenuBase;
+import org.rubenrr.walkeitor.menu.MenuExtendable;
 
 /**
  *  Menu for the City:
@@ -30,7 +31,7 @@ public class CityMenu extends MenuBase  {
      * If the city received one touch, a menu will be
      * - Construct worker: Will create a class person
      */
-    public void actionOnTouch(final Sprite sprite) {
+    public void display(final MenuExtendable sprite) {
 
         Log.d("CityMenu", "Menu OnClick. Action ");
 

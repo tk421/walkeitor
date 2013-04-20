@@ -8,26 +8,57 @@ import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.SceneManager;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Manges the occupied or the free tiles.
  */
  public class OccupiedTiles implements IPathFinderMap {
 
-    //TODO ArrayList here duplicates elements (Use sets)
-
     //Two ways to set the information:
     // 1) All free by default, but we specify with tiles are occupied
-    private List<Integer> occuppiedRows    = new ArrayList<Integer>();
-    private List<Integer> occuppiedColumns = new ArrayList<Integer>();
+    private Set<Integer> occuppiedRows    = new HashSet<Integer>();
+    private Set<Integer> occuppiedColumns = new HashSet<Integer>();
 
     // 1) All occupied by default, we specify with tiles are free
-    private List<Integer> freeRows    = new ArrayList<Integer>();
-    private List<Integer> freeColumns = new ArrayList<Integer>();
+    private Set<Integer> freeRows    = new HashSet<Integer>();
+    private Set<Integer> freeColumns = new HashSet<Integer>();
 
     public OccupiedTiles() {
 
+    }
+
+    public Set<Integer> getRows(Boolean isFree) {
+        if ( isFree ) {
+            return this.freeRows;
+        } else {
+            return this.occuppiedRows;
+        }
+    }
+
+    public Set<Integer> getColumns(Boolean isFree) {
+        if ( isFree ) {
+            return this.freeColumns;
+        } else {
+            return this.occuppiedColumns;
+        }
+    }
+
+    public boolean isInFreeTiles(Sprite sprite) {
+
+        /**
+         * I AM PROGRAMMING HERE!!! Marking the sprite with the free tiles
+         *
+         *
+         *
+         *
+         *
+         */
+
+
+        return false;
     }
 
     @Override
@@ -35,6 +66,7 @@ import java.util.List;
         return this.isTileOccupied(pX, pY);
     }
 
+    // TODO fix this with an interface
     public void setOccupied(final List<Sprite> sprites, ElementConfig elementConfig) {
         this.setAllocation(sprites, false, elementConfig);
     }
@@ -43,15 +75,15 @@ import java.util.List;
         this.setAllocation(sprites, true, elementConfig);
     }
 
-    private void setAllocation (final List<Sprite> sprites, Boolean isFree, ElementConfig elementConfig) {
-
+    public void clearAll() {
         SceneManager.getInstance().getBackgroundTile().clearAll();
+    }
+
+    private void setAllocation (final List<Sprite> sprites, Boolean isFree, ElementConfig elementConfig) {
 
         for (Sprite sprite: sprites) {
             final float fromX = sprite.getX();
-            final float sizeX = sprite.getWidth();
             final float fromY = sprite.getY();
-            final float sizeY = sprite.getHeight();
 
             final TMXTile tileFrom = SceneManager.getInstance().getTile(fromX, fromY);
             final int tileToRow = tileFrom.getTileRow() + elementConfig.getTileRow();
@@ -60,15 +92,14 @@ import java.util.List;
             // All sprites are square
             for(int column = tileFrom.getTileColumn(); column < tileToColumn; column = column+1) {
                 for(int row = tileFrom.getTileRow(); row < tileToRow; row = row+1) {
-                    Log.d("Movement/OccupiedTiles", "Adding (" + column + "," + row + "). Is Free ? " + isFree);
-                    if (! isFree ) {
-                        this.occuppiedColumns.add(column);
-                        this.occuppiedRows.add(row);
-                    } else {
+                    //Log.d("Movement/OccupiedTiles", "Adding (" + column + "," + row + "). Is Free ? " + isFree);
+                    if (isFree ) {
                         this.freeColumns.add(column);
                         this.freeRows.add(row);
+                    } else {
+                        this.occuppiedColumns.add(column);
+                        this.occuppiedRows.add(row);
                     }
-
                 }
             }
         }

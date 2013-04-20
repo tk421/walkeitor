@@ -10,6 +10,7 @@ import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
+import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 
 /**
@@ -17,7 +18,7 @@ import org.rubenrr.walkeitor.menu.MenuStrategy;
  * Date: 30/03/13
  * Time: 1:07 PM
  */
-public abstract class Building extends Sprite {
+public abstract class Building extends Sprite implements MenuExtendable {
 
     private MenuStrategy menu;
     private ElementConfig elementConfig;
@@ -47,7 +48,7 @@ public abstract class Building extends Sprite {
         if (this.getStatusConfig().equals(StatusConfig.NONE)) {
             switch (pSceneTouchEvent.getAction()) {
                 case TouchEvent.ACTION_DOWN:
-                    this.menu.actionOnTouch(this);
+                    this.menu.display(this);
                     break;
                 //case TouchEvent.ACTION_MOVE: {
                 //    break;}
@@ -61,7 +62,7 @@ public abstract class Building extends Sprite {
                     break;
                 }
                 case TouchEvent.ACTION_MOVE: {
-                    this.setTiledPosition(this.getX(),this.getY());
+                    this.setTiledPosition(pSceneTouchEvent.getX(),pSceneTouchEvent.getY());
                     break;
                 }
             }
@@ -71,6 +72,7 @@ public abstract class Building extends Sprite {
 
         return true;
     }
+
 
     @Override
     public String toString() {
@@ -96,15 +98,23 @@ public abstract class Building extends Sprite {
     public void setDragAndDropLocation() {
         this.setStatusConfig(StatusConfig.SET_LOCATION);
         this.setAlpha(0.2f);
+        this.setZIndex(99); // first line to respond to the everything
+    }
 
+    /**
+     * If the item has the status SET_LOCATION this will tell if the location is good.
+     * Which means that the building has enough space to be built.
+     *
+     * @return
+     */
+    public boolean isLocationGood() {
         /**
-         *
-         *
-         * I AM WORKING MOVING THE SPRITE TO THE FINAL LOCATION
+         * I AM PROGRAMMING HERE !!!! BY USING OCCUPIED TILES WE SHOULD BE ABLE TO KNOW
+         * IF THE CURRENT OBJECT IS WITHIN THE FREE TILES SPACE
          *
          *
          */
-
+        return false;
     }
 
 
