@@ -14,6 +14,8 @@ import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
 import org.rubenrr.walkeitor.menu.MenuBase;
+import org.rubenrr.walkeitor.menu.MenuExtendable;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,9 +25,9 @@ import java.util.List;
  * Date: 7/04/13
  * Time: 4:54 PM
  */
-public class WorkerMenu extends MenuBase {
+public class WorkerMenu extends MenuBase  {
 
-    public WorkerMenu(Sprite sprite) {
+    public WorkerMenu(MenuExtendable sprite) {
         super(sprite);
     }
 
@@ -33,7 +35,7 @@ public class WorkerMenu extends MenuBase {
      * If the city received one touch, a menu will be
      * - Construct worker: Will create a class person
      */
-    public void display(Sprite sprite) {
+    public void display(MenuExtendable sprite) {
 
         String optionText = "Build a oil mine";
 
@@ -45,11 +47,11 @@ public class WorkerMenu extends MenuBase {
 
                     SceneManager.getInstance().getBackgroundTile().clearAll();
 
-                    List<Sprite> resourceOil = GameManager.getInstance().getSpriteSubtype("oil");
+                    List<TileLocatable> resourceOil = GameManager.getInstance().getSpriteSubtype("oil");
 
                     OccupiedTiles occupiedTiles = new OccupiedTiles();
                     //TODO this sounds weird, to pass the second parameter of the configuration
-                    occupiedTiles.setFree(resourceOil, ElementConfig.RESOURCE_OIL);
+                    occupiedTiles.setFree(resourceOil);
                     occupiedTiles.draw();
 
 

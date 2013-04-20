@@ -3,26 +3,26 @@ package org.rubenrr.walkeitor.element.building;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
-import org.andengine.util.math.MathUtils;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
 /**
  * User: Ruben Rubio Rey
  * Date: 30/03/13
  * Time: 1:07 PM
  */
-public abstract class Building extends Sprite implements MenuExtendable {
+public abstract class Building extends Sprite implements MenuExtendable, TileLocatable {
 
     private MenuStrategy menu;
     private ElementConfig elementConfig;
     private StatusConfig statusConfig = StatusConfig.NONE;
+    TMXTile tmxTile;
 
     public Building(float pX, float pY, ElementConfig elementConfig) {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
@@ -33,14 +33,26 @@ public abstract class Building extends Sprite implements MenuExtendable {
 
     /**
      * Set the position adjusted to the matched Tile
+     * TODO code duplicated with Unit
      */
     private void setTiledPosition() {
         this.setTiledPosition(this.getX(), this.getY());
     }
     private void setTiledPosition(float pX, float pY) {
-        final TMXTile tmxtile = SceneManager.getInstance().getTile(pX, pY);
-        this.setPosition(tmxtile.getTileX(), tmxtile.getTileY());
+        this.tmxTile = SceneManager.getInstance().getTile(pX, pY);
+        this.setPosition(this.tmxTile.getTileX(), this.tmxTile.getTileY());
     }
+
+    public int getTileColumn() {
+        this.tmxTile = SceneManager.getInstance().getTile(this.getX(), this.getY());
+        return this.tmxTile.getTileColumn();
+    }
+
+    public int getTileRow() {
+        this.tmxTile = SceneManager.getInstance().getTile(this.getX(), this.getY());
+        return this.tmxTile.getTileRow();
+    }
+
 
     @Override
     public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
@@ -71,6 +83,14 @@ public abstract class Building extends Sprite implements MenuExtendable {
         }
 
         return true;
+    }
+
+    public int getColumnTileSize() {
+        return this.elementConfig.getTileSizeColumn();
+    }
+
+    public int getRowTileSize() {
+        return this.elementConfig.getTileSizeRow();
     }
 
 

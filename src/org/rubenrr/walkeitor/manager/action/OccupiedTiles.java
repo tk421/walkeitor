@@ -2,12 +2,11 @@ package org.rubenrr.walkeitor.manager.action;
 
 import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.extension.tmx.TMXTile;
 import org.andengine.util.algorithm.path.IPathFinderMap;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.SceneManager;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -16,6 +15,13 @@ import java.util.Set;
  * Manges the occupied or the free tiles.
  */
  public class OccupiedTiles implements IPathFinderMap {
+
+    /**
+     * TODO What was I thinking ? This algorithm can't work with multiple buildings
+     * TODO I have to create the concept of TilePoint.
+     */
+
+
 
     //Two ways to set the information:
     // 1) All free by default, but we specify with tiles are occupied
@@ -48,15 +54,6 @@ import java.util.Set;
 
     public boolean isInFreeTiles(Sprite sprite) {
 
-        /**
-         * I AM PROGRAMMING HERE!!! Marking the sprite with the free tiles
-         *
-         *
-         *
-         *
-         *
-         */
-
 
         return false;
     }
@@ -66,33 +63,33 @@ import java.util.Set;
         return this.isTileOccupied(pX, pY);
     }
 
-    // TODO fix this with an interface
-    public void setOccupied(final List<Sprite> sprites, ElementConfig elementConfig) {
-        this.setAllocation(sprites, false, elementConfig);
+    public void setOccupied(final List<TileLocatable> sprites) {
+        this.setAllocation(sprites, false);
     }
 
-    public void setFree( final List<Sprite> sprites, ElementConfig elementConfig) {
-        this.setAllocation(sprites, true, elementConfig);
+    public void setFree( final List<TileLocatable> sprites) {
+        this.setAllocation(sprites, true);
     }
 
     public void clearAll() {
         SceneManager.getInstance().getBackgroundTile().clearAll();
     }
 
-    private void setAllocation (final List<Sprite> sprites, Boolean isFree, ElementConfig elementConfig) {
+    private void setAllocation (final List<TileLocatable> sprites, Boolean isFree) {
 
-        for (Sprite sprite: sprites) {
-            final float fromX = sprite.getX();
-            final float fromY = sprite.getY();
+        for (TileLocatable sprite: sprites) {
+            final int tileFromRow = sprite.getTileRow();
+            final int tileFromColumn = sprite.getTileColumn();
 
-            final TMXTile tileFrom = SceneManager.getInstance().getTile(fromX, fromY);
-            final int tileToRow = tileFrom.getTileRow() + elementConfig.getTileRow();
-            final int tileToColumn = tileFrom.getTileColumn() + elementConfig.getTileColumn();
+            final int tileToRow = tileFromRow  + sprite.getRowTileSize();
+            final int tileToColumn = tileFromColumn  + sprite.getColumnTileSize();
+
+            Log.d("Movement/OccupiedTiles", "Sprite " + sprite.toString() + "FROM, (" + tileFromColumn + "," + tileFromRow + ") TO (" + tileToColumn + "," + tileToRow + ")");
 
             // All sprites are square
-            for(int column = tileFrom.getTileColumn(); column < tileToColumn; column = column+1) {
-                for(int row = tileFrom.getTileRow(); row < tileToRow; row = row+1) {
-                    //Log.d("Movement/OccupiedTiles", "Adding (" + column + "," + row + "). Is Free ? " + isFree);
+            for(int column = tileFromColumn; column < tileToColumn; column = column+1) {
+                for(int row = tileFromRow; row < tileToRow; row = row+1) {
+                    Log.d("Movement/OccupiedTiles", "Adding (" + column + "," + row + "). Is Free ? " + isFree);
                     if (isFree ) {
                         this.freeColumns.add(column);
                         this.freeRows.add(row);
@@ -115,24 +112,27 @@ import java.util.Set;
 
         if ( ! this.occuppiedColumns.isEmpty() ||  this.occuppiedRows.isEmpty()) { // Everything free by default
                                                                                   // unless specified that is occupied
-            Log.d("Movement/OccupiedTiles", "Occupied algorithm" );
+            //Log.d("Movement/OccupiedTiles", "Occupied algorithm" );
             columnOccupied = this.occuppiedColumns.contains(column);
             rowOccupied = this.occuppiedRows.contains(row);
         } else { // Everything occupied by default unless specified that is free
-            Log.d("Movement/OccupiedTiles", "Free algorithm" );
+            //Log.d("Movement/OccupiedTiles", "Free algorithm" );
             columnOccupied = !this.freeColumns.contains(column);
             rowOccupied = !this.freeRows.contains(row);
         }
 
-        Log.d("Movement/OccupiedTiles", "(" + column + "," + row + ") -> (" + columnOccupied + "," + rowOccupied + ") -> " + (columnOccupied && rowOccupied) );
+        //Log.d("Movement/OccupiedTiles", "(" + column + "," + row + ") -> (" + columnOccupied + "," + rowOccupied + ") -> " + (columnOccupied && rowOccupied) );
 
         return  columnOccupied && rowOccupied;
     }
 
     public void draw() {
+        this.clearAll();
+
         for (int row : this.occuppiedRows ) {
             for (int column: this.occuppiedColumns) {
-            SceneManager.getInstance().getBackgroundTile().setTileBackground(row, column, 1, 0, 0, 0.2f);
+                SceneManager.getInstance().getBackgroundTile().setTileBackground(row, column, 1, 0, 0, 0.2f);
+                Log.d("Movement/OccupiedTiles", "Drawing occupied (" + column + "," + row + ")");
             }
         }
 

@@ -14,6 +14,7 @@ import org.rubenrr.walkeitor.element.resource.Resource;
 import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.action.Movement;
 import org.rubenrr.walkeitor.util.AStarPathModifier;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -66,9 +67,9 @@ public class GameManager {
      * @param subtype
      * @return
      */
-    public List<Sprite> getSpriteSubtype(String subtype) {
+    public List<TileLocatable> getSpriteSubtype(String subtype) {
 
-        List<Sprite> resourceSubtype = new ArrayList<Sprite>();
+        List<TileLocatable> resourceSubtype = new ArrayList<TileLocatable>();
 
         for (Resource resource: this.resources ) {
             resourceSubtype.add(resource);
@@ -126,15 +127,15 @@ public class GameManager {
             // TODO get speed based on distance and unit capabilities
             // TODO Several unit must support formation
 
-            //hack: not sure why buildings are not accepted as sprites
-            List<Sprite> buildingSprites = new ArrayList<Sprite>();
+            //hack: not sure why buildings are not accepted as TileLocatable
+            List<TileLocatable> buildingLocatables = new ArrayList<TileLocatable>();
             for (Building building : this.buildings) {
-                buildingSprites.add(building);
+                buildingLocatables.add(building);
             }
 
             for (Unit unit : unitsSelected ) {
                 unit.clearMenu();
-                Path path = Movement.generatePath(unit, buildingSprites, posX,  posY);
+                Path path = Movement.generatePath(unit, buildingLocatables, posX,  posY);
                 if (path != null ) { // TODO Better of to be handled with exceptions ?
                     unit.registerEntityModifier(new AStarPathModifier(2, path, tileDimensions));
                 } else {

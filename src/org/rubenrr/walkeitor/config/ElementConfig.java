@@ -19,8 +19,8 @@ public enum ElementConfig {
     private final String type;
     private final String subtype;
     private final String spriteNormalPath;
-    private final int tileColumn;
-    private final int tileRow;
+    private final int tileSizeColumn;
+    private final int tileSizeRow;
     private final ElementConfig dependence;
 
     /**
@@ -31,19 +31,19 @@ public enum ElementConfig {
      * @param type next category. We have a class specified of element per category
      * @param subtype Is like Oil for the Ore type under resource category
      * @param spriteNormalPath The path for the normal configuration of the element.
-     * @param tileColumn Number of columns that the sprite needs to be displayed
-     * @param tileRow Number of rows that the sprite need to be displayed
+     * @param tileSizeColumn Number of columns that the sprite needs to be displayed
+     * @param tileSizeRow Number of rows that the sprite need to be displayed
      * @param dependence If this object can just be built in a specific Element type, dependency is specified here
      *
      */
-    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileColumn, int tileRow, ElementConfig dependence) {
+    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow, ElementConfig dependence) {
         this.name = name;
         this.category = category;
         this.type = type;
         this.subtype = subtype;
         this.spriteNormalPath = spriteNormalPath;
-        this.tileColumn = tileColumn;
-        this.tileRow = tileRow;
+        this.tileSizeColumn = tileSizeColumn;
+        this.tileSizeRow = tileSizeRow;
         this.dependence = dependence;
     }
 
@@ -72,12 +72,12 @@ public enum ElementConfig {
         return subtype;
     }
 
-    public int getTileColumn() {
-        return tileColumn;
+    public int getTileSizeColumn() {
+        return tileSizeColumn;
     }
 
-    public int getTileRow() {
-        return tileRow;
+    public int getTileSizeRow() {
+        return tileSizeRow;
     }
 
     public ElementConfig getDependence() {

@@ -17,6 +17,7 @@ import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ public final class Movement {
      * @param posY
      * @return
      */
-    static public Path generatePath( final Unit unit, final List<Sprite> sprites, final float posX, final float posY) {
+    static public Path generatePath( final Unit unit, final List<TileLocatable> sprites, final float posX, final float posY) {
 
         // translate posX and poxY to Tiles
         TMXTile destination = SceneManager.getInstance().getTile(posX, posY);
@@ -63,7 +64,7 @@ public final class Movement {
         final OccupiedTiles occupiedTiles = new OccupiedTiles();
         // TODO This is definitely very weird
         // One solution might be to get it from Game Manager
-        occupiedTiles.setOccupied(sprites, ElementConfig.BUILDING_CITY);
+        occupiedTiles.setOccupied(sprites);
         occupiedTiles.draw();
         IPathFinderMap<TMXLayer> pathMap = occupiedTiles;
 
@@ -93,10 +94,10 @@ public final class Movement {
         //Log.d("Movement/generatePath", "maxX(" + SceneManager.getInstance().getTmxTiledMap().getTileColumns() + ")");
         //Log.d("Movement/generatePath", "maxY(" + SceneManager.getInstance().getTmxTiledMap().getTileRows() + ")");
         //Log.d("Movement/generatePath", "TMXLayer(" + SceneManager.getInstance().getTmxTiledMap().getTMXLayers().get(0) + ")");
-        //Log.d("Movement/generatePath", "start Column(" + unit.getTileColumn() + ")");
-        //Log.d("Movement/generatePath", "start row(" + unit.getTileRow() + ")");
-        //Log.d("Movement/generatePath", "destination column (" + destination.getTileColumn() + ")");
-        //Log.d("Movement/generatePath", "destination row (" + destination.getTileRow() + ")");
+        //Log.d("Movement/generatePath", "start Column(" + unit.getTileSizeColumn() + ")");
+        //Log.d("Movement/generatePath", "start row(" + unit.getTileSizeRow() + ")");
+        //Log.d("Movement/generatePath", "destination column (" + destination.getTileSizeColumn() + ")");
+        //Log.d("Movement/generatePath", "destination row (" + destination.getTileSizeRow() + ")");
         //Log.d("Movement/generatePath", "heuristic (" + heuristic + ")");
         //Log.d("Movement/generatePath", "costCallBack(" + costCallback + ")");
         Path path = aStar.findPath(pathMap, 0, 0,

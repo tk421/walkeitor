@@ -6,15 +6,18 @@ import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
+import org.rubenrr.walkeitor.menu.MenuExtendable;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
 /**
  * User: Ruben Rubio Rey
  * Date: 5/04/13
  * Time: 8:44 PM
  */
-public abstract class Resource extends Sprite{
+public abstract class Resource extends Sprite  implements MenuExtendable, TileLocatable {
 
     ElementConfig elementConfig;
+    TMXTile tmxTile;
 
     public Resource(float pX, float pY, ElementConfig elementConfig) {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
@@ -23,12 +26,35 @@ public abstract class Resource extends Sprite{
         this.setTiledPosition();
     }
 
+
+    public int getColumnTileSize() {
+        return this.elementConfig.getTileSizeColumn();
+    }
+
+    public int getRowTileSize() {
+        return this.elementConfig.getTileSizeRow();
+    }
+
+    public int getTileColumn() {
+        this.tmxTile = SceneManager.getInstance().getTile(this.getX(), this.getY());
+        return this.tmxTile.getTileColumn();
+    }
+
+    public int getTileRow() {
+        this.tmxTile = SceneManager.getInstance().getTile(this.getX(), this.getY());
+        return this.tmxTile.getTileRow();
+    }
+
     /**
      * Set the position adjusted to the matched Tile
      */
     private void setTiledPosition() {
-        final TMXTile tmxtile = SceneManager.getInstance().getTile(this.getX(), this.getY());
-        this.setPosition(tmxtile.getTileX(), tmxtile.getTileY());
+        this.setTiledPosition(this.getX(), this.getY());
+    }
+
+    private void setTiledPosition(float pX, float pY) {
+        this.tmxTile = SceneManager.getInstance().getTile(pX, pY);
+        this.setPosition(this.tmxTile.getTileX(), this.tmxTile.getTileY());
     }
 
     @Override

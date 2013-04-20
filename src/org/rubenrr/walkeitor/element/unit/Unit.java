@@ -7,7 +7,9 @@ import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
+import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
 /**
  * User: Ruben Rubio Rey
@@ -17,10 +19,11 @@ import org.rubenrr.walkeitor.menu.MenuStrategy;
  * Note: this cannot be abstract as I need to recognize the object at GameManager
  *
  */
-public abstract class Unit extends Sprite {
+public abstract class Unit extends Sprite implements MenuExtendable, TileLocatable {
 
     private ElementConfig elementConfig;
     private MenuStrategy menu;
+    TMXTile tmxTile;
 
     public Unit(float pX, float pY, ElementConfig elementConfig) {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
@@ -31,20 +34,33 @@ public abstract class Unit extends Sprite {
 
     /**
      * Set the position adjusted to the matched Tile
+     * TODO code duplicated with building
      */
     private void setTiledPosition() {
-        final TMXTile tmxtile = SceneManager.getInstance().getTile(this.getX(), this.getY());
-        this.setPosition(tmxtile.getTileX(), tmxtile.getTileY());
+        this.setTiledPosition(this.getX(), this.getY());
+    }
+    private void setTiledPosition(float pX, float pY) {
+        this.tmxTile = SceneManager.getInstance().getTile(pX, pY);
+        this.setPosition(this.tmxTile.getTileX(), this.tmxTile.getTileY());
     }
 
     public int getTileColumn() {
-        final TMXTile tmxtile = SceneManager.getInstance().getTile(this.getX(), this.getY());
-        return tmxtile.getTileColumn();
+        this.tmxTile = SceneManager.getInstance().getTile(this.getX(), this.getY());
+        return this.tmxTile.getTileColumn();
     }
 
     public int getTileRow() {
-        final TMXTile tmxtile = SceneManager.getInstance().getTile(this.getX(), this.getY());
-        return tmxtile.getTileRow();
+        this.tmxTile = SceneManager.getInstance().getTile(this.getX(), this.getY());
+        return this.tmxTile.getTileRow();
+    }
+
+
+    public int getColumnTileSize() {
+        return this.elementConfig.getTileSizeColumn();
+    }
+
+    public int getRowTileSize() {
+        return this.elementConfig.getTileSizeRow();
     }
 
 
