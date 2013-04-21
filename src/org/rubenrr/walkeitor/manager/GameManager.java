@@ -13,6 +13,7 @@ import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.element.resource.Resource;
 import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.action.Movement;
+import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
 import org.rubenrr.walkeitor.util.AStarPathModifier;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
@@ -21,8 +22,6 @@ import java.util.List;
 
 /**
  * This class handles all in-game elements (units, resources and buildings)
- *
- * TODO The connotation <? extends Building> does not work in the ArrayList
  *
  * User: Ruben Rubio Rey
  * Date: 7/04/13
@@ -43,11 +42,11 @@ public class GameManager {
     private StatusConfig status = StatusConfig.NONE;
 
     // get the information about the elements that exists in the scene
+    // exclude elements that are not constructed / built
     private List<Building> buildings = new ArrayList<Building>();
     private List<Resource> resources = new ArrayList<Resource>();
     private List<Unit> units = new ArrayList<Unit>();
 
-    // TODO not convinced with the argument here
     public void addBuilding(final Building building) {
         this.buildings.add(building);
     }
@@ -162,6 +161,38 @@ public class GameManager {
 
         }
 
+    }
+
+    /**
+     * Solve if the requested sprite is located in free tiles or not
+     *
+     * @return
+     */
+    public boolean isInFreeTiles(TileLocatable sprite) {
+
+        // TODO find better way to make this TileLocatable
+        // TODO add units to evaluate the FreeTiles
+        OccupiedTiles occupiedTiles = new OccupiedTiles();
+        List<TileLocatable> buildingLocatables = new ArrayList<TileLocatable>();
+
+        for (TileLocatable building: this.buildings) {
+            buildingLocatables.add(building);
+        }
+
+        occupiedTiles.setOccupied(buildingLocatables);
+
+        /**
+         *
+         *  I AM PROGRAMMING HERE.
+         *
+         *  I NEED TO SET THE PROPER SCENARY FOR THE ITEM TO BE LOCATED.
+         *
+         *  THIS LOGIC SHOULD BE IN THE SPRITE THAT WE ARE TRYING TO BUILD
+         *
+         */
+
+
+        return occupiedTiles.isInFreeTiles(sprite);
     }
 
 

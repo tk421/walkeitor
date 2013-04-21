@@ -1,5 +1,8 @@
 package org.rubenrr.walkeitor.menu;
 
+import org.andengine.input.touch.TouchEvent;
+import org.rubenrr.walkeitor.config.StatusConfig;
+
 /**
  * NUll implementation for the sprite menu
  *
@@ -10,6 +13,11 @@ package org.rubenrr.walkeitor.menu;
 public class NoMenu extends MenuBase {
     @Override
     public void display() {
+        // Nothing
+    }
+
+    @Override
+    public void display(StatusConfig statusConfig, TouchEvent touchEvent) {
         // Nothing
     }
 }

@@ -1,5 +1,6 @@
 package org.rubenrr.walkeitor.element.building;
 
+import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
@@ -57,7 +58,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
     @Override
     public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 
-        if (this.getStatusConfig().equals(StatusConfig.NONE)) {
+        if (this.getStatusConfig().isNone()) {
             switch (pSceneTouchEvent.getAction()) {
                 case TouchEvent.ACTION_DOWN:
                     this.menu.display();
@@ -67,7 +68,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
                 //case TouchEvent.ACTION_UP:
                 //    break;
             }
-        } else if (this.getStatusConfig().equals(StatusConfig.SET_LOCATION)) {
+        } else if (this.getStatusConfig().isSetLocation()) {
             switch (pSceneTouchEvent.getAction()) {
                 case TouchEvent.ACTION_DOWN: {
                     //this.menu.actionOnTouch(this);
@@ -77,6 +78,11 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
                     this.setTiledPosition(pSceneTouchEvent.getX(),pSceneTouchEvent.getY());
                     break;
                 }
+                case TouchEvent.ACTION_UP: { // The object is moved so we can evaluate what menu we display
+                    this.menu.display(statusConfig, pSceneTouchEvent);
+                    break;
+                }
+
             }
 
 
@@ -122,21 +128,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.setZIndex(99); // first line to respond to the everything
     }
 
-    /**
-     * If the item has the status SET_LOCATION this will tell if the location is good.
-     * Which means that the building has enough space to be built.
-     *
-     * @return
-     */
-    public boolean isLocationGood() {
-        /**
-         * I AM PROGRAMMING HERE !!!! BY USING OCCUPIED TILES WE SHOULD BE ABLE TO KNOW
-         * IF THE CURRENT OBJECT IS WITHIN THE FREE TILES SPACE
-         *
-         *
-         */
-        return false;
-    }
+
 
 
 

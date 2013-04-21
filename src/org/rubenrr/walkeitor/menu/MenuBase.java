@@ -4,6 +4,7 @@ import org.andengine.engine.Engine;
 import org.andengine.entity.Entity;
 import org.andengine.entity.sprite.Sprite;
 import org.rubenrr.walkeitor.manager.SceneManager;
+import org.rubenrr.walkeitor.util.TileLocatable;
 
 import java.util.ArrayList;
 
@@ -24,8 +25,12 @@ public abstract class MenuBase implements MenuStrategy {
         this.sprite = sprite;
     }
 
-    public MenuExtendable getSprite() {
-        return this.sprite;
+    public Sprite getSprite() {
+        return (Sprite)this.sprite;
+    }
+
+    public TileLocatable getSpriteLocatable() {
+        return (TileLocatable)this.sprite;
     }
 
     protected void addEntity(final Entity entity) {

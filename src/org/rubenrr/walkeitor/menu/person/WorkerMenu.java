@@ -6,6 +6,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
+import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.element.building.City;
 import org.rubenrr.walkeitor.element.building.Mine;
 import org.rubenrr.walkeitor.element.resource.Resource;
@@ -77,4 +78,8 @@ public class WorkerMenu extends MenuBase  {
 
     }
 
+    @Override
+    public void display(StatusConfig statusConfig, TouchEvent touchEvent) {
+        // no implementation yet
+    }
 }

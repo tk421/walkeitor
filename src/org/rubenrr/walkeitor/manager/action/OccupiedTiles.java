@@ -16,11 +16,6 @@ import java.util.Set;
  */
  public class OccupiedTiles implements IPathFinderMap {
 
-    /**
-     * TODO What was I thinking ? This algorithm can't work with multiple buildings
-     * TODO I have to create the concept of TilePoint.
-     */
-
     //Two ways to set the information:
     // 1) All free by default, but we specify with tiles are occupied
     private Set<TilePoint> occupiedTiles = new HashSet<TilePoint>();
@@ -32,10 +27,31 @@ import java.util.Set;
 
     }
 
-    public boolean isInFreeTiles(Sprite sprite) {
-        //TODO
+    public boolean isInFreeTiles(TileLocatable sprite) {
 
-        return false;
+        // clean and start over again
+        this.draw();
+
+        final int tileFromRow = sprite.getTileRow();
+        final int tileFromColumn = sprite.getTileColumn();
+
+        final int tileToRow = tileFromRow  + sprite.getRowTileSize();
+        final int tileToColumn = tileFromColumn  + sprite.getColumnTileSize();
+
+        Boolean isFree = true;
+        for(int column = tileFromColumn; column < tileToColumn; column = column+1) {
+            for(int row = tileFromRow; row < tileToRow; row = row+1) {
+                if ( this.isTileOccupied(column, row) ) {
+                    this.setTileRed(column, row);
+                    isFree = false;
+                } else {
+                    this.setTileGreen(column, row);
+                }
+            }
+        }
+
+        Log.d("OilMineMenu", "Return: " + isFree);
+        return isFree;
     }
 
     @Override
@@ -101,14 +117,23 @@ import java.util.Set;
         this.clearAll();
 
         for (TilePoint tilePoint : this.occupiedTiles ) {
-            SceneManager.getInstance().getBackgroundTile().setTileBackground(tilePoint.getRow(), tilePoint.getColumn(), 1, 0, 0, 0.2f);
+            this.setTileRed(tilePoint.getColumn(), tilePoint.getRow());
             Log.d("Movement/OccupiedTiles", "Drawing occupied (" + tilePoint.getColumn() + "," + tilePoint.getRow() + ")");
         }
 
         for (TilePoint tilePoint: this.freeTiles) {
-            SceneManager.getInstance().getBackgroundTile().setTileBackground(tilePoint.getRow(), tilePoint.getColumn(), 0, 1, 0, 0.2f);
+            this.setTileGreen(tilePoint.getColumn(), tilePoint.getRow());
         }
 
     }
+
+    private void setTileRed(int column, int row) {
+        SceneManager.getInstance().getBackgroundTile().setTileBackground(column, row, 1, 0, 0, 0.2f);
+    }
+
+    private void setTileGreen(int column, int row) {
+        SceneManager.getInstance().getBackgroundTile().setTileBackground(column, row, 0, 1, 0, 0.2f);
+    }
+
 
 }

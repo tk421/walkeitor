@@ -26,7 +26,7 @@ public class BackgroundTile {
      * @param row
      * @param column
      */
-    public void setTileBackground(final int row, final int column, float red, float green, float blue, float alpha) {
+    public void setTileBackground(final int column, final int row, float red, float green, float blue, float alpha) {
 
         // create new ones
         Rectangle tileRectangle = new Rectangle(0, 0, SceneManager.getInstance().getTmxTiledMap().getTileWidth(), SceneManager.getInstance().getTmxTiledMap().getTileHeight(), SceneManager.getInstance().getVertexBufferObjectManager());

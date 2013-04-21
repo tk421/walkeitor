@@ -26,4 +26,18 @@ public enum StatusConfig {
     public String toString() {
         return this.name;
     }
+
+    public Boolean isSetLocation() {
+        return (this.equals(StatusConfig.SET_LOCATION));
+    }
+
+    public Boolean isNone() {
+        return (this.equals(StatusConfig.NONE));
+    }
+
+    public Boolean isUnitSelected() {
+        return (this.equals(StatusConfig.UNIT_SELECTED));
+    }
+
+
 }
