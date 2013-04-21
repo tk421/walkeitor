@@ -1,5 +1,6 @@
 package org.rubenrr.walkeitor.menu.person;
 
+import android.graphics.drawable.DrawableContainer;
 import android.util.Log;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
@@ -43,15 +44,15 @@ public class WorkerMenu extends MenuBase  {
                     List<TileLocatable> resourceOil = GameManager.getInstance().getResourcesBySubtype("oil");
 
                     OccupiedTiles occupiedTiles = new OccupiedTiles();
-                    //TODO this sounds weird, to pass the second parameter of the configuration
                     occupiedTiles.setFree(resourceOil);
                     occupiedTiles.draw();
-
 
                     Mine newMine = new Mine(pSceneTouchEvent.getX() - 100, pSceneTouchEvent.getY(), ElementConfig.MINE_OIL);
                     newMine.setDragAndDropLocation();
 
                     SceneManager.getInstance().attachChild(newMine);
+
+                    WorkerMenu.this.clear();
                 }
                 return true;
             }

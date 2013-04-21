@@ -177,7 +177,6 @@ public class SceneManager {
      * @param sprite
      */
     public void attachChild(final Sprite sprite) {
-        // lets check that the position matches with a Tile
         scene.attachChild(sprite);
     }
 

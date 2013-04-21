@@ -7,6 +7,7 @@ import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.element.building.Mine;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.GameManager;
@@ -32,6 +33,8 @@ public class OilMineMenu extends MenuBase {
 
     @Override
     public void display(StatusConfig statusConfig, TouchEvent touchEvent) {
+
+        this.clear();
 
         Log.d("OilMineMenu", "Display with events " + statusConfig.toString() + " " + touchEvent.toString());
 
@@ -64,6 +67,7 @@ public class OilMineMenu extends MenuBase {
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
                     Log.d("OilMineMenu", "Construction started");
+                    OilMineMenu.this.clear();
                 }
                 return true;
             }
@@ -88,7 +92,7 @@ public class OilMineMenu extends MenuBase {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    SceneManager.getInstance().detachChild(mine);
+                    GameManager.getInstance().removeBuilding((Building)mine);
                 }
                 return true;
             }

@@ -63,6 +63,11 @@ public class GameManager {
         return this.buildings;
     }
 
+    public void removeBuilding(Building building) {
+        this.buildings.remove(building);
+        SceneManager.getInstance().detachChild(building);
+    }
+
     /**
      * Get resources filtering by subtype
      *
@@ -169,5 +174,6 @@ public class GameManager {
         }
 
     }
+
 
 }
