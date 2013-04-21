@@ -21,39 +21,19 @@ import java.util.Set;
      * TODO I have to create the concept of TilePoint.
      */
 
-
-
     //Two ways to set the information:
     // 1) All free by default, but we specify with tiles are occupied
-    private Set<Integer> occuppiedRows    = new HashSet<Integer>();
-    private Set<Integer> occuppiedColumns = new HashSet<Integer>();
+    private Set<TilePoint> occupiedTiles = new HashSet<TilePoint>();
 
     // 1) All occupied by default, we specify with tiles are free
-    private Set<Integer> freeRows    = new HashSet<Integer>();
-    private Set<Integer> freeColumns = new HashSet<Integer>();
+    private Set<TilePoint> freeTiles = new HashSet<TilePoint>();
 
     public OccupiedTiles() {
 
     }
 
-    public Set<Integer> getRows(Boolean isFree) {
-        if ( isFree ) {
-            return this.freeRows;
-        } else {
-            return this.occuppiedRows;
-        }
-    }
-
-    public Set<Integer> getColumns(Boolean isFree) {
-        if ( isFree ) {
-            return this.freeColumns;
-        } else {
-            return this.occuppiedColumns;
-        }
-    }
-
     public boolean isInFreeTiles(Sprite sprite) {
-
+        //TODO
 
         return false;
     }
@@ -90,12 +70,11 @@ import java.util.Set;
             for(int column = tileFromColumn; column < tileToColumn; column = column+1) {
                 for(int row = tileFromRow; row < tileToRow; row = row+1) {
                     Log.d("Movement/OccupiedTiles", "Adding (" + column + "," + row + "). Is Free ? " + isFree);
+                    TilePoint tilePoint = new TilePoint(column, row);
                     if (isFree ) {
-                        this.freeColumns.add(column);
-                        this.freeRows.add(row);
+                        this.freeTiles.add(tilePoint);
                     } else {
-                        this.occuppiedColumns.add(column);
-                        this.occuppiedRows.add(row);
+                        this.occupiedTiles.add(tilePoint);
                     }
                 }
             }
@@ -107,39 +86,27 @@ import java.util.Set;
 
     public boolean isTileOccupied(int column, int row) {
 
-        Boolean columnOccupied;
-        Boolean rowOccupied;
-
-        if ( ! this.occuppiedColumns.isEmpty() ||  this.occuppiedRows.isEmpty()) { // Everything free by default
-                                                                                  // unless specified that is occupied
-            //Log.d("Movement/OccupiedTiles", "Occupied algorithm" );
-            columnOccupied = this.occuppiedColumns.contains(column);
-            rowOccupied = this.occuppiedRows.contains(row);
+        Boolean isOccupied;
+        final TilePoint tilePoint = new TilePoint(column, row);
+        if ( ! this.occupiedTiles.isEmpty() ) { // Everything free by default
+            isOccupied = this.occupiedTiles.contains(tilePoint);
         } else { // Everything occupied by default unless specified that is free
-            //Log.d("Movement/OccupiedTiles", "Free algorithm" );
-            columnOccupied = !this.freeColumns.contains(column);
-            rowOccupied = !this.freeRows.contains(row);
+            isOccupied = this.freeTiles.contains(tilePoint);
         }
-
         //Log.d("Movement/OccupiedTiles", "(" + column + "," + row + ") -> (" + columnOccupied + "," + rowOccupied + ") -> " + (columnOccupied && rowOccupied) );
-
-        return  columnOccupied && rowOccupied;
+        return  isOccupied;
     }
 
     public void draw() {
         this.clearAll();
 
-        for (int row : this.occuppiedRows ) {
-            for (int column: this.occuppiedColumns) {
-                SceneManager.getInstance().getBackgroundTile().setTileBackground(row, column, 1, 0, 0, 0.2f);
-                Log.d("Movement/OccupiedTiles", "Drawing occupied (" + column + "," + row + ")");
-            }
+        for (TilePoint tilePoint : this.occupiedTiles ) {
+            SceneManager.getInstance().getBackgroundTile().setTileBackground(tilePoint.getRow(), tilePoint.getColumn(), 1, 0, 0, 0.2f);
+            Log.d("Movement/OccupiedTiles", "Drawing occupied (" + tilePoint.getColumn() + "," + tilePoint.getRow() + ")");
         }
 
-        for (int row : this.freeRows   ) {
-            for (int column: this.freeColumns) {
-                SceneManager.getInstance().getBackgroundTile().setTileBackground(row, column, 0, 1, 0, 0.2f);
-            }
+        for (TilePoint tilePoint: this.freeTiles) {
+            SceneManager.getInstance().getBackgroundTile().setTileBackground(tilePoint.getRow(), tilePoint.getColumn(), 0, 1, 0, 0.2f);
         }
 
     }
