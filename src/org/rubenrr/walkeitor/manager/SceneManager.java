@@ -181,6 +181,12 @@ public class SceneManager {
         scene.attachChild(sprite);
     }
 
+    public void detachChild(final Sprite sprite) {
+        enginelock.lock();
+        this.getScene().detachChild(sprite);
+        enginelock.unlock();
+    }
+
 
 
 }

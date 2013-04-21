@@ -41,6 +41,18 @@ import java.util.Set;
         Boolean isFree = true;
         for(int column = tileFromColumn; column < tileToColumn; column = column+1) {
             for(int row = tileFromRow; row < tileToRow; row = row+1) {
+
+                // If we have values for the free algorithm we use it
+                if (!this.freeTiles.isEmpty()) {
+                    if ( this.isTileFree(column, row)) {
+                        this.setTileGreen(column, row);
+                    } else {
+                        this.setTileRed(column, row);
+                        isFree = false;
+                    }
+                }
+
+                // we always use the occupied algorithm
                 if ( this.isTileOccupied(column, row) ) {
                     this.setTileRed(column, row);
                     isFree = false;
@@ -97,20 +109,22 @@ import java.util.Set;
         }
     }
 
-
-    //private void addToFreeOrOccupied( int)
-
-    public boolean isTileOccupied(int column, int row) {
-
-        Boolean isOccupied;
+    /**
+     * Using the free algorithm: By default everything is occupied but the tiles
+     * that are marked
+     */
+    public boolean isTileFree (final int column, final int row) {
         final TilePoint tilePoint = new TilePoint(column, row);
-        if ( ! this.occupiedTiles.isEmpty() ) { // Everything free by default
-            isOccupied = this.occupiedTiles.contains(tilePoint);
-        } else { // Everything occupied by default unless specified that is free
-            isOccupied = this.freeTiles.contains(tilePoint);
-        }
-        //Log.d("Movement/OccupiedTiles", "(" + column + "," + row + ") -> (" + columnOccupied + "," + rowOccupied + ") -> " + (columnOccupied && rowOccupied) );
-        return  isOccupied;
+        return this.freeTiles.contains(tilePoint);
+    }
+
+    /**
+     * Using the occupied algorithm: By default everything is free but the tiles
+     * that are marked
+     */
+    public boolean isTileOccupied(int column, int row) {
+        final TilePoint tilePoint = new TilePoint(column, row);
+        return  this.occupiedTiles.contains(tilePoint);
     }
 
     public void draw() {

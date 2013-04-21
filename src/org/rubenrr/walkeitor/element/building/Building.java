@@ -9,9 +9,13 @@ import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
+import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
 import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.util.TileLocatable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * User: Ruben Rubio Rey
@@ -129,6 +133,22 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
     }
 
 
+
+    /**
+     * If the building is buildable above a resource
+     * this checks is.
+     *
+     * @return
+     */
+    public boolean isBuildableInResource() {
+
+        List<Building> buildings = GameManager.getInstance().getBuildings();
+        List<TileLocatable> resources = GameManager.getInstance().getResourcesBySubtype("oil");
+        OccupiedTiles occupiedTiles = new OccupiedTiles();
+        occupiedTiles.setFree(resources);
+
+        return occupiedTiles.isInFreeTiles(this);
+    }
 
 
 

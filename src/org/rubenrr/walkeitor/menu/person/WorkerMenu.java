@@ -1,24 +1,19 @@
 package org.rubenrr.walkeitor.menu.person;
 
 import android.util.Log;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.element.building.City;
 import org.rubenrr.walkeitor.element.building.Mine;
-import org.rubenrr.walkeitor.element.resource.Resource;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
 import org.rubenrr.walkeitor.menu.MenuBase;
-import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -45,7 +40,7 @@ public class WorkerMenu extends MenuBase  {
 
                     SceneManager.getInstance().getBackgroundTile().clearAll();
 
-                    List<TileLocatable> resourceOil = GameManager.getInstance().getSpriteSubtype("oil");
+                    List<TileLocatable> resourceOil = GameManager.getInstance().getResourcesBySubtype("oil");
 
                     OccupiedTiles occupiedTiles = new OccupiedTiles();
                     //TODO this sounds weird, to pass the second parameter of the configuration
@@ -57,18 +52,6 @@ public class WorkerMenu extends MenuBase  {
                     newMine.setDragAndDropLocation();
 
                     SceneManager.getInstance().attachChild(newMine);
-
-
-                    /**
-                     * When a new building is created
-                     * we need to help the user to locate the building in the proper area
-                     * and then go a built it.
-                     *
-                     * WE NEED TO USE THE "FREE ALGORITHM" from OccupiedTiles two display where the building
-                     * could be set
-                     *
-                     * We should use BOTH algorithms, as a building could block the possible free tiles
-                     */
                 }
                 return true;
             }

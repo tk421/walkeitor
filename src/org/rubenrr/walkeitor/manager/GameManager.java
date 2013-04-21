@@ -59,19 +59,26 @@ public class GameManager {
         this.units.add(unit);
     }
 
+    public List<Building> getBuildings() {
+        return this.buildings;
+    }
 
     /**
      * Get resources filtering by subtype
      *
+     * TODO filter by subtype
+     *
      * @param subtype
      * @return
      */
-    public List<TileLocatable> getSpriteSubtype(String subtype) {
+    public List<TileLocatable> getResourcesBySubtype(String subtype) {
 
         List<TileLocatable> resourceSubtype = new ArrayList<TileLocatable>();
 
         for (Resource resource: this.resources ) {
-            resourceSubtype.add(resource);
+            if (resource.getSubtype().equals(subtype)) {
+                resourceSubtype.add(resource);
+            }
         }
 
         return resourceSubtype;
@@ -162,38 +169,5 @@ public class GameManager {
         }
 
     }
-
-    /**
-     * Solve if the requested sprite is located in free tiles or not
-     *
-     * @return
-     */
-    public boolean isInFreeTiles(TileLocatable sprite) {
-
-        // TODO find better way to make this TileLocatable
-        // TODO add units to evaluate the FreeTiles
-        OccupiedTiles occupiedTiles = new OccupiedTiles();
-        List<TileLocatable> buildingLocatables = new ArrayList<TileLocatable>();
-
-        for (TileLocatable building: this.buildings) {
-            buildingLocatables.add(building);
-        }
-
-        occupiedTiles.setOccupied(buildingLocatables);
-
-        /**
-         *
-         *  I AM PROGRAMMING HERE.
-         *
-         *  I NEED TO SET THE PROPER SCENARY FOR THE ITEM TO BE LOCATED.
-         *
-         *  THIS LOGIC SHOULD BE IN THE SPRITE THAT WE ARE TRYING TO BUILD
-         *
-         */
-
-
-        return occupiedTiles.isInFreeTiles(sprite);
-    }
-
 
 }

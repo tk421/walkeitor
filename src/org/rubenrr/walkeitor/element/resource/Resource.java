@@ -45,6 +45,11 @@ public abstract class Resource extends Sprite  implements MenuExtendable, TileLo
         return this.tmxTile.getTileRow();
     }
 
+    public String getSubtype() {
+        return this.elementConfig.getSubtype();
+    }
+
+
     /**
      * Set the position adjusted to the matched Tile
      */
