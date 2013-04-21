@@ -69,7 +69,7 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
 
         switch (pSceneTouchEvent.getAction()) {
             case TouchEvent.ACTION_DOWN:
-                this.menu.display(this);
+                this.menu.display();
                 break;
             //case TouchEvent.ACTION_MOVE: {
             //    break;}
@@ -86,7 +86,8 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
         return super.toString();
     }
 
-    protected void setMenu(MenuStrategy menu) {
+    protected void setMenu(MenuStrategy menu, MenuExtendable sprite) {
+        menu.setSprite(sprite);
         this.menu = menu;
     }
 

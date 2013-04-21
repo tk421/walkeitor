@@ -9,7 +9,10 @@ import org.andengine.entity.sprite.Sprite;
  */
 public interface MenuStrategy {
     // display menu
-    void display(MenuExtendable sprite);
+    void display();
+
+    // get the parent sprite which the menu will pop up
+    void setSprite(MenuExtendable sprite);
 
     //clear menu from screen
     void clear();

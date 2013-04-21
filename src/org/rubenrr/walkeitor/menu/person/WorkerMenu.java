@@ -27,19 +27,16 @@ import java.util.List;
  */
 public class WorkerMenu extends MenuBase  {
 
-    public WorkerMenu(MenuExtendable sprite) {
-        super(sprite);
-    }
-
     /**
      * If the city received one touch, a menu will be
      * - Construct worker: Will create a class person
      */
-    public void display(MenuExtendable sprite) {
+    public void display() {
 
         String optionText = "Build a oil mine";
 
-        final Text option1 = new Text(sprite.getWidth() + 10, 0, FontLoadManager.getInstance().get(FontConfig.MENU_STANDARD) , optionText, optionText.length(), SceneManager.getInstance().getVertexBufferObjectManager()) {
+        final Text option1 = new Text(this.getSprite().getWidth() + 10, 0, FontLoadManager.getInstance().get(FontConfig.MENU_STANDARD),
+                                        optionText, optionText.length(), SceneManager.getInstance().getVertexBufferObjectManager()) {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {

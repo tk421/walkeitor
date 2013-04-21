@@ -23,7 +23,7 @@ public class Person extends Unit {
         super(pX, pY, elementConfig);
         SceneManager.getInstance().getScene().registerTouchArea(this);
         GameManager.getInstance().addUnit(this);
-        this.setMenu(new WorkerMenu(this));
+        this.setMenu(elementConfig.getMenuStrategy(), this);
     }
 
     @Override

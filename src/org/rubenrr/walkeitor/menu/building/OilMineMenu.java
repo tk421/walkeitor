@@ -10,13 +10,10 @@ import org.rubenrr.walkeitor.menu.MenuExtendable;
  * Date: 14/04/13
  * Time: 6:50 PM
  */
-public class MineMenu extends MenuBase {
-    public MineMenu(Mine sprite) {
-        super(sprite);
-    }
+public class OilMineMenu extends MenuBase {
 
     @Override
-    public void display(MenuExtendable sprite) {
+    public void display() {
 
     }
 }

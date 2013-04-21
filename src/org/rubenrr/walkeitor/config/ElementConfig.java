@@ -1,5 +1,11 @@
 package org.rubenrr.walkeitor.config;
 
+import org.rubenrr.walkeitor.menu.MenuStrategy;
+import org.rubenrr.walkeitor.menu.NoMenu;
+import org.rubenrr.walkeitor.menu.building.CityMenu;
+import org.rubenrr.walkeitor.menu.building.OilMineMenu;
+import org.rubenrr.walkeitor.menu.person.WorkerMenu;
+
 /**
  * Configuration elements for the units displayed.
  *
@@ -22,6 +28,7 @@ public enum ElementConfig {
     private final int tileSizeColumn;
     private final int tileSizeRow;
     private final ElementConfig dependence;
+    private final MenuStrategy menuStrategy;
 
     /**
      *
@@ -45,6 +52,19 @@ public enum ElementConfig {
         this.tileSizeColumn = tileSizeColumn;
         this.tileSizeRow = tileSizeRow;
         this.dependence = dependence;
+
+        // need to implement a factory here
+        if (this.name.equals("mine_oil")) {
+            this.menuStrategy = new OilMineMenu();
+        } else if (this.name.equals("unit_worker")) {
+            this.menuStrategy = new WorkerMenu();
+        } else if (this.name.equals("building_city")) {
+            this.menuStrategy = new CityMenu();
+        } else if (this.name.equals("resource_oil")) {
+            this.menuStrategy = new NoMenu();
+        } else {
+            throw new IllegalArgumentException(this.name + " is unknown when setting the menuStrategy");
+        }
     }
 
     @Override
@@ -82,5 +102,9 @@ public enum ElementConfig {
 
     public ElementConfig getDependence() {
         return dependence;
+    }
+
+    public MenuStrategy getMenuStrategy() {
+        return menuStrategy;
     }
 }

@@ -16,7 +16,7 @@ public class City extends Building {
     public City(float pX, float pY, ElementConfig elementConfig) {
         super(pX, pY, elementConfig);
         SceneManager.getInstance().getScene().registerTouchArea(this);
-        this.setMenu(new CityMenu(this));
+        this.setMenu(elementConfig.getMenuStrategy(), this);
     }
 
 }

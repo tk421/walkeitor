@@ -15,16 +15,23 @@ import java.util.ArrayList;
 public abstract class MenuBase implements MenuStrategy {
 
     // the sprite that we are generating the menu from
-    private MenuExtendable sprite;
+    private MenuExtendable sprite = null;
 
     // list of all elements are generated as menu
     private ArrayList<Entity> menuEntities = new ArrayList<Entity>();
 
-    protected MenuBase(MenuExtendable sprite) {
+    public void setSprite(MenuExtendable sprite) {
         this.sprite = sprite;
     }
 
+    public MenuExtendable getSprite() {
+        return this.sprite;
+    }
+
     protected void addEntity(final Entity entity) {
+        if (this.sprite == null) {
+            throw new IllegalArgumentException("Sprite has not been initialized in MenuBanse");
+        }
         this.sprite.attachChild(entity);
         menuEntities.add(entity);
     }
