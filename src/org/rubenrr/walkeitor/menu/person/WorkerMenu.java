@@ -39,17 +39,7 @@ public class WorkerMenu extends MenuBase  {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
                     Log.d("WorkerMenu", "OnClick Option 1: " + this.getText());
 
-                    SceneManager.getInstance().getBackgroundTile().clearAll();
-
-                    List<TileLocatable> resourceOil = GameManager.getInstance().getResourcesBySubtype("oil");
-
-                    OccupiedTiles occupiedTiles = new OccupiedTiles();
-                    occupiedTiles.setFree(resourceOil);
-                    occupiedTiles.draw();
-
-                    Mine newMine = new Mine(pSceneTouchEvent.getX() - 100, pSceneTouchEvent.getY(), ElementConfig.MINE_OIL);
-                    newMine.setDragAndDropLocation();
-
+                    Mine newMine = new Mine(pSceneTouchEvent.getX() - 100, pSceneTouchEvent.getY(), ElementConfig.MINE_OIL, StatusConfig.SET_LOCATION);
                     SceneManager.getInstance().attachChild(newMine);
 
                     WorkerMenu.this.clear();

@@ -50,7 +50,7 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         SceneManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
         SceneManager.getInstance().setTmxLayer(this.getTmxLayer());
         SceneManager.getInstance().setTmxTiledMap(this.getTmxTiledMap());
-        SceneManager.getInstance().attachChild(new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY));
+        SceneManager.getInstance().attachChild(new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY, StatusConfig.NONE));
         SceneManager.getInstance().attachChild(new Ore(100, 100, ElementConfig.RESOURCE_OIL));
 
         return scene;

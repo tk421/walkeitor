@@ -4,9 +4,12 @@ import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.algorithm.path.IPathFinderMap;
 import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.element.building.Building;
+import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -69,6 +72,15 @@ import java.util.Set;
     @Override
     public boolean isBlocked(int pX, int pY, Object pEntity) {
         return this.isTileOccupied(pX, pY);
+    }
+
+    public void setOccupiedAllBuildings() {
+        List<TileLocatable> buildingLocatables = new ArrayList<TileLocatable>();
+        List<Building> buildings = GameManager.getInstance().getBuildings();
+        for (Building building : buildings) {
+            buildingLocatables.add(building);
+        }
+        this.setOccupied(buildingLocatables);
     }
 
     public void setOccupied(final List<TileLocatable> sprites) {

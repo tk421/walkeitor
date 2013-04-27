@@ -4,7 +4,6 @@ import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
-import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.element.building.Building;
@@ -12,12 +11,7 @@ import org.rubenrr.walkeitor.element.building.Mine;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
 import org.rubenrr.walkeitor.menu.MenuBase;
-import org.rubenrr.walkeitor.menu.MenuExtendable;
-import org.rubenrr.walkeitor.util.TileLocatable;
-
-import java.util.List;
 
 /**
  * User: Ruben Rubio Rey
@@ -66,8 +60,13 @@ public class OilMineMenu extends MenuBase {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    Log.d("OilMineMenu", "Construction started");
+
+                    //construction started
                     OilMineMenu.this.clear();
+                    Mine mine = (Mine)OilMineMenu.this.getSprite();
+
+                    // we mark the construction as finished
+                    mine.constructionFinish();
                 }
                 return true;
             }

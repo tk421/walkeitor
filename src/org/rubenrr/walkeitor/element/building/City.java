@@ -1,6 +1,7 @@
 package org.rubenrr.walkeitor.element.building;
 
 import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.menu.building.CityMenu;
 
@@ -13,8 +14,8 @@ import org.rubenrr.walkeitor.menu.building.CityMenu;
  *
  */
 public class City extends Building {
-    public City(float pX, float pY, ElementConfig elementConfig) {
-        super(pX, pY, elementConfig);
+    public City(float pX, float pY, ElementConfig elementConfig, StatusConfig statusConfig) {
+        super(pX, pY, elementConfig, statusConfig);
         SceneManager.getInstance().getScene().registerTouchArea(this);
         this.setMenu(elementConfig.getMenuStrategy(), this);
     }

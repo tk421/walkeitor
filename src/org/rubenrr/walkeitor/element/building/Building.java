@@ -26,14 +26,25 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
 
     private MenuStrategy menu;
     private ElementConfig elementConfig;
-    private StatusConfig statusConfig = StatusConfig.NONE;
+    private StatusConfig statusConfig;
     TMXTile tmxTile;
 
-    public Building(float pX, float pY, ElementConfig elementConfig) {
+    public Building(float pX, float pY, ElementConfig elementConfig, StatusConfig statusConfig) {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
         this.elementConfig = elementConfig;
-        GameManager.getInstance().addBuilding(this);
+        this.statusConfig = statusConfig;
+
+        // if building is none it is ready. We have to register it
+        // in the game manager
+        if (this.getStatusConfig().isNone()) {
+            this.registerBuilding();
+        }
         this.setTiledPosition();
+    }
+
+    // registers the building at game manager
+    private void registerBuilding() {
+        GameManager.getInstance().addBuilding(this);
     }
 
     /**
@@ -132,24 +143,16 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.setZIndex(99); // first line to respond to the everything
     }
 
+    public void constructionFinish() {
+        this.setStatusConfig(StatusConfig.NONE);
+        this.registerBuilding();
+        this.setAlpha(1f);
+        this.setZIndex(0);
 
-
-    /**
-     * If the building is buildable above a resource
-     * this checks is.
-     *
-     * @return
-     */
-    public boolean isBuildableInResource() {
-
-        List<Building> buildings = GameManager.getInstance().getBuildings();
-        List<TileLocatable> resources = GameManager.getInstance().getResourcesBySubtype("oil");
+        // remove the green colour from the background
         OccupiedTiles occupiedTiles = new OccupiedTiles();
-        occupiedTiles.setFree(resources);
+        occupiedTiles.clearAll();
 
-        return occupiedTiles.isInFreeTiles(this);
     }
-
-
 
 }
