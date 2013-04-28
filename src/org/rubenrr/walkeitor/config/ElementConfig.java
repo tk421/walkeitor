@@ -22,7 +22,8 @@ public enum ElementConfig {
     RESOURCE_OIL ("resource_oil", "resource", "ore", "oil", "gfx/resource/ore/normal_oil.png", 2, 2, null),
     MINE_OIL ("mine_oil", "building", "mine", "oil", "gfx/building/mine/normal_oil.png", 2, 2, RESOURCE_OIL), // MINE_OIL can only be built over RESOURCE_OIL
     REFINERY_OIL ("refinery_oil", "building", "refinery", "oil", "gfx/building/refinery/normal_oil.png", 2, 2, null),
-    FACTORY_TANK ("factory_tank", "building", "factory", "tank", "gfx/building/factory/normal_tank.png", 2, 2, null);
+    FACTORY_TANK ("factory_tank", "building", "factory", "tank", "gfx/building/factory/normal_tank.png", 2, 2, null),
+    UNIT_TANK ("unit_tank", "unit", "vehicle", "tank", "gfx/unit/vehicle/normalTank.png", 1, 1, null);
 
 
     private final String name;
@@ -78,6 +79,8 @@ public enum ElementConfig {
             menuStrategy  = new OilRefineryMenu();
         } else if (this.name.equals("factory_tank")) {
             menuStrategy  = new TankFactoryMenu();
+        } else if (this.name.equals("unit_tank")) {
+            menuStrategy  = new NoMenu();
         } else {
             throw new IllegalArgumentException(this.name + " is unknown when setting the menuStrategy");
         }

@@ -7,6 +7,6 @@ package org.rubenrr.walkeitor.menu;
  * Date: 28/04/13
  * Time: 6:01 PM
  */
-public interface MenuActions {
+public interface MenuAction {
     void execute(float pX, float pY);
 }

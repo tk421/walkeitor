@@ -1,19 +1,12 @@
 package org.rubenrr.walkeitor.menu.building;
 
-import android.util.Log;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.element.building.City;
 import org.rubenrr.walkeitor.element.unit.Person;
-import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.menu.MenuActions;
+import org.rubenrr.walkeitor.menu.MenuAction;
 import org.rubenrr.walkeitor.menu.MenuBase;
-import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuOption;
 
 /**
@@ -43,7 +36,7 @@ public class CityMenu extends MenuBase  {
         // No implementation needed ...
     }
 
-    class NewWorkerAction implements MenuActions {
+    class NewWorkerAction implements MenuAction {
         public void execute(float pX, float pY) {
             // TODO Algorithm to allocate the unit
             // TODO Resources usage and time needed to build the unit

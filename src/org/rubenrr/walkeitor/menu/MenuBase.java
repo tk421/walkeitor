@@ -1,16 +1,12 @@
 package org.rubenrr.walkeitor.menu;
 
-import android.util.Log;
 import org.andengine.engine.Engine;
 import org.andengine.entity.Entity;
 import org.andengine.entity.scene.ITouchArea;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
-import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.element.building.Mine;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.util.TileLocatable;
@@ -46,7 +42,7 @@ public abstract class MenuBase implements MenuStrategy {
         return (TileLocatable)this.sprite;
     }
 
-    protected void addMenuOption(final MenuOption menuOption, final MenuActions menuActions) {
+    protected void addMenuOption(final MenuOption menuOption, final MenuAction menuAction) {
 
         String optionText = menuOption.getLabel();
 
@@ -55,7 +51,7 @@ public abstract class MenuBase implements MenuStrategy {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    menuActions.execute(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
+                    menuAction.execute(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
                     MenuBase.this.clear();
                 }
                 return true;

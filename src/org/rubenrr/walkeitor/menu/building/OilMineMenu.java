@@ -1,19 +1,7 @@
 package org.rubenrr.walkeitor.menu.building;
 
-import android.util.Log;
-import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
-import org.andengine.input.touch.TouchEvent;
-import org.rubenrr.walkeitor.config.FontConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.element.building.Mine;
-import org.rubenrr.walkeitor.element.building.Refinery;
-import org.rubenrr.walkeitor.manager.FontLoadManager;
-import org.rubenrr.walkeitor.manager.GameManager;
-import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.menu.MenuActions;
-import org.rubenrr.walkeitor.menu.MenuBase;
+import org.rubenrr.walkeitor.menu.MenuAction;
 import org.rubenrr.walkeitor.menu.MenuOption;
 
 /**
@@ -36,7 +24,7 @@ public class OilMineMenu extends BuildableMenuBase {
         this.addMenuOption(option1, new StartConstructionOilMineAction());
     }
 
-    class StartConstructionOilMineAction implements MenuActions {
+    class StartConstructionOilMineAction implements MenuAction {
         public void execute(float pX, float pY) {
             //construction started
             OilMineMenu.this.clear();

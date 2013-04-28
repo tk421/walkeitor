@@ -28,8 +28,8 @@ Backlog:
   - Make the Person walk to move to the Oil Resource  - DONE 14/04/2013
   - Construct an Oil mine - DONE - 27/04/2013
   - Construct an Oil Refinery - DONE - 27/04/2013
-  - Construct an Tank Factory
-  - Construct Tanks
+  - Construct an Tank Factory  - DONE - 28/04/2013
+  - Construct Tanks - DONE - 28/04/2013
   - Manage resources in GameManager
   - Apply customized speed when moving units
   - Apply resources usage when moving units

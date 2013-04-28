@@ -1,17 +1,10 @@
 package org.rubenrr.walkeitor.menu.building;
 
-import android.util.Log;
-import org.andengine.entity.text.Text;
-import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.FontConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.element.building.Factory;
-import org.rubenrr.walkeitor.element.unit.Person;
-import org.rubenrr.walkeitor.manager.FontLoadManager;
+import org.rubenrr.walkeitor.element.unit.Vehicle;
 import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.menu.MenuActions;
-import org.rubenrr.walkeitor.menu.MenuBase;
+import org.rubenrr.walkeitor.menu.MenuAction;
 import org.rubenrr.walkeitor.menu.MenuOption;
 
 /**
@@ -38,22 +31,24 @@ public class TankFactoryMenu extends BuildableMenuBase {
         this.addMenuOption(option1, new StartConstructionTankFactoryAction());
     }
 
-    class NewTankAction implements MenuActions {
+    class NewTankAction implements MenuAction {
         public void execute(float pX, float pY) {
-            // So far nothing
-            // By default buildings are attached to the scene, however units but be specified
-            //SceneManager.getInstance().attachChild(person);
+            Vehicle tank = new Vehicle(pX, pY, ElementConfig.UNIT_TANK);
+
+            // TODO algorithm to allocate the unit
+            SceneManager.getInstance().attachChild(tank);
         }
     }
 
 
-    class StartConstructionTankFactoryAction implements MenuActions {
+    class StartConstructionTankFactoryAction implements MenuAction {
         public void execute(float pX, float pY) {
             //construction started
             TankFactoryMenu.this.clear();
             Factory factory = (Factory)TankFactoryMenu.this.getSprite();
 
             // we mark the construction as finished
+            // TODO construction process
             factory.constructionFinish();
         }
     }
