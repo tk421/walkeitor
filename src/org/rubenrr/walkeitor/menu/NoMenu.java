@@ -20,4 +20,5 @@ public class NoMenu extends MenuBase {
     public void display(StatusConfig statusConfig, TouchEvent touchEvent) {
         // Nothing
     }
+
 }

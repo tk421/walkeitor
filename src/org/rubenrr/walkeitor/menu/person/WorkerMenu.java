@@ -1,21 +1,14 @@
 package org.rubenrr.walkeitor.menu.person;
 
-import android.graphics.drawable.DrawableContainer;
-import android.util.Log;
-import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.element.building.Factory;
 import org.rubenrr.walkeitor.element.building.Mine;
-import org.rubenrr.walkeitor.manager.FontLoadManager;
-import org.rubenrr.walkeitor.manager.GameManager;
-import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
+import org.rubenrr.walkeitor.element.building.Refinery;
+import org.rubenrr.walkeitor.menu.MenuActions;
 import org.rubenrr.walkeitor.menu.MenuBase;
-import org.rubenrr.walkeitor.util.TileLocatable;
-
-import java.util.List;
+import org.rubenrr.walkeitor.menu.MenuOption;
 
 /**
  * User: Ruben Rubio Rey
@@ -30,25 +23,17 @@ public class WorkerMenu extends MenuBase  {
      */
     public void display() {
 
-        String optionText = "Build a oil mine";
+        // first menu option to build a Oil Mine
+        MenuOption option1 = new MenuOption("New Oil Mine");
+        this.addMenuOption(option1, new NewOilMineAction());
 
-        final Text option1 = new Text(this.getSprite().getWidth() + 10, 0, FontLoadManager.getInstance().get(FontConfig.MENU_STANDARD),
-                                        optionText, optionText.length(), SceneManager.getInstance().getVertexBufferObjectManager()) {
-            @Override
-            public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
-                if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
-                    Log.d("WorkerMenu", "OnClick Option 1: " + this.getText());
+        // second option to build a Oil Refinery
+        MenuOption option2 = new MenuOption("New Oil Refinery");
+        this.addMenuOption(option2, new NewOilRefineryAction());
 
-                    Mine newMine = new Mine(pSceneTouchEvent.getX() - 100, pSceneTouchEvent.getY(), ElementConfig.MINE_OIL, StatusConfig.SET_LOCATION);
-                    SceneManager.getInstance().attachChild(newMine);
-
-                    WorkerMenu.this.clear();
-                }
-                return true;
-            }
-        };
-        this.addEntity(option1);
-        SceneManager.getInstance().getScene().registerTouchArea(option1);
+        // third option build a tank factory
+        MenuOption option3 = new MenuOption("New Tank Factory");
+        this.addMenuOption(option3, new NewTankFactoryAction());
 
     }
 
@@ -56,4 +41,23 @@ public class WorkerMenu extends MenuBase  {
     public void display(StatusConfig statusConfig, TouchEvent touchEvent) {
         // no implementation yet
     }
+
+    class NewOilMineAction implements MenuActions{
+        public void execute(float pX, float pY) {
+            new Mine(pX - 100, pY, ElementConfig.MINE_OIL, StatusConfig.SET_LOCATION);
+        }
+    }
+
+    class NewOilRefineryAction implements MenuActions{
+        public void execute(float pX, float pY) {
+            new Refinery(pX - 100, pY, ElementConfig.REFINERY_OIL, StatusConfig.SET_LOCATION);
+        }
+    }
+
+    class NewTankFactoryAction implements MenuActions{
+        public void execute(float pX, float pY) {
+            new Factory(pX - 100, pY, ElementConfig.FACTORY_TANK, StatusConfig.SET_LOCATION);
+        }
+    }
+
 }

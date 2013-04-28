@@ -34,6 +34,8 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.elementConfig = elementConfig;
         this.statusConfig = statusConfig;
 
+        SceneManager.getInstance().attachChild(this);
+
         // if building is none it is ready. We have to register it
         // in the game manager
         if (this.getStatusConfig().isNone()) {

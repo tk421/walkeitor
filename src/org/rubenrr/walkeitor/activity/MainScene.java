@@ -26,9 +26,14 @@ Backlog:
   - Refactor to generalize - DONE 06/04/2013
   - Use enum instead strings - DONE 07/04/2013
   - Make the Person walk to move to the Oil Resource  - DONE 14/04/2013
-  - Make the person Walk to the Oil Resource and start to construct an oil mine
-  - Make the person to construct an Oil Refinery
-  - Create resources in the game manager needed to construct buildings
+  - Construct an Oil mine - DONE - 27/04/2013
+  - Construct an Oil Refinery - DONE - 27/04/2013
+  - Construct an Tank Factory
+  - Construct Tanks
+  - Manage resources in GameManager
+  - Apply customized speed when moving units
+  - Apply resources usage when moving units
+  - Create the Task manager (Movement, Transport, Building)
 */
 public class MainScene extends TiledPinchZoomBaseActivity {
 
@@ -50,8 +55,8 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         SceneManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
         SceneManager.getInstance().setTmxLayer(this.getTmxLayer());
         SceneManager.getInstance().setTmxTiledMap(this.getTmxTiledMap());
-        SceneManager.getInstance().attachChild(new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY, StatusConfig.NONE));
-        SceneManager.getInstance().attachChild(new Ore(100, 100, ElementConfig.RESOURCE_OIL));
+        new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY, StatusConfig.NONE);
+        new Ore(100, 100, ElementConfig.RESOURCE_OIL);
 
         return scene;
     }
