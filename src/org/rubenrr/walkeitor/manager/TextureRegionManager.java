@@ -76,9 +76,7 @@ public class TextureRegionManager extends HashMap<String, TextureRegion> {
             });
 
             mTexture.load();
-
             texttureregion = TextureRegionFactory.extractFromTexture(mTexture);
-
 
         } catch (IOException e) {
             Log.e("TextureRegionManager", "Error loading texture " + path, e);

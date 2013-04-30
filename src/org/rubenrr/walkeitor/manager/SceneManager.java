@@ -64,7 +64,6 @@ public class SceneManager {
         if (this.tileRectangle == null ) {
             this.tileRectangle = new Rectangle(0, 0, this.tmxTiledMap.getTileWidth(), this.tmxTiledMap.getTileHeight(), this.getVertexBufferObjectManager());
             this.tileRectangle.setAlpha(0.5f);
-            Log.d("Movement", "Tilesize " + this.tmxTiledMap.getTileWidth() + "," + this.tmxTiledMap.getTileHeight());
             this.scene.attachChild(this.tileRectangle);
         }
         final TMXTile tmxTile = this.tmxLayer.getTMXTileAt(x, y);
@@ -93,6 +92,7 @@ public class SceneManager {
     }
 
     public void setTmxTiledMap(TMXTiledMap tmxTiledMap) {
+        Log.d("BlackSprite", "Set setTmxTiledMap");
         this.tmxTiledMap = tmxTiledMap;
     }
 
@@ -101,6 +101,7 @@ public class SceneManager {
     }
 
     public void setTmxLayer(TMXLayer tmxLayer) {
+        Log.d("BlackSprite", "Set setTmxLayer");
         this.tmxLayer = tmxLayer;
     }
 
@@ -109,6 +110,7 @@ public class SceneManager {
     }
 
     public void setEngineLock(Engine.EngineLock enginelock) {
+        Log.d("BlackSprite", "Set setEngineLock");
         this.enginelock = enginelock;
     }
 
@@ -117,6 +119,7 @@ public class SceneManager {
     }
 
     public void setFontManger(FontManager fontmanger) {
+        Log.d("BlackSprite", "Set fontmanager");
         this.fontmanger = fontmanger;
     }
 
@@ -125,6 +128,7 @@ public class SceneManager {
     }
 
     public void setVertexBufferObjectManager(VertexBufferObjectManager vertexbufferobjectmanager) {
+        Log.d("BlackSprite", "Set setVertexBufferObjectManager");
         this.vertexbufferobjectmanager = vertexbufferobjectmanager;
     }
 
@@ -133,6 +137,7 @@ public class SceneManager {
     }
 
     public void setAssetManager(AssetManager assetmanager) {
+        Log.d("BlackSprite", "Set setAssetManager");
         this.assetmanager = assetmanager;
     }
 
@@ -141,6 +146,7 @@ public class SceneManager {
     }
 
     public void setScene(Scene scene) {
+        Log.d("BlackSprite", "Set scene");
         this.scene = scene;
     }
 
@@ -149,6 +155,7 @@ public class SceneManager {
     }
 
     public void setTextureManager(TextureManager texturemanager) {
+        Log.d("BlackSprite", "Set setTextureManager");
         this.texturemanager = texturemanager;
     }
 
@@ -157,6 +164,8 @@ public class SceneManager {
      *  This is useful so we will load all images at the phase OnCreateResources
      */
     public void loadBitmap () {
+        Log.d("BlackSprite", "loadBitmap ");
+        TextureRegionManager.getInstance().clear();
         for (ElementConfig ec : ElementConfig.values()) {
             TextureRegionManager.getInstance().put(ec);
         }
@@ -167,6 +176,8 @@ public class SceneManager {
      *  This is useful so we will load all the fonts OnCreateResources
      */
     public void loadFont() {
+        FontLoadManager.getInstance().clear();
+        Log.d("BlackSprite", "loadFont");
         for (FontConfig fc : FontConfig.values()) {
             FontLoadManager.getInstance().put(fc);
         }

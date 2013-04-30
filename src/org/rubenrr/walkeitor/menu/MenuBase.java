@@ -8,6 +8,7 @@ import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
+import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
@@ -53,6 +54,8 @@ public abstract class MenuBase implements MenuStrategy {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
                     menuAction.execute(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
                     MenuBase.this.clear();
+                    // unSelect units, as when the a menu option is selected the unit should be unselected
+                    GameManager.getInstance().unselectUnits();
                 }
                 return true;
             }

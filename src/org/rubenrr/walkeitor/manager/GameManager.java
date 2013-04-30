@@ -99,24 +99,27 @@ public class GameManager {
         for (Sprite unit : unitsSelected ) {
 
             // remove fade
-            unit.setColor(0, 0, 0, 1f);
+            unit.setAlpha(1f);
         }
         unitsSelected.clear();
     }
 
+
     public void selectUnit(final Unit unit) {
 
-        // so far we can just select units, therefore we could unselect everything and keep going!
+        // so far we can just select one unit, therefore we could unselect everything and keep going!
         this.unselectUnits();
+
         this.status = StatusConfig.UNIT_SELECTED;
         //unit.this
         Log.d("GameManager", "Unit selected: " + unit.toString());
 
         // set element look and feel "selected" fading it out
-        unit.setColor(0, 0, 0, 0.30f);
+        unit.setAlpha(0.30f);
 
         // set the element "selected"
         this.unitsSelected.add(unit);
+
 
     }
 
@@ -129,6 +132,8 @@ public class GameManager {
     }
 
     public void moveTo(float posX, float posY) {
+
+
 
         final int[] tileDimensions = TileConfig.TILE_SIZE.getTileDimensions();
 
@@ -157,6 +162,7 @@ public class GameManager {
             this.unselectUnits();
 
         }
+
     }
 
     /**
