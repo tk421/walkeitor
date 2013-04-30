@@ -57,8 +57,13 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.setTiledPosition(this.getX(), this.getY());
     }
     private void setTiledPosition(float pX, float pY) {
-        this.tmxTile = SceneManager.getInstance().getTile(pX, pY);
-        this.setPosition(this.tmxTile.getTileX(), this.tmxTile.getTileY());
+        TMXTile tmxTile = SceneManager.getInstance().getTile(pX, pY);
+        if (tmxTile != null) {
+            this.tmxTile = tmxTile;
+            this.setPosition(this.tmxTile.getTileX(), this.tmxTile.getTileY());
+        } else {
+            Log.w("Building/setTiledPosition", "TmxTile is NULL!");
+        }
     }
 
     public int getTileColumn() {

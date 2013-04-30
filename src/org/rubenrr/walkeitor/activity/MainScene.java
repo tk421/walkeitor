@@ -1,6 +1,7 @@
 package org.rubenrr.walkeitor.activity;
 
 import android.util.Log;
+import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.extension.tmx.TMXTile;
@@ -45,6 +46,12 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         SceneManager.getInstance().setEngineLock(this.mEngine.getEngineLock());
         SceneManager.getInstance().loadBitmap();
         SceneManager.getInstance().loadFont();
+
+        HUD hud = new HUD();
+        SceneManager.getInstance().setHud(hud);
+        this.setHUD(hud);
+
+
     }
 
     @Override
@@ -57,7 +64,6 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         SceneManager.getInstance().setTmxTiledMap(this.getTmxTiledMap());
         new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY, StatusConfig.NONE);
         new Ore(100, 100, ElementConfig.RESOURCE_OIL);
-
         return scene;
     }
 

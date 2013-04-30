@@ -2,6 +2,7 @@ package org.rubenrr.walkeitor.activity;
 
 import android.util.Log;
 import org.andengine.engine.camera.ZoomCamera;
+import org.andengine.engine.camera.hud.HUD;
 import org.andengine.engine.options.EngineOptions;
 import org.andengine.engine.options.ScreenOrientation;
 import org.andengine.engine.options.resolutionpolicy.RatioResolutionPolicy;
@@ -94,6 +95,10 @@ public class TiledPinchZoomBaseActivity extends SimpleBaseGameActivity implement
 
 		this.mBitmapTextureAtlas.load();
 	}
+
+    public void setHUD(HUD hud) {
+        this.camera.setHUD(hud);
+    }
 
 	@Override
 	public Scene onCreateScene() {

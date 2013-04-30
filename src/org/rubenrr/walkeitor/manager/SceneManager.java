@@ -3,9 +3,11 @@ package org.rubenrr.walkeitor.manager;
 import android.content.res.AssetManager;
 import android.util.Log;
 import org.andengine.engine.Engine;
+import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
+import org.andengine.entity.text.Text;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.extension.tmx.TMXTiledMap;
@@ -15,6 +17,7 @@ import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.manager.action.BackgroundTile;
+import org.rubenrr.walkeitor.manager.scene.HUDManager;
 
 /**
  * User: Ruben Rubio Rey
@@ -38,6 +41,7 @@ public class SceneManager {
     private TMXLayer tmxLayer;
     private TMXTiledMap tmxTiledMap;
     private BackgroundTile backgroundTile;
+    private HUDManager hudmanager;
 
     private Rectangle tileRectangle;
 
@@ -157,6 +161,11 @@ public class SceneManager {
     public void setTextureManager(TextureManager texturemanager) {
         Log.d("BlackSprite", "Set setTextureManager");
         this.texturemanager = texturemanager;
+    }
+
+    public void setHud(HUD hud) {
+        this.hudmanager = new HUDManager(hud);
+        this.hudmanager.createLabels();
     }
 
     /**

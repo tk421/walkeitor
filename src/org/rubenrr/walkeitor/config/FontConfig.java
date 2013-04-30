@@ -11,7 +11,8 @@ import android.graphics.Typeface;
  */
 public enum FontConfig {
 
-    MENU_STANDARD("menustandardfont", 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 20);
+    MENU_STANDARD("menustandardfont", 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 20),
+    HUD("hudstandardfont", 256, 256, Typeface.create(Typeface.DEFAULT, Typeface.NORMAL), 15);
 
     private final String key;
     private final int textureHeight;
