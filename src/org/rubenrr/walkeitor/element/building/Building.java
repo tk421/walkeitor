@@ -162,4 +162,9 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
 
     }
 
+    public ElementConfig getElementConfig() {
+        return this.elementConfig;
+    }
+
+
 }

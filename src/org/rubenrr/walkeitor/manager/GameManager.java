@@ -10,6 +10,7 @@ import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
 import org.rubenrr.walkeitor.config.TileConfig;
 import org.rubenrr.walkeitor.element.building.Building;
+import org.rubenrr.walkeitor.element.building.Mine;
 import org.rubenrr.walkeitor.element.resource.Resource;
 import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.action.Movement;
@@ -66,6 +67,25 @@ public class GameManager {
     public void removeBuilding(Building building) {
         this.buildings.remove(building);
         SceneManager.getInstance().detachChild(building);
+    }
+
+    /**
+     * Check if the mine collides with the resource, therefore we know over what
+     * resource is linked
+     *
+     * @param mine
+     * @param elementConfig
+     */
+    public Resource getResourceColidesWithMine(Mine mine, ElementConfig elementConfig) {
+        Resource matched = null;
+        for (Resource resource: this.resources ) {
+            if (resource.collidesWith(mine) && resource.getElementConfig().equals(elementConfig)) {
+                if (matched == null) {
+                    matched = resource;
+                }
+            }
+        }
+        return matched;
     }
 
     /**

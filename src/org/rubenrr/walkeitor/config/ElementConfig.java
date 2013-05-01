@@ -1,5 +1,7 @@
 package org.rubenrr.walkeitor.config;
 
+import org.rubenrr.walkeitor.config.element.ConsumableConfig;
+import org.rubenrr.walkeitor.config.element.ProductionConfig;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.menu.NoMenu;
 import org.rubenrr.walkeitor.menu.building.CityMenu;
@@ -23,10 +25,8 @@ public enum ElementConfig {
     BUILDING_CITY ("building_city", "building", "city", "", "gfx/building/city/normal_city.png", 3, 3),
     UNIT_WORKER ("unit_worker", "unit", "person", "worker", "gfx/unit/person/normal_worker.png", 1, 1),
     RESOURCE_OIL ("resource_oil", "resource", "ore", "oil", "gfx/resource/ore/normal_oil.png", 2, 2),
-    MINE_OIL ("mine_oil", "building", "mine", "oil", "gfx/building/mine/normal_oil.png", 2, 2,
-            RESOURCE_OIL, null, ConsumableConfig.CRUDE_OIL),
-    REFINERY_OIL ("refinery_oil", "building", "refinery", "oil", "gfx/building/refinery/normal_oil.png", 2, 2,
-            null, Arrays.asList(ConsumableConfig.CRUDE_OIL), ConsumableConfig.FUEL),
+    MINE_OIL ("mine_oil", "building", "mine", "oil", "gfx/building/mine/normal_oil.png", 2, 2, RESOURCE_OIL, ProductionConfig.MINE_OIL),
+    REFINERY_OIL ("refinery_oil", "building", "refinery", "oil", "gfx/building/refinery/normal_oil.png", 2, 2, ProductionConfig.REFINERY_OIL),
     FACTORY_TANK ("factory_tank", "building", "factory", "tank", "gfx/building/factory/normal_tank.png", 2, 2),
     UNIT_TANK ("unit_tank", "unit", "vehicle", "tank", "gfx/unit/vehicle/normalTank.png", 1, 1);
 
@@ -39,8 +39,8 @@ public enum ElementConfig {
     private final int tileSizeColumn;
     private final int tileSizeRow;
     private final ElementConfig dependence;
-    private final List<ConsumableConfig> consumableRequire;
-    private final ConsumableConfig consumableProduce;
+    private final ProductionConfig production;
+
 
 
     private final MenuStrategy menuStrategy;
@@ -58,8 +58,7 @@ public enum ElementConfig {
      * @param dependence If this object can just be built in a specific Element type, dependency is specified here
      *
      */
-    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath,
-                          int tileSizeColumn, int tileSizeRow, ElementConfig dependence, List<ConsumableConfig> require, ConsumableConfig produce) {
+    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow, ElementConfig dependence, ProductionConfig production) {
         this.name = name;
         this.category = category;
         this.type = type;
@@ -69,20 +68,18 @@ public enum ElementConfig {
         this.tileSizeRow = tileSizeRow;
         this.dependence = dependence;
         this.menuStrategy = this.menuFactory(name);
-        this.consumableRequire = require;
-        this.consumableProduce = produce;
-
+        this.production = production;
 
     }
-
-    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow, ElementConfig dependence) {
-        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, null, null, null);
-    }
-
 
     private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow) {
-        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, null, null, null);
+        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, null, null);
     }
+
+    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow, ProductionConfig production) {
+        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, null, production);
+    }
+
 
 
     private MenuStrategy menuFactory(String name) {
@@ -152,11 +149,27 @@ public enum ElementConfig {
         return menuStrategy;
     }
 
-    public List<ConsumableConfig> getConsumableRequired() {
-        return consumableRequire;
+    public ConsumableConfig getConsumableRequire() {
+        return production.getConsumableRequire();
     }
 
     public ConsumableConfig getConsumableProduce() {
-        return consumableProduce;
+        return production.getConsumableProduce();
+    }
+
+    public int getTimeElapsed() {
+        return production.getTimeElapsed();
+    }
+
+    public float getConsumableProducedUnit() {
+        return production.getConsumableProducedUnit();
+    }
+
+    public int getEnergyNeededKwh() {
+        return production.getEnergyNeededKwh();
+    }
+
+    public float getConsumableRequiredUnit() {
+        return production.getConsumableRequiredUnit();
     }
 }

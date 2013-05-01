@@ -206,6 +206,10 @@ public class SceneManager {
         enginelock.unlock();
     }
 
+    /** I AM HERE REGISTERING THE UPDATE HANDLER
+    public void registerUpdateHandler() {
 
+    }
+     **/
 
 }

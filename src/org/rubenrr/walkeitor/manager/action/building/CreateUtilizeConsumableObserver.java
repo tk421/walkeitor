@@ -7,6 +7,6 @@ import org.rubenrr.walkeitor.element.consumable.Consumable;
  * Date: 30/04/13
  * Time: 8:09 PM
  */
-public interface ConsumableObserver {
+public interface CreateUtilizeConsumableObserver {
     public void update(Consumable consumable);
 }

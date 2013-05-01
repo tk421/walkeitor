@@ -68,4 +68,8 @@ public abstract class Resource extends Sprite  implements MenuExtendable, TileLo
         return super.toString();
     }
 
+    public ElementConfig getElementConfig() {
+        return this.elementConfig;
+    }
+
 }

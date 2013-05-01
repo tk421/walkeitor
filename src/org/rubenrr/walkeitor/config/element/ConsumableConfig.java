@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.config;
+package org.rubenrr.walkeitor.config.element;
 
 import android.util.Log;
 import org.rubenrr.walkeitor.element.consumable.Consumable;
