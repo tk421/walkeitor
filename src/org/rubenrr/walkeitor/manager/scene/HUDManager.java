@@ -1,58 +1,76 @@
 package org.rubenrr.walkeitor.manager.scene;
 
+import android.util.Log;
 import org.andengine.engine.camera.hud.HUD;
+import org.andengine.entity.Entity;
 import org.andengine.entity.text.Text;
 import org.rubenrr.walkeitor.config.FontConfig;
+import org.rubenrr.walkeitor.config.element.ConsumableConfig;
+import org.rubenrr.walkeitor.element.consumable.Consumable;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
 /**
+ * THIS CLASS IS NOT GOOD!!!
+ * I AM GOING TO NEED TO CREATE ANOTHER CLASS THAT COMPOSES THE
+ * CONSUMABLE AND THE TEXT, and then instanciate this to have the values
+ *
  * User: Ruben Rubio Rey
  * Date: 30/04/13
  * Time: 7:23 PM
  */
-public class HUDManager {
+public class HUDManager implements ConsumableUpdatable {
 
     private HUD hud;
 
-    // labels values
-    // crude oil
-    private Text co_value;
-
-    // fuel (refinered)
-    private Text fuel_value;
+    private Map<ConsumableConfig, HUDConsumableEntry> consumableEntries = new HashMap<ConsumableConfig, HUDConsumableEntry>();
 
     public HUDManager(HUD hud) {
         this.hud = hud;
+        this.loadConsumables();
     }
 
-    public void createLabels() {
-        String labelText = "Crude oil: ";
-        final Text co = new Text(1, 1, FontLoadManager.getInstance().get(FontConfig.HUD),
-                labelText, labelText.length(), SceneManager.getInstance().getVertexBufferObjectManager());
-        hud.attachChild(co);
 
-        String labelValue = "0";
-        this.co_value = new Text(70, 1, FontLoadManager.getInstance().get(FontConfig.HUD),
-                labelValue, labelValue.length(), SceneManager.getInstance().getVertexBufferObjectManager());
-        hud.attachChild(co_value);
+    private void loadConsumables() {
 
-        labelText = "Fuel: ";
-        final Text fuel = new Text(co_value.getX() + 50, 1, FontLoadManager.getInstance().get(FontConfig.HUD),
-                labelText, labelText.length(), SceneManager.getInstance().getVertexBufferObjectManager());
-        hud.attachChild(fuel);
+        //Takes care of the position in the screen TODO rotate
+        int x = 1;
 
-        labelValue = "0";
-        this.fuel_value = new Text(fuel.getX() + 35, 1, FontLoadManager.getInstance().get(FontConfig.HUD),
-                labelValue, labelValue.length(), SceneManager.getInstance().getVertexBufferObjectManager());
-        hud.attachChild(this.fuel_value );
+        for (ConsumableConfig consumableConfig : ConsumableConfig.values()) {
+
+            HUDConsumableEntry hudConsumableEntry = new HUDConsumableEntry(consumableConfig, this.hud, x);
+            consumableEntries.put(consumableConfig, hudConsumableEntry);
+
+            x = x + 70 + 35;
+
+        }
     }
 
-    public void setCrudeOil(int co_value) {
-        this.co_value.setText(String.valueOf(co_value));
+    /**
+     * Something has used or has created Consumables
+     *
+     * @param consumableVariation
+     */
+    public boolean updateConsumable(Consumable consumableVariation) {
+        boolean success = false;
+        Log.d("HUDManager/updateConsumable", "New update");
+        Iterator it = this.consumableEntries.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pairs = (Map.Entry)it.next();
+            ConsumableConfig consumableConfig = (ConsumableConfig)pairs.getKey();
+            HUDConsumableEntry hudConsumableEntry = (HUDConsumableEntry)pairs.getValue();
+            if (hudConsumableEntry.updateConsumable(consumableVariation)) {
+                Log.d("HUDManager/updateConsumable", "UPDATE SUCCESSFUL!");
+                success = true;
+                break; // only one
+            }
+        }
+        return success;
     }
 
-    public void setFuel(int fuel_value) {
-        this.fuel_value.setText(String.valueOf(fuel_value));
-    }
 }

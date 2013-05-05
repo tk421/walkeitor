@@ -4,6 +4,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 import org.andengine.engine.Engine;
 import org.andengine.engine.camera.hud.HUD;
+import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
@@ -165,7 +166,6 @@ public class SceneManager {
 
     public void setHud(HUD hud) {
         this.hudmanager = new HUDManager(hud);
-        this.hudmanager.createLabels();
     }
 
     /**
@@ -206,10 +206,12 @@ public class SceneManager {
         enginelock.unlock();
     }
 
-    /** I AM HERE REGISTERING THE UPDATE HANDLER
-    public void registerUpdateHandler() {
-
+    public void registerUpdateHandler(TimerHandler timeHandler) {
+        this.scene.registerUpdateHandler(timeHandler);
     }
-     **/
+
+    public HUDManager getHUD() {
+        return this.hudmanager;
+    }
 
 }

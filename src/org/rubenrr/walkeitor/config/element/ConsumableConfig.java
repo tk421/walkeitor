@@ -11,8 +11,8 @@ import org.rubenrr.walkeitor.element.consumable.Fuel;
  * Time: 8:39 PM
  */
 public enum ConsumableConfig {
-    CRUDE_OIL("crude_oil"),
-    FUEL("fuel");
+    CRUDE_OIL("Crude Oil"),
+    FUEL("Fuel");
 
     private String name;
 
@@ -34,10 +34,27 @@ public enum ConsumableConfig {
         return instance;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public Consumable factory() {
+        Consumable consumable;
+        if (this.equals(ConsumableConfig.CRUDE_OIL)) {
+            consumable = new CrudeOil();
+        } else if (this.equals(ConsumableConfig.FUEL)) {
+            consumable = new Fuel();
+        } else {
+            consumable = null;
+        }
+        return consumable;
+    }
+
     @Override
     public String toString() {
         return "ConsumableConfig{" +
                 "name='" + name + '\'' +
                 '}';
     }
+
 }

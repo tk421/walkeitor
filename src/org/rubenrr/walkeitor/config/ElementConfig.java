@@ -157,7 +157,7 @@ public enum ElementConfig {
         return production.getConsumableProduce();
     }
 
-    public int getTimeElapsed() {
+    public float getTimeElapsed() {
         return production.getTimeElapsed();
     }
 

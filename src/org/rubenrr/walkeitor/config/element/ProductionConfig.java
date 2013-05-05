@@ -7,7 +7,7 @@ package org.rubenrr.walkeitor.config.element;
  */
 public enum ProductionConfig {
 
-    MINE_OIL("Production Mine Oil", null, ConsumableConfig.CRUDE_OIL, 12f, 0, 1f, 1),
+    MINE_OIL("Production Mine Oil", null, ConsumableConfig.CRUDE_OIL, 1f, 0, 1f, 1),
     REFINERY_OIL("Refinery Crude Oil to Fuel", ConsumableConfig.CRUDE_OIL, ConsumableConfig.FUEL, 30f, 3f, 1f, 7);
 
     // Internal code name
@@ -61,7 +61,7 @@ public enum ProductionConfig {
         return consumableProduce;
     }
 
-    public int getTimeElapsed() {
+    public float getTimeElapsed() {
         return timeElapsed;
     }
 
