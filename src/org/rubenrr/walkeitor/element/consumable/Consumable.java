@@ -8,7 +8,7 @@ import org.rubenrr.walkeitor.config.element.ConsumableConfig;
  * Date: 30/04/13
  * Time: 8:14 PM
  */
-public abstract class Consumable implements Comparable {
+public abstract class Consumable {
 
     private float value;
     protected ConsumableConfig consumableConfig;

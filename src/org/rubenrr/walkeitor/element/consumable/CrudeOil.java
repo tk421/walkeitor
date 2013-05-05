@@ -37,8 +37,4 @@ public class CrudeOil extends Consumable {
         return consumableConfig != null ? consumableConfig.hashCode() : 0;
     }
 
-    @Override
-    public int compareTo(Object another) {
-        return 0;
-    }
 }
