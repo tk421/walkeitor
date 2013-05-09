@@ -27,7 +27,7 @@ public class TextureRegionManager extends HashMap<String, TextureRegion> {
 
     public static TextureRegionManager getInstance() {
         if (instance == null) {
-            synchronized(SceneManager .class) {
+            synchronized(TextureRegionManager .class) {
                 if (instance == null) {
                     instance = new TextureRegionManager();
                 }
