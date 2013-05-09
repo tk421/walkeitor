@@ -54,7 +54,11 @@ public class SceneManager {
 
     public static SceneManager getInstance() {
         if (instance == null) {
-            instance = new SceneManager();
+            synchronized(SceneManager .class) {
+                if (instance == null) {
+                    instance = new SceneManager();
+                }
+            }
         }
         return instance;
     }

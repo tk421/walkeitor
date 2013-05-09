@@ -21,7 +21,11 @@ public class FontLoadManager extends HashMap<String, Font> {
 
     public static FontLoadManager getInstance() {
         if (instance == null) {
-            instance = new FontLoadManager();
+            synchronized(FontLoadManager.class) {
+                if (instance == null) {
+                    instance = new FontLoadManager();
+                }
+            }
         }
         return instance;
     }
