@@ -38,10 +38,18 @@ public abstract class Consumable {
         }
     }
 
+    /**
+     * Get the size that this consumable occupies
+     * @return
+     */
+    public int getSize() {
+        return this.getRoundAmount() * this.getConsumableConfig().getSize();
+    }
+
     public String getAmountToString() {
         int value = this.getRoundAmount();
         String valueString;
-        if ( value <= 1000000 ) {
+        if ( value >= 10000000 ) {
             valueString = "999M";
         } else if ( value > 1000000 ) {
             valueString = String.valueOf(Math.round(value/1000000 - 0.5)) + 'M';
@@ -58,7 +66,7 @@ public abstract class Consumable {
         this.value = this.value + value;
     }
 
-    public boolean removeAmount(float value) throws Exception {
+    public boolean removeAmount(float value){
         float newValue = this.value - value;
         boolean success = true;
         if ( newValue < 0) {
@@ -80,5 +88,12 @@ public abstract class Consumable {
 
     public ConsumableConfig getConsumableConfig() {
         return consumableConfig;
+    }
+
+    @Override
+    public String toString() {
+        return "Consumable{" +
+                "value=" + value +
+                '}';
     }
 }

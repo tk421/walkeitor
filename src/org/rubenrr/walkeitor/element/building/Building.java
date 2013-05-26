@@ -6,16 +6,15 @@ import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.element.storage.Storage;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
 import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
+import org.rubenrr.walkeitor.production.ProductionStrategy;
 import org.rubenrr.walkeitor.util.TileLocatable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * User: Ruben Rubio Rey
@@ -25,24 +24,29 @@ import java.util.List;
 public abstract class Building extends Sprite implements MenuExtendable, TileLocatable {
 
     private MenuStrategy menu;
+    private ProductionStrategy production;
     private ElementConfig elementConfig;
     private StatusConfig statusConfig;
+    private Storage storage; // all buildings can store something
     TMXTile tmxTile;
 
     public Building(float pX, float pY, ElementConfig elementConfig, StatusConfig statusConfig) {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
         this.elementConfig = elementConfig;
         this.statusConfig = statusConfig;
+        this.storage = elementConfig.getStorage();
+        this.production = elementConfig.getProductionStrategy(this.storage);
 
         SceneManager.getInstance().attachChild(this);
 
-        // if building is none it is ready. We have to register it
+        // if building status is none it is ready. We have to register it
         // in the game manager
-        if (this.getStatusConfig().isNone()) {
+        if (this.getStatusConfig().isReady()) {
             this.registerBuilding();
         }
         this.setTiledPosition();
     }
+
 
     // registers the building at game manager
     private void registerBuilding() {
@@ -80,7 +84,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
     @Override
     public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 
-        if (this.getStatusConfig().isNone()) {
+        if (this.getStatusConfig().isReady()) {
             switch (pSceneTouchEvent.getAction()) {
                 case TouchEvent.ACTION_DOWN:
                     this.menu.display();
@@ -133,6 +137,11 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.menu = menu;
     }
 
+    protected void setProduction(ProductionStrategy production) {
+        production.setStorage(this.storage);
+        this.production = production;
+    }
+
     protected StatusConfig getStatusConfig() {
         return statusConfig;
     }
@@ -151,7 +160,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
     }
 
     public void constructionFinish() {
-        this.setStatusConfig(StatusConfig.NONE);
+        this.setStatusConfig(StatusConfig.READY);
         this.registerBuilding();
         this.setAlpha(1f);
         this.setZIndex(0);
@@ -160,10 +169,17 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         OccupiedTiles occupiedTiles = new OccupiedTiles();
         occupiedTiles.clearAll();
 
+        //start production
+        this.production.startProduction();
+
     }
 
     public ElementConfig getElementConfig() {
         return this.elementConfig;
+    }
+
+    public void startProduction() {
+        this.production.startProduction();
     }
 
 

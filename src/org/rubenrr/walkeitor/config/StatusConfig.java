@@ -12,7 +12,7 @@ package org.rubenrr.walkeitor.config;
  */
 public enum StatusConfig {
 
-    NONE("None"),
+    READY("Ready"),
     UNIT_SELECTED("Unit Selected"),
     SET_LOCATION("Location is being set for this object");
 
@@ -31,8 +31,8 @@ public enum StatusConfig {
         return (this.equals(StatusConfig.SET_LOCATION));
     }
 
-    public Boolean isNone() {
-        return (this.equals(StatusConfig.NONE));
+    public Boolean isReady() {
+        return (this.equals(StatusConfig.READY));
     }
 
     public Boolean isUnitSelected() {

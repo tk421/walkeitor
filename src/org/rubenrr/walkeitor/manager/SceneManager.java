@@ -211,7 +211,15 @@ public class SceneManager {
     }
 
     public void registerUpdateHandler(TimerHandler timeHandler) {
+        Log.d("SceneManager/Production", "Registering timehandler " + timeHandler.toString());
         this.scene.registerUpdateHandler(timeHandler);
+    }
+
+    public void unregisterUpdateHandler(TimerHandler timeHandler) {
+        if ( !this.scene.unregisterUpdateHandler(timeHandler) ) {
+            Log.w("SceneManager/Production", "Unregistring timehandler failed " + timeHandler.toString());
+        }
+
     }
 
     public HUDManager getHUD() {

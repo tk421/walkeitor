@@ -1,5 +1,6 @@
 package org.rubenrr.walkeitor.manager.action;
 
+import android.util.Log;
 import org.andengine.engine.Engine;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.extension.tmx.TMXTile;
@@ -33,7 +34,12 @@ public class BackgroundTile {
         //tileRectangle.setColor(0,0.5f,0, 0.2f);
         tileRectangle.setColor( red, green, blue, alpha );
         SceneManager.getInstance().getScene().attachChild(tileRectangle);
-        final TMXTile tmxTile =  SceneManager.getInstance().getTmxLayer().getTMXTile(column, row);
+        TMXTile tmxTile = null;
+        //try {
+            tmxTile =  SceneManager.getInstance().getTmxLayer().getTMXTile(column, row);
+        //} catch ( ArrayIndexOutOfBoundsException e ) {
+        //    Log.w("setTileBackground", "Out of bound exeception", e);
+        //}
         if(tmxTile != null) {
             tileRectangle.setPosition(tmxTile.getTileX(), tmxTile.getTileY());
             this.tileRectangles.add(tileRectangle);

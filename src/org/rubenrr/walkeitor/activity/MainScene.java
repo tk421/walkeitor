@@ -20,22 +20,6 @@ import org.rubenrr.walkeitor.manager.SceneManager;
  * Time: 4:20 PM
  */
 
-
-/*
-Backlog:
-  - Create a resource type resource type loading from the MainScene - DONE 06/04/2013
-  - Refactor to generalize - DONE 06/04/2013
-  - Use enum instead strings - DONE 07/04/2013
-  - Make the Person walk to move to the Oil Resource  - DONE 14/04/2013
-  - Construct an Oil mine - DONE - 27/04/2013
-  - Construct an Oil Refinery - DONE - 27/04/2013
-  - Construct an Tank Factory  - DONE - 28/04/2013
-  - Construct Tanks - DONE - 28/04/2013
-  - Manage resources in GameManager
-  - Apply customized speed when moving units
-  - Apply resources usage when moving units
-  - Create the Task manager (Movement, Transport, Building)
-*/
 public class MainScene extends TiledPinchZoomBaseActivity {
 
     @Override
@@ -62,7 +46,7 @@ public class MainScene extends TiledPinchZoomBaseActivity {
         SceneManager.getInstance().setVertexBufferObjectManager(this.getVertexBufferObjectManager());
         SceneManager.getInstance().setTmxLayer(this.getTmxLayer());
         SceneManager.getInstance().setTmxTiledMap(this.getTmxTiledMap());
-        new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY, StatusConfig.NONE);
+        new City(this.getCameraWidth() / 2, this.getCameraHeight() / 2, ElementConfig.BUILDING_CITY, StatusConfig.READY);
         new Ore(100, 100, ElementConfig.RESOURCE_OIL);
         return scene;
     }

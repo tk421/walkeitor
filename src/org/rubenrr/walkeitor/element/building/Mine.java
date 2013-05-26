@@ -12,7 +12,7 @@ import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.action.Buildable;
 import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
-import org.rubenrr.walkeitor.manager.action.building.CanProduce;
+import org.rubenrr.walkeitor.production.ProductionStrategy;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
 import java.util.List;
@@ -26,11 +26,13 @@ import java.util.List;
  *
  */
 
-public class Mine extends Building implements Buildable, CanProduce {
+public class Mine extends Building implements Buildable {
 
-    private ConsumableConfig requiredConsumable;
-    private ConsumableConfig producedConsumable;
-    private CrudeOil storedCrudeOil = new CrudeOil(0f);
+
+
+    private TimerHandler productionTimeHandler;
+
+    // TODO Mines need to have limited capacity
 
     // resource where the mine is extracting from
     private Resource resource;
@@ -39,8 +41,6 @@ public class Mine extends Building implements Buildable, CanProduce {
         super(pX, pY, elementConfig, statusConfig);
         SceneManager.getInstance().getScene().registerTouchArea(this);
         this.setMenu(elementConfig.getMenuStrategy(), this);
-        this.requiredConsumable = elementConfig.getConsumableRequire();
-        this.producedConsumable = elementConfig.getConsumableProduce();
 
         // if is setLocation we can get ready to locate the building
         // in the map
@@ -49,48 +49,6 @@ public class Mine extends Building implements Buildable, CanProduce {
             this.setDragAndDropLocation();
         }
 
-
-    }
-
-    /**
-     * Get the timehandler related that will make the production happen
-     *
-     * @return
-     */
-    public TimerHandler getProduction() {
-        float interval = this.getElementConfig().getTimeElapsed();
-        TimerHandler timeProduction =  new TimerHandler(interval, true, new ITimerCallback() {
-            @Override
-            public void onTimePassed(final TimerHandler pTimerHandler) {
-                Mine.this.generateProduction();
-            }
-        });
-        return timeProduction;
-    }
-
-
-    /**
-     * Generate the production.
-     *
-     * It should check if we have everything needed (power, requiredConsumables, etc)
-     */
-    public void generateProduction() {
-
-        CrudeOil crudeOilProduced = new CrudeOil(this.getElementConfig().getConsumableProducedUnit());
-
-        Log.d("Mine/HUD", "Generating Production " + crudeOilProduced.getAmountToString());
-
-        // TODO remove the Consumables from the resource
-
-        // make it available to the user
-        // TODO store in the Default Mine Warehouse
-        this.storedCrudeOil.addAmount(crudeOilProduced.getAmount());
-
-        // (testing) Notify the HUD
-        SceneManager.getInstance().getHUD().updateConsumable(crudeOilProduced);
-
-        // Notify eveyone that is interested
-        //this.notifyCreateUtilizeObservers(crudeOilProduced);
 
     }
 
@@ -124,7 +82,7 @@ public class Mine extends Building implements Buildable, CanProduce {
         this.resource = GameManager.getInstance().getResourceColidesWithMine(this, this.getElementConfig().getDependence());
         Log.d("Mine", "Mine depends on resource: " + this.resource);
 
-        SceneManager.getInstance().registerUpdateHandler(this.getProduction());
+        //this.startProduction();
         super.constructionFinish();
     }
 

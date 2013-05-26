@@ -2,6 +2,7 @@ package org.rubenrr.walkeitor.config;
 
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
 import org.rubenrr.walkeitor.config.element.ProductionConfig;
+import org.rubenrr.walkeitor.element.storage.Storage;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.menu.NoMenu;
 import org.rubenrr.walkeitor.menu.building.CityMenu;
@@ -9,9 +10,9 @@ import org.rubenrr.walkeitor.menu.building.OilMineMenu;
 import org.rubenrr.walkeitor.menu.building.OilRefineryMenu;
 import org.rubenrr.walkeitor.menu.building.TankFactoryMenu;
 import org.rubenrr.walkeitor.menu.person.WorkerMenu;
-
-import java.util.Arrays;
-import java.util.List;
+import org.rubenrr.walkeitor.production.NoProduction;
+import org.rubenrr.walkeitor.production.ProductionStrategy;
+import org.rubenrr.walkeitor.production.building.OilMineProduction;
 
 /**
  * Configuration elements for the units displayed.
@@ -22,13 +23,13 @@ import java.util.List;
  */
 public enum ElementConfig {
 
-    BUILDING_CITY ("building_city", "building", "city", "", "gfx/building/city/normal_city.png", 3, 3),
-    UNIT_WORKER ("unit_worker", "unit", "person", "worker", "gfx/unit/person/normal_worker.png", 1, 1),
-    RESOURCE_OIL ("resource_oil", "resource", "ore", "oil", "gfx/resource/ore/normal_oil.png", 2, 2),
-    MINE_OIL ("mine_oil", "building", "mine", "oil", "gfx/building/mine/normal_oil.png", 2, 2, RESOURCE_OIL, ProductionConfig.MINE_OIL),
-    REFINERY_OIL ("refinery_oil", "building", "refinery", "oil", "gfx/building/refinery/normal_oil.png", 2, 2, ProductionConfig.REFINERY_OIL),
-    FACTORY_TANK ("factory_tank", "building", "factory", "tank", "gfx/building/factory/normal_tank.png", 2, 2),
-    UNIT_TANK ("unit_tank", "unit", "vehicle", "tank", "gfx/unit/vehicle/normalTank.png", 1, 1);
+    BUILDING_CITY ("building_city", "building", "city", "", "gfx/building/city/normal_city.png", 3, 3, 5000),
+    UNIT_WORKER ("unit_worker", "unit", "person", "worker", "gfx/unit/person/normal_worker.png", 1, 1, 100),
+    RESOURCE_OIL ("resource_oil", "resource", "ore", "oil", "gfx/resource/ore/normal_oil.png", 2, 2, 100000),
+    MINE_OIL ("mine_oil", "building", "mine", "oil", "gfx/building/mine/normal_oil.png", 2, 2, 500, RESOURCE_OIL, ProductionConfig.MINE_OIL),
+    REFINERY_OIL ("refinery_oil", "building", "refinery", "oil", "gfx/building/refinery/normal_oil.png", 2, 2, 1000, ProductionConfig.REFINERY_OIL),
+    FACTORY_TANK ("factory_tank", "building", "factory", "tank", "gfx/building/factory/normal_tank.png", 2, 2, 50000),
+    UNIT_TANK ("unit_tank", "unit", "vehicle", "tank", "gfx/unit/vehicle/normalTank.png", 1, 1, 60);
 
 
     private final String name;
@@ -38,8 +39,9 @@ public enum ElementConfig {
     private final String spriteNormalPath;
     private final int tileSizeColumn;
     private final int tileSizeRow;
+    private final int storageSize;
     private final ElementConfig dependence;
-    private final ProductionConfig production;
+    private final ProductionConfig productionConfig;
 
 
 
@@ -58,7 +60,9 @@ public enum ElementConfig {
      * @param dependence If this object can just be built in a specific Element type, dependency is specified here
      *
      */
-    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow, ElementConfig dependence, ProductionConfig production) {
+    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath,
+                            int tileSizeColumn, int tileSizeRow, int storageSize, ElementConfig dependence,
+                            ProductionConfig productionConfig) {
         this.name = name;
         this.category = category;
         this.type = type;
@@ -66,23 +70,25 @@ public enum ElementConfig {
         this.spriteNormalPath = spriteNormalPath;
         this.tileSizeColumn = tileSizeColumn;
         this.tileSizeRow = tileSizeRow;
+        this.storageSize = storageSize;
         this.dependence = dependence;
-        this.menuStrategy = this.menuFactory(name);
-        this.production = production;
+        this.menuStrategy = this.menuFactory();
+        this.productionConfig = productionConfig;
+
 
     }
 
-    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow) {
-        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, null, null);
+    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow,
+                          int storageSize) {
+        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, storageSize, null, null);
     }
 
-    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow, ProductionConfig production) {
-        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, null, production);
+    private ElementConfig(String name, String category, String type, String subtype, String spriteNormalPath, int tileSizeColumn, int tileSizeRow,
+                          int storageSize, ProductionConfig productionConfig) {
+        this(name, category, type, subtype, spriteNormalPath, tileSizeColumn, tileSizeRow, storageSize, null, productionConfig);
     }
 
-
-
-    private MenuStrategy menuFactory(String name) {
+    private MenuStrategy menuFactory() {
 
         MenuStrategy menuStrategy;
 
@@ -106,6 +112,22 @@ public enum ElementConfig {
         }
 
         return menuStrategy;
+    }
+
+    /**
+     * @param storage the storage directly related with this production
+     * @return
+     */
+    private ProductionStrategy productionFactory(Storage storage) {
+
+        ProductionStrategy productionStrategy;
+
+        if (this.name.equals("mine_oil")) {
+            productionStrategy = new OilMineProduction(storage);
+        } else {
+            productionStrategy = new NoProduction(storage);
+        }
+        return productionStrategy;
     }
 
     @Override
@@ -150,26 +172,40 @@ public enum ElementConfig {
     }
 
     public ConsumableConfig getConsumableRequire() {
-        return production.getConsumableRequire();
+        return productionConfig.getConsumableRequire();
     }
 
     public ConsumableConfig getConsumableProduce() {
-        return production.getConsumableProduce();
+        return productionConfig.getConsumableProduce();
     }
 
     public float getTimeElapsed() {
-        return production.getTimeElapsed();
+        return productionConfig.getTimeElapsed();
     }
 
     public float getConsumableProducedUnit() {
-        return production.getConsumableProducedUnit();
+        return productionConfig.getConsumableProducedUnit();
     }
 
     public int getEnergyNeededKwh() {
-        return production.getEnergyNeededKwh();
+        return productionConfig.getEnergyNeededKwh();
     }
 
     public float getConsumableRequiredUnit() {
-        return production.getConsumableRequiredUnit();
+        return productionConfig.getConsumableRequiredUnit();
+    }
+
+    public Storage getStorage() {
+        return new Storage(this.storageSize);
+    }
+
+    /**
+     * Get the production strategy related with the selected storage
+     *
+     * @param storage
+     * @return
+     */
+    public ProductionStrategy getProductionStrategy(Storage storage) {
+        return this.productionFactory(storage);
     }
 }

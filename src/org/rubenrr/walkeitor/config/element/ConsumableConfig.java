@@ -11,13 +11,17 @@ import org.rubenrr.walkeitor.element.consumable.Fuel;
  * Time: 8:39 PM
  */
 public enum ConsumableConfig {
-    CRUDE_OIL("Crude Oil"),
-    FUEL("Fuel");
+    CRUDE_OIL("Crude Oil", 1),
+    FUEL("Fuel", 1);
 
     private String name;
 
-    private ConsumableConfig(String name) {
+    // marks the size that 1 unit of this Consumable occupies
+    private int size;
+
+    private ConsumableConfig(String name, int size) {
         this.name = name;
+        this.size = size;
     }
 
     public Consumable createInstance() {
@@ -36,6 +40,10 @@ public enum ConsumableConfig {
 
     public String getName() {
         return name;
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public Consumable factory() {

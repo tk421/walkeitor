@@ -44,7 +44,7 @@ public class GameManager {
     }
 
     // Current scene status in the game
-    private StatusConfig status = StatusConfig.NONE;
+    private StatusConfig status = StatusConfig.READY;
 
     // get the information about the elements that exists in the scene
     // exclude elements that are not constructed / built
