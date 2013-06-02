@@ -12,3 +12,7 @@ Backlog:
   - Apply resources usage when moving units
   - Create the Task manager (Movement, Transport, Building)
   - Manage resources in GameManager
+  - Move units to constant speed
+
+Bugs:
+  - Bug when building clicking on the left of refinery after building a refinery

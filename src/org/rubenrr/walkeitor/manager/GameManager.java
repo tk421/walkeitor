@@ -247,7 +247,7 @@ public class GameManager {
 
     private void moveUnitsToCoordinates(List<Unit> units, List<TileLocatable> obstacles, float posX, float posY, AStarPathModifier.IAStarPathModifierListener pathModifierListener) {
         final int[] tileDimensions = TileConfig.TILE_SIZE.getTileDimensions();
-        for (Unit unit : unitsSelected ) {
+        for (Unit unit : units ) {
             unit.clearMenu();
             Path path = Movement.generatePath(unit, obstacles, posX,  posY);
             if (path != null ) { // TODO Better of to be handled with exceptions ?
@@ -270,10 +270,11 @@ public class GameManager {
     }
 
     public void moveTo(final Unit unit, final TileLocatable tileLocatable, final AStarPathModifier.IAStarPathModifierListener pathModifierListener) {
-        final float x = tileLocatable.getTileColumn() * tileLocatable.getColumnTileSize();
-        final float y = tileLocatable.getTileRow() * tileLocatable.getRowTileSize();
-        Log.d("MoveTo", "Requested to unit " + unit.toString() + "to move to (" + x + "," + y + ")");
-        // TODO THIS DOES NOT WORK, COMMAND IS EXECUTED BUT UNIT IS NOT MOVED. LOOKING FOR THE ISSUE
+        final float x = tileLocatable.getTileColumn() * TileConfig.TILE_SIZE.getTileWidth();
+        final float y = tileLocatable.getTileRow() * TileConfig.TILE_SIZE.getTileHeight();
+        // TODO this does not work as destination tile will be occupied by a building
+        // TODO Need to tune movement algorithm to get as close as possible to a location
+        // TODO if the location is unable to generate a path
         this.moveUnitToCoordinates(unit, this.getObstacles(), x, y, pathModifierListener);
     }
 

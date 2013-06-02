@@ -25,7 +25,7 @@ public class MoveToPrimitiveCommand extends PrimitiveCommandBase {
 
     @Override
     public void execute() {
-        Log.e("MoveToPrimitiveCommand", "Executing command to move unit to");
+        Log.d("MoveToPrimitiveCommand", "Executing command to move unit");
         GameManager.getInstance().moveTo(this.getUnit(), this.destination, this.getPathListeners());
     }
 }
