@@ -15,10 +15,37 @@ import org.rubenrr.walkeitor.manager.SceneManager;
 public abstract class ProductionBase implements ProductionStrategy {
 
     private Storage storage;
+    private float timeElapsed; // every time this production will be triggered
+    private TimerHandler productionTimeHandler;
 
-    public ProductionBase (Storage storage) {
+    public ProductionBase (Storage storage, float timeElapsed) {
         this.storage = storage;
+        this.timeElapsed = timeElapsed;
     }
+
+    /**
+     * Marks how often the production will happen
+     * based in the configuration.
+     *
+     * Every time we are able to generate a production the method
+     * generateProduction() will be called.
+     *
+     * @return
+     */
+    private TimerHandler getProductionHandler () {
+        if (this.productionTimeHandler == null ) {
+            float interval = this.timeElapsed;
+            this.productionTimeHandler = new TimerHandler(interval, true, new ITimerCallback() {
+                @Override
+                public void onTimePassed(final TimerHandler pTimerHandler) {
+                    ProductionBase.this.generateProduction();
+                }
+            });
+        }
+        return this.productionTimeHandler;
+    }
+
+    abstract public void generateProduction();
 
     /**
      * What to do after the production is generated

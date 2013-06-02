@@ -10,11 +10,14 @@ import org.rubenrr.walkeitor.element.storage.Storage;
  */
 public interface ProductionStrategy {
 
-    // created the timeHandler that will be used interval the product generation if everything that is needed
-    // is available
-    TimerHandler getProductionHandler();
-
-    // checks that everything needed to generate the Consumables are available and reduces such quantities
+    /**
+     * This is the method which is executed every time we can make a production
+     *  - checks if we have everything we need to generate a production
+     *  - removes the consumables needed to make the production
+     *  - stores the new produces consumables
+     *  - if the consumables needed are not in the storage, triggers the search for those consumables.
+     *
+     */
     void generateProduction();
 
     // starts the production process

@@ -10,14 +10,8 @@ import org.rubenrr.walkeitor.element.storage.Storage;
  */
 public class NoProduction extends ProductionBase {
 
-    public NoProduction(Storage storage) {
-        super(storage);
-    }
-
-    @Override
-    public TimerHandler getProductionHandler() {
-        // Empty
-        return null;
+    public NoProduction() {
+        super(new Storage(0), 0);
     }
 
     @Override

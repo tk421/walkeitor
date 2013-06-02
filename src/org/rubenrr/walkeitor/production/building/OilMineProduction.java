@@ -23,26 +23,12 @@ public class OilMineProduction extends ProductionBase {
     // TODO started default to 50.000 units
     private CrudeOil availableCrudeOil = new CrudeOil(50000);
 
-    public OilMineProduction(Storage storage) {
-        super(storage);
-    }
-
-    @Override
-    public TimerHandler getProductionHandler () {
-        if (this.productionTimeHandler == null ) {
-            float interval = ElementConfig.MINE_OIL.getTimeElapsed();
-            this.productionTimeHandler = new TimerHandler(interval, true, new ITimerCallback() {
-                @Override
-                public void onTimePassed(final TimerHandler pTimerHandler) {
-                    OilMineProduction.this.generateProduction();
-                }
-            });
-        }
-        return this.productionTimeHandler;
+    public OilMineProduction(Storage storage, float timeElapsed) {
+        super(storage, timeElapsed);
     }
 
     /**
-     * Generate the production.
+     * Generate the production, if we have everything that we need in order to do so.
      *
      * It should check if we have everything needed (power, requiredConsumables, etc)
      */
@@ -75,7 +61,7 @@ public class OilMineProduction extends ProductionBase {
                 this.stopProduction();
             }
         } else {
-            Log.d("Mine/Production", "Not enough production in the mine. Stopping production. : " + this.availableCrudeOil.getAmount());
+            Log.d("Mine/Production", "Not enough resources in the mine. Stopping production. : " + this.availableCrudeOil.getAmount());
             this.stopProduction();
         }
 

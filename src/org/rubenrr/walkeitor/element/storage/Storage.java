@@ -26,9 +26,6 @@ public class Storage implements ConsumableUpdatable {
     private Map<ConsumableConfig, Consumable> consumables = new HashMap<ConsumableConfig, Consumable>();
 
     public Storage(int size) {
-        if (size <= 0) {
-            throw new IllegalArgumentException("An storage should have the capability to store. (size cannot be 0)");
-        }
         this.size = size;
     }
 

@@ -1,5 +1,6 @@
 package org.rubenrr.walkeitor.config;
 
+import android.util.Log;
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
 import org.rubenrr.walkeitor.config.element.ProductionConfig;
 import org.rubenrr.walkeitor.element.storage.Storage;
@@ -123,9 +124,11 @@ public enum ElementConfig {
         ProductionStrategy productionStrategy;
 
         if (this.name.equals("mine_oil")) {
-            productionStrategy = new OilMineProduction(storage);
+            Log.d("ElementConfig/Production", "Generating product strategy for " + this.name + " which production is "
+                    + this.productionConfig.toString() + "  and timeElapsed is " + this.getTimeElapsed());
+            productionStrategy = new OilMineProduction(storage, this.getTimeElapsed());
         } else {
-            productionStrategy = new NoProduction(storage);
+            productionStrategy = new NoProduction();
         }
         return productionStrategy;
     }
@@ -195,12 +198,20 @@ public enum ElementConfig {
         return productionConfig.getConsumableRequiredUnit();
     }
 
+    /**
+     * Generate storage capabilities.
+     * We have to create a new Storage every time
+     * this mdule is called.
+     *
+     * @return
+     */
     public Storage getStorage() {
         return new Storage(this.storageSize);
     }
 
     /**
      * Get the production strategy related with the selected storage
+     * We have to create a new Production Strategy every time this is called
      *
      * @param storage
      * @return

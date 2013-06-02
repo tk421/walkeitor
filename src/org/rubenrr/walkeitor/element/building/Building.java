@@ -137,11 +137,6 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.menu = menu;
     }
 
-    protected void setProduction(ProductionStrategy production) {
-        production.setStorage(this.storage);
-        this.production = production;
-    }
-
     protected StatusConfig getStatusConfig() {
         return statusConfig;
     }
@@ -170,7 +165,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         occupiedTiles.clearAll();
 
         //start production
-        this.production.startProduction();
+        this.startProduction();
 
     }
 
