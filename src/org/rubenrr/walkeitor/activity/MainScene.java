@@ -2,13 +2,10 @@ package org.rubenrr.walkeitor.activity;
 
 import android.util.Log;
 import org.andengine.engine.camera.hud.HUD;
-import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
-import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
-import org.andengine.util.Constants;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 import org.rubenrr.walkeitor.element.building.City;
 import org.rubenrr.walkeitor.element.resource.Ore;
 import org.rubenrr.walkeitor.manager.GameManager;

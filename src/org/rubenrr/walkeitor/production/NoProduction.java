@@ -1,7 +1,6 @@
 package org.rubenrr.walkeitor.production;
 
-import org.andengine.engine.handler.timer.TimerHandler;
-import org.rubenrr.walkeitor.element.storage.Storage;
+import org.rubenrr.walkeitor.manager.util.Storage;
 
 /**
  * User: Ruben Rubio Rey

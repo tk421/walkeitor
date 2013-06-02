@@ -1,0 +1,13 @@
+I am implementing the ability to execute commands as
+"Move the consumable from building A to building B"
+
+Pointers:
+  - GameManager / public void moveTo(final Unit unit, final TileLocatable tileLocatable, final AStarPathModifier.IAStarPathModifierListener pathModifierListener)
+
+       Customized the PathModifierListener and used the Command pattern to execute the commands, but the unit is not moving at all in the screen.
+       I am not sure why. Needs debug.
+
+
+  - MoveToPrimitiveComamnd
+  - GameManager moveTo(Unit unit, int posX, int posY)
+  - Unit executeCommands

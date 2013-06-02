@@ -5,12 +5,12 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.element.storage.Storage;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
+import org.rubenrr.walkeitor.manager.util.Storage;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
-import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
+import org.rubenrr.walkeitor.manager.util.OccupiedTiles;
 import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.production.ProductionStrategy;
@@ -35,7 +35,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.elementConfig = elementConfig;
         this.statusConfig = statusConfig;
         this.storage = elementConfig.getStorage();
-        this.production = elementConfig.getProductionStrategy(this.storage);
+        this.production = elementConfig.getProductionStrategy(this, this.storage);
 
         SceneManager.getInstance().attachChild(this);
 
@@ -175,6 +175,10 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
 
     public void startProduction() {
         this.production.startProduction();
+    }
+
+    public Storage getStorage() {
+        return this.storage;
     }
 
 

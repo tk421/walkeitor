@@ -1,9 +1,8 @@
 package org.rubenrr.walkeitor.element.building;
 
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.menu.building.CityMenu;
 
 /**
  * User: Ruben Rubio Rey

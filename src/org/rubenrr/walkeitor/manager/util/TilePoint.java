@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.manager.action;
+package org.rubenrr.walkeitor.manager.util;
 
 /**
  * User: Ruben Rubio Rey

@@ -8,7 +8,6 @@ import org.andengine.engine.handler.timer.TimerHandler;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.entity.scene.Scene;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.entity.text.Text;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.extension.tmx.TMXTiledMap;
@@ -17,7 +16,7 @@ import org.andengine.opengl.texture.TextureManager;
 import org.andengine.opengl.vbo.VertexBufferObjectManager;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.FontConfig;
-import org.rubenrr.walkeitor.manager.action.BackgroundTile;
+import org.rubenrr.walkeitor.manager.util.BackgroundTile;
 import org.rubenrr.walkeitor.manager.scene.HUDManager;
 
 /**

@@ -1,13 +1,9 @@
 package org.rubenrr.walkeitor.production.building;
 
 import android.util.Log;
-import org.andengine.engine.handler.timer.ITimerCallback;
-import org.andengine.engine.handler.timer.TimerHandler;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.element.ConsumableConfig;
-import org.rubenrr.walkeitor.element.consumable.Consumable;
 import org.rubenrr.walkeitor.element.consumable.CrudeOil;
-import org.rubenrr.walkeitor.element.storage.Storage;
+import org.rubenrr.walkeitor.manager.util.Storage;
 import org.rubenrr.walkeitor.production.ProductionBase;
 
 /**
@@ -18,7 +14,6 @@ import org.rubenrr.walkeitor.production.ProductionBase;
 public class OilMineProduction extends ProductionBase {
 
 
-    private TimerHandler productionTimeHandler;
     // TODO get the size of the Consumables available in the Resource from some configuration.
     // TODO started default to 50.000 units
     private CrudeOil availableCrudeOil = new CrudeOil(50000);

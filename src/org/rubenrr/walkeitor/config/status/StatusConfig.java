@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.config;
+package org.rubenrr.walkeitor.config.status;
 
 /**
  * Define the status of the scene

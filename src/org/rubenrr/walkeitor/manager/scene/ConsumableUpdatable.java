@@ -11,5 +11,6 @@ import org.rubenrr.walkeitor.element.consumable.Consumable;
  * Time: 7:31 PM
  */
 public interface ConsumableUpdatable {
-    public boolean updateConsumable(Consumable consumable);
+    public boolean addConsumable(Consumable consumable);
+    public boolean removeConsumable(Consumable consumable);
 }

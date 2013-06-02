@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.element.storage;
+package org.rubenrr.walkeitor.manager.util;
 
 import android.util.Log;
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
@@ -37,7 +37,7 @@ public class Storage implements ConsumableUpdatable {
      *
      * @param consumableVariation
      */
-    public boolean updateConsumable( Consumable consumableVariation ) {
+    public boolean addConsumable(Consumable consumableVariation) {
 
         if (this.isFull()) {
             return false;
@@ -69,6 +69,11 @@ public class Storage implements ConsumableUpdatable {
         return success;
     }
 
+    @Override
+    public boolean removeConsumable(Consumable consumable) {
+        // TODO implement method
+        return false;
+    }
 
     /**
      * Check if this storage is full
@@ -76,7 +81,11 @@ public class Storage implements ConsumableUpdatable {
      * @return
      */
     private boolean isFull() {
-        boolean success = false;
+        int usedSize = this.getUsedSpace();
+        return (usedSize >= this.size);
+    }
+
+    private int getUsedSpace() {
         int usedSize = 0;
         Iterator it = this.consumables.entrySet().iterator();
         while (it.hasNext()) {
@@ -85,8 +94,12 @@ public class Storage implements ConsumableUpdatable {
             Consumable consumable = (Consumable)pairs.getValue();
             usedSize = usedSize + consumable.getSize();
         }
+        return usedSize;
+    }
 
-        return (usedSize >= this.size);
+    public int getAvailable() {
+        int usedSize = this.getUsedSpace();
+        return this.size - usedSize;
     }
 
     @Override
@@ -95,5 +108,20 @@ public class Storage implements ConsumableUpdatable {
                 "size=" + size +
                 ", consumables=" + consumables +
                 '}';
+    }
+
+    /**
+     * Return which percentage of consumable contains this storage
+     *
+     * @param consumableSearched
+     * @return
+     */
+    public int contains(Consumable consumableSearched) {
+        int percentage = 0;
+        Consumable consumableAvailable = this.consumables.get(consumableSearched.getConsumableConfig());
+        if ( consumableAvailable != null ) {
+            percentage = Math.round( consumableAvailable.getAmount() * 100 / consumableSearched.getAmount()  );
+        }
+        return percentage;
     }
 }

@@ -2,6 +2,7 @@ package org.rubenrr.walkeitor.element.unit;
 
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.config.status.UnitStatusConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 
@@ -16,7 +17,7 @@ import org.rubenrr.walkeitor.manager.SceneManager;
 public class Vehicle extends Unit {
 
     public Vehicle(float pX, float pY, ElementConfig elementConfig) {
-        super(pX, pY, elementConfig);
+        super(pX, pY, elementConfig, UnitStatusConfig.IDLE);
         SceneManager.getInstance().getScene().registerTouchArea(this);
         GameManager.getInstance().addUnit(this);
         this.setMenu(elementConfig.getMenuStrategy(), this);

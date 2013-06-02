@@ -36,7 +36,7 @@ public class HUDConsumableEntry implements ConsumableUpdatable {
     }
 
     @Override
-    public boolean updateConsumable(Consumable consumable) {
+    public boolean addConsumable(Consumable consumable) {
         boolean success = false;
         if( consumable.getConsumableConfig().equals(this.consumableConfig) ) {
             Log.d("HUDConsumableEntry/updateConsumable", "SAME consumableConfig");
@@ -47,6 +47,12 @@ public class HUDConsumableEntry implements ConsumableUpdatable {
             Log.d("HUDConsumableEntry/updateConsumable", "Different consumableConfig");
         }
         return success;
+    }
+
+    @Override
+    public boolean removeConsumable(Consumable consumable) {
+        //TODO implement method
+        return false;
     }
 
     private void updateHUDValue() {

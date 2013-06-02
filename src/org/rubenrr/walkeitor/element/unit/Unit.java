@@ -1,15 +1,26 @@
 package org.rubenrr.walkeitor.element.unit;
 
+import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
+import org.rubenrr.walkeitor.config.status.UnitStatusConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
+import org.rubenrr.walkeitor.manager.command.Command;
+import org.rubenrr.walkeitor.manager.command.Commandable;
+import org.rubenrr.walkeitor.manager.command.primitive.PrimitiveCommand;
 import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.util.TileLocatable;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * User: Ruben Rubio Rey
@@ -19,14 +30,19 @@ import org.rubenrr.walkeitor.util.TileLocatable;
  * Note: this cannot be abstract as I need to recognize the object at GameManager
  *
  */
-public abstract class Unit extends Sprite implements MenuExtendable, TileLocatable {
+public abstract class Unit extends Sprite implements MenuExtendable, TileLocatable, Commandable {
+
+    BlockingQueue<PrimitiveCommand> commandQueue;
 
     private ElementConfig elementConfig;
+    private UnitStatusConfig unitStatusConfig;
     private MenuStrategy menu;
     TMXTile tmxTile;
 
-    public Unit(float pX, float pY, ElementConfig elementConfig) {
+    public Unit(float pX, float pY, ElementConfig elementConfig, UnitStatusConfig unitStatusConfig) {
         super(pX, pY, TextureRegionManager.getInstance().get(elementConfig), SceneManager.getInstance().getVertexBufferObjectManager());
+        this.unitStatusConfig = unitStatusConfig;
+        this.commandQueue = new ArrayBlockingQueue<PrimitiveCommand>(100);
         this.elementConfig = elementConfig;
         GameManager.getInstance().addUnit(this);
         this.setTiledPosition();
@@ -93,5 +109,55 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
 
     public void clearMenu() {
         this.menu.clear();
+    }
+
+    public ElementConfig getElementConfig() {
+        return elementConfig;
+    }
+
+    public boolean setBusy() {
+        Boolean success = false;
+        if (this.unitStatusConfig.equals(UnitStatusConfig.IDLE)) {
+            this.unitStatusConfig = UnitStatusConfig.COMMAND_ON_PROGRESS;
+            success = true;
+        } else {
+            Log.e("Unit", "Trying to set Busy a unit that was Busy!");
+        }
+        return success;
+    }
+
+    public void addCommand(PrimitiveCommand command) {
+        this.commandQueue.add(command);
+    }
+
+    @Override
+    public void startExecuteCommands() {
+        this.setBusy();
+        this.executeCommand();
+    }
+
+    @Override
+    public void executeCommand() {
+        try {
+            if (this.commandQueue.size() > 0) {
+                PrimitiveCommand command = this.commandQueue.take();
+                command.execute();
+            } else {
+                Log.d("Unit/Command", "Command finished");
+            }
+
+        } catch (InterruptedException e) {
+            Log.e("Unit/Command", "Error while consuming the queue, cannot take next element" , e);
+        }
+    }
+
+    @Override
+    public void nextCommand() {
+        if (this.unitStatusConfig.equals(UnitStatusConfig.COMMAND_ON_PROGRESS)) {
+            this.executeCommand();
+        } else {
+            Log.e("Unit/Command", "Trying to execute a command in a unit that is not COMMAND_ON_PROGRESS!");
+        }
+
     }
 }

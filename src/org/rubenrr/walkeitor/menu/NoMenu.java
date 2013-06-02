@@ -1,7 +1,7 @@
 package org.rubenrr.walkeitor.menu;
 
 import org.andengine.input.touch.TouchEvent;
-import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 
 /**
  * NUll implementation for the sprite menu

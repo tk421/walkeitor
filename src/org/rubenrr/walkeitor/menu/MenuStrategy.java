@@ -1,9 +1,7 @@
 package org.rubenrr.walkeitor.menu;
 
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.input.touch.TouchEvent;
-import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 
 /**
  * User: Ruben Rubio Rey

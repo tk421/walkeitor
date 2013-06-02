@@ -8,7 +8,7 @@ package org.rubenrr.walkeitor.config.element;
 public enum ProductionConfig {
 
     MINE_OIL("Production Mine Oil", null, ConsumableConfig.CRUDE_OIL, 1f, 0, 1f, 1),
-    REFINERY_OIL("Refinery Crude Oil to Fuel", ConsumableConfig.CRUDE_OIL, ConsumableConfig.FUEL, 30f, 3f, 1f, 7);
+    REFINERY_OIL("Refinery Crude Oil to Fuel", ConsumableConfig.CRUDE_OIL, ConsumableConfig.FUEL, 10f, 3f, 1f, 7);
 
     // Internal code name
     private final String name;

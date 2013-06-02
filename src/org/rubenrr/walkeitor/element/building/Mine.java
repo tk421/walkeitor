@@ -1,18 +1,14 @@
 package org.rubenrr.walkeitor.element.building;
 
 import android.util.Log;
-import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
-import org.rubenrr.walkeitor.config.element.ConsumableConfig;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.element.consumable.CrudeOil;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 import org.rubenrr.walkeitor.element.resource.Resource;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.manager.action.Buildable;
-import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
-import org.rubenrr.walkeitor.production.ProductionStrategy;
+import org.rubenrr.walkeitor.manager.util.Buildable;
+import org.rubenrr.walkeitor.manager.util.OccupiedTiles;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
 import java.util.List;

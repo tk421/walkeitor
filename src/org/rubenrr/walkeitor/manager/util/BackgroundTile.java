@@ -1,10 +1,8 @@
-package org.rubenrr.walkeitor.manager.action;
+package org.rubenrr.walkeitor.manager.util;
 
-import android.util.Log;
 import org.andengine.engine.Engine;
 import org.andengine.entity.primitive.Rectangle;
 import org.andengine.extension.tmx.TMXTile;
-import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.SceneManager;
 
 import java.util.ArrayList;

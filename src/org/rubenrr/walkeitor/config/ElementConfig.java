@@ -3,7 +3,10 @@ package org.rubenrr.walkeitor.config;
 import android.util.Log;
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
 import org.rubenrr.walkeitor.config.element.ProductionConfig;
-import org.rubenrr.walkeitor.element.storage.Storage;
+import org.rubenrr.walkeitor.element.building.Building;
+import org.rubenrr.walkeitor.element.building.Refinery;
+import org.rubenrr.walkeitor.element.consumable.Consumable;
+import org.rubenrr.walkeitor.manager.util.Storage;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.menu.NoMenu;
 import org.rubenrr.walkeitor.menu.building.CityMenu;
@@ -14,6 +17,7 @@ import org.rubenrr.walkeitor.menu.person.WorkerMenu;
 import org.rubenrr.walkeitor.production.NoProduction;
 import org.rubenrr.walkeitor.production.ProductionStrategy;
 import org.rubenrr.walkeitor.production.building.OilMineProduction;
+import org.rubenrr.walkeitor.production.building.OilRefineryProduction;
 
 /**
  * Configuration elements for the units displayed.
@@ -119,7 +123,7 @@ public enum ElementConfig {
      * @param storage the storage directly related with this production
      * @return
      */
-    private ProductionStrategy productionFactory(Storage storage) {
+    private ProductionStrategy productionFactory(Building building, Storage storage) {
 
         ProductionStrategy productionStrategy;
 
@@ -127,6 +131,8 @@ public enum ElementConfig {
             Log.d("ElementConfig/Production", "Generating product strategy for " + this.name + " which production is "
                     + this.productionConfig.toString() + "  and timeElapsed is " + this.getTimeElapsed());
             productionStrategy = new OilMineProduction(storage, this.getTimeElapsed());
+        } else if (this.name.equals("refinery_oil")) {
+            productionStrategy = new OilRefineryProduction((Refinery)building, storage, this.getTimeElapsed());
         } else {
             productionStrategy = new NoProduction();
         }
@@ -174,8 +180,25 @@ public enum ElementConfig {
         return menuStrategy;
     }
 
-    public ConsumableConfig getConsumableRequire() {
-        return productionConfig.getConsumableRequire();
+    /**
+     * Generates the consumable that is required
+     * @return
+     */
+    public Consumable getConsumableRequired() {
+        Consumable consumableRequired = this.productionConfig.getConsumableRequire().factory();
+        consumableRequired.addAmount(this.productionConfig.getConsumableRequiredUnit());
+        return consumableRequired;
+    }
+
+    /**
+     * Generates the consumable that is produced
+     *
+     * @return
+     */
+    public Consumable getConsumableProduced() {
+        Consumable consumableProduced = this.productionConfig.getConsumableProduce().factory();
+        consumableProduced.addAmount(this.productionConfig.getConsumableProducedUnit());
+        return consumableProduced;
     }
 
     public ConsumableConfig getConsumableProduce() {
@@ -194,10 +217,6 @@ public enum ElementConfig {
         return productionConfig.getEnergyNeededKwh();
     }
 
-    public float getConsumableRequiredUnit() {
-        return productionConfig.getConsumableRequiredUnit();
-    }
-
     /**
      * Generate storage capabilities.
      * We have to create a new Storage every time
@@ -213,10 +232,12 @@ public enum ElementConfig {
      * Get the production strategy related with the selected storage
      * We have to create a new Production Strategy every time this is called
      *
+     * TODO not very convinced about Building here
+     *
      * @param storage
      * @return
      */
-    public ProductionStrategy getProductionStrategy(Storage storage) {
-        return this.productionFactory(storage);
+    public ProductionStrategy getProductionStrategy(Building building, Storage storage) {
+        return this.productionFactory(building, storage);
     }
 }

@@ -1,14 +1,10 @@
 package org.rubenrr.walkeitor.element.building;
 
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
-import org.rubenrr.walkeitor.manager.GameManager;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.manager.action.Buildable;
-import org.rubenrr.walkeitor.manager.action.OccupiedTiles;
-import org.rubenrr.walkeitor.util.TileLocatable;
-
-import java.util.List;
+import org.rubenrr.walkeitor.manager.util.Buildable;
+import org.rubenrr.walkeitor.manager.util.OccupiedTiles;
 
 /**
  * User: Ruben Rubio Rey

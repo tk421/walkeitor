@@ -62,6 +62,10 @@ public abstract class Consumable {
         return valueString;
     }
 
+    public void setAmount(float value) {
+        this.value = value;
+    }
+
     public void addAmount(float value) {
         this.value = this.value + value;
     }

@@ -1,8 +1,6 @@
-package org.rubenrr.walkeitor.manager.action;
+package org.rubenrr.walkeitor.manager.util;
 
 import android.util.Log;
-import org.andengine.entity.modifier.PathModifier;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.extension.tmx.TMXLayer;
 import org.andengine.extension.tmx.TMXTile;
 import org.andengine.util.algorithm.path.ICostFunction;
@@ -10,16 +8,10 @@ import org.andengine.util.algorithm.path.IPathFinderMap;
 import org.andengine.util.algorithm.path.Path;
 import org.andengine.util.algorithm.path.astar.AStarPathFinder;
 import org.andengine.util.algorithm.path.astar.EuclideanHeuristic;
-import org.andengine.util.algorithm.path.astar.IAStarHeuristic;
-import org.andengine.util.algorithm.path.astar.NullHeuristic;
-import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.element.unit.Unit;
-import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

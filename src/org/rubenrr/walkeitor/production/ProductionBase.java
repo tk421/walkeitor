@@ -2,9 +2,8 @@ package org.rubenrr.walkeitor.production;
 
 import org.andengine.engine.handler.timer.ITimerCallback;
 import org.andengine.engine.handler.timer.TimerHandler;
-import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.element.consumable.Consumable;
-import org.rubenrr.walkeitor.element.storage.Storage;
+import org.rubenrr.walkeitor.manager.util.Storage;
 import org.rubenrr.walkeitor.manager.SceneManager;
 
 /**
@@ -52,7 +51,7 @@ public abstract class ProductionBase implements ProductionStrategy {
      */
     protected void generateProduction(Consumable consumableProduced) {
         // Notify the HUD
-        SceneManager.getInstance().getHUD().updateConsumable(consumableProduced);
+        SceneManager.getInstance().getHUD().addConsumable(consumableProduced);
     }
 
     @Override
@@ -88,6 +87,6 @@ public abstract class ProductionBase implements ProductionStrategy {
      * @return
      */
     protected boolean updateConsumable( Consumable consumableVariation ) {
-        return this.storage.updateConsumable(consumableVariation);
+        return this.storage.addConsumable(consumableVariation);
     }
 }

@@ -1,9 +1,7 @@
-package org.rubenrr.walkeitor.manager.action;
+package org.rubenrr.walkeitor.manager.util;
 
 import android.util.Log;
-import org.andengine.entity.sprite.Sprite;
 import org.andengine.util.algorithm.path.IPathFinderMap;
-import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;

@@ -2,7 +2,7 @@ package org.rubenrr.walkeitor.menu.building;
 
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.ElementConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 import org.rubenrr.walkeitor.element.unit.Person;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.menu.MenuAction;

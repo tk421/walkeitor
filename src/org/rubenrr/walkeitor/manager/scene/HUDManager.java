@@ -2,18 +2,12 @@ package org.rubenrr.walkeitor.manager.scene;
 
 import android.util.Log;
 import org.andengine.engine.camera.hud.HUD;
-import org.andengine.entity.Entity;
-import org.andengine.entity.text.Text;
-import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
 import org.rubenrr.walkeitor.element.consumable.Consumable;
-import org.rubenrr.walkeitor.manager.FontLoadManager;
-import org.rubenrr.walkeitor.manager.SceneManager;
 
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.TreeMap;
 
 /**
  * THIS CLASS IS NOT GOOD!!!
@@ -56,7 +50,7 @@ public class HUDManager implements ConsumableUpdatable {
      *
      * @param consumableVariation
      */
-    public boolean updateConsumable(Consumable consumableVariation) {
+    public boolean addConsumable(Consumable consumableVariation) {
         boolean success = false;
         Log.d("HUDManager/updateConsumable", "New update");
         Iterator it = this.consumableEntries.entrySet().iterator();
@@ -64,7 +58,7 @@ public class HUDManager implements ConsumableUpdatable {
             Map.Entry pairs = (Map.Entry)it.next();
             ConsumableConfig consumableConfig = (ConsumableConfig)pairs.getKey();
             HUDConsumableEntry hudConsumableEntry = (HUDConsumableEntry)pairs.getValue();
-            if (hudConsumableEntry.updateConsumable(consumableVariation)) {
+            if (hudConsumableEntry.addConsumable(consumableVariation)) {
                 Log.d("HUDManager/updateConsumable", "UPDATE SUCCESSFUL!");
                 success = true;
                 break; // only one
@@ -73,4 +67,8 @@ public class HUDManager implements ConsumableUpdatable {
         return success;
     }
 
+    @Override
+    public boolean removeConsumable(Consumable consumable) {
+        return false;
+    }
 }

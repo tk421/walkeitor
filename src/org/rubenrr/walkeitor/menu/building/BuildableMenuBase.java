@@ -5,12 +5,12 @@ import org.andengine.entity.sprite.Sprite;
 import org.andengine.entity.text.Text;
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.FontConfig;
-import org.rubenrr.walkeitor.config.StatusConfig;
+import org.rubenrr.walkeitor.config.status.StatusConfig;
 import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
-import org.rubenrr.walkeitor.manager.action.Buildable;
+import org.rubenrr.walkeitor.manager.util.Buildable;
 import org.rubenrr.walkeitor.menu.MenuBase;
 
 /**
