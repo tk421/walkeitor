@@ -161,8 +161,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         this.setZIndex(0);
 
         // remove the green colour from the background
-        OccupiedTiles occupiedTiles = new OccupiedTiles();
-        occupiedTiles.clearAll();
+        OccupiedTiles.clearAll();
 
         //start production
         this.startProduction();

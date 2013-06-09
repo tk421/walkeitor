@@ -64,8 +64,8 @@ public class Mine extends Building implements Buildable {
         //TODO remove hardcoded text
         List<TileLocatable> resourceOil = GameManager.getInstance().getResourcesBySubtype("oil");
 
+        OccupiedTiles.clearAll();
         OccupiedTiles occupiedTiles = new OccupiedTiles();
-        occupiedTiles.clearAll();
         occupiedTiles.setOccupiedAllBuildings();
         occupiedTiles.setFree(resourceOil);
         return occupiedTiles;

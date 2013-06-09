@@ -7,6 +7,7 @@ Pointers:
         Need to modify the A* algorithm to be able to find a close location if the final location
         is occupied.
 
-  - MoveToPrimitiveComamnd
-  - GameManager moveTo(Unit unit, int posX, int posY)
-  - Unit executeCommands
+  - OccupiedTiles / getClosestFreeTile
+
+        If the tile I am trying to move is occupied getClosestFreeTile will give me the closest free tile
+        to my path.

@@ -41,8 +41,8 @@ public class Factory extends Building implements Buildable {
 
     private OccupiedTiles getBuildableTiles() {
 
+        OccupiedTiles.clearAll();
         OccupiedTiles occupiedTiles = new OccupiedTiles();
-        occupiedTiles.clearAll();
         occupiedTiles.setOccupiedAllBuildings();
         return occupiedTiles;
 

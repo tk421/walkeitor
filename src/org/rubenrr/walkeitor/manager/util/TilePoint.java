@@ -1,11 +1,13 @@
 package org.rubenrr.walkeitor.manager.util;
 
+import java.util.Comparator;
+
 /**
  * User: Ruben Rubio Rey
  * Date: 20/04/13
  * Time: 7:23 PM
  */
-public class TilePoint {
+public class TilePoint  {
     final private int column;
     final private int row;
 
@@ -20,6 +22,10 @@ public class TilePoint {
 
     public int getRow() {
         return row;
+    }
+
+    public int getEuclideanDistance( TilePoint point ) {
+        return Distance.getIntEuclidean(this, point);
     }
 
     @Override
@@ -40,5 +46,13 @@ public class TilePoint {
         int result = column;
         result = 31 * result + row;
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TilePoint{" +
+                "column=" + column +
+                ", row=" + row +
+                '}';
     }
 }

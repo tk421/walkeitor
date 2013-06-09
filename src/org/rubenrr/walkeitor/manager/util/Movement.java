@@ -37,28 +37,22 @@ public final class Movement {
     static public Path generatePath( final Unit unit, final List<TileLocatable> sprites, final float posX, final float posY) {
 
         // translate posX and poxY to Tiles
-        TMXTile destination = SceneManager.getInstance().getTile(posX, posY);
+        TMXTile intendedDestination = SceneManager.getInstance().getTile(posX, posY);
 
         //create objects needed for the AStar
         AStarPathFinder<TMXLayer> aStar = new AStarPathFinder<TMXLayer>();
         EuclideanHeuristic<TMXLayer> heuristic = new EuclideanHeuristic<TMXLayer>();
 
-        // blocking elements
-        //IPathFinderMap<TMXLayer> pathMap = new IPathFinderMap<TMXLayer>() {
-        //    @Override
-        //    public boolean isBlocked(int pX, int pY, TMXLayer pEntity) {
-        //    //Log.d("Movement/IPathFinderMap", "Input (" + pX + "," + pY + ") " + pEntity + ";");
-        //    return occupiedTiles.isTileOccupied(pX,pY);
-        //    //return false; // all free
-        //    }
-        //};
-
-        final OccupiedTiles occupiedTiles = new OccupiedTiles();
+        final OccupiedTiles occupiedTiles = new OccupiedTiles(sprites);
         // TODO This is definitely very weird
         // One solution might be to get it from Game Manager
         occupiedTiles.setOccupied(sprites);
         occupiedTiles.draw();
         IPathFinderMap<TMXLayer> pathMap = occupiedTiles;
+
+        // check if the destination tile is occupied.
+        TilePoint destination = Movement.findClosestFreeTile(unit, occupiedTiles, intendedDestination);
+
 
         ICostFunction<TMXLayer>  costCallback = new ICostFunction<TMXLayer>() {
             @Override
@@ -95,11 +89,11 @@ public final class Movement {
         Path path = aStar.findPath(pathMap, 0, 0,
                 SceneManager.getInstance().getTmxTiledMap().getTileColumns(), SceneManager.getInstance().getTmxTiledMap().getTileRows(),
                 SceneManager.getInstance().getTmxTiledMap().getTMXLayers().get(0),
-                unit.getTileColumn(), unit.getTileRow(), destination.getTileColumn(), destination.getTileRow(), true, heuristic, costCallback);
+                unit.getTileColumn(), unit.getTileRow(), destination.getColumn(), destination.getRow(), true, heuristic, costCallback);
 
         Log.d("Movement/generatePath", "Size (" + SceneManager.getInstance().getTmxTiledMap().getTileColumns() + "," + SceneManager.getInstance().getTmxTiledMap().getTileRows() + ")");
         Log.d("Movement/generatePath", "From (" + unit.getTileColumn() + "," + unit.getTileRow() + ")");
-        Log.d("Movement/generatePath", "To (" + destination.getTileColumn() + "," +  destination.getTileRow() + ")");
+        Log.d("Movement/generatePath", "To (" + destination.getColumn() + "," +  destination.getRow() + ")");
 
         //Log.d("Movement", "Path " + path.toString());
 
@@ -107,6 +101,30 @@ public final class Movement {
 
 
     }
+
+    /**
+     * Finds the closest free tile to a destination
+     *
+     * @param unit
+     * @param occupiedTiles
+     * @param originalDestination
+     * @return
+     */
+    static TilePoint findClosestFreeTile(final Unit unit, final OccupiedTiles occupiedTiles, TMXTile originalDestination) {
+        TilePoint finalDestination;
+        TilePoint origin = new TilePoint(unit.getTileColumn(), unit.getTileRow());
+        TilePoint destination = new TilePoint(originalDestination.getTileColumn(), originalDestination.getTileRow());
+
+
+        if ( occupiedTiles.isTileFree(destination) ) {
+            finalDestination = destination;
+        } else {
+            // get object that collides
+            finalDestination = occupiedTiles.getClosestFreeTile(origin, destination);
+        }
+        return finalDestination;
+    }
+
 
 
 }
