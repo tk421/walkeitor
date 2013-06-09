@@ -1,5 +1,6 @@
 package org.rubenrr.walkeitor.menu;
 
+import android.util.Log;
 import org.andengine.engine.Engine;
 import org.andengine.entity.Entity;
 import org.andengine.entity.scene.ITouchArea;
@@ -45,6 +46,8 @@ public abstract class MenuBase implements MenuStrategy {
 
     protected void addMenuOption(final MenuOption menuOption, final MenuAction menuAction) {
 
+        Log.d("MenuBase", "Last Menu action: " + menuAction.toString());
+
         String optionText = menuOption.getLabel();
 
         final Text option1 = new Text(this.getSprite().getWidth() + 10, this.height, FontLoadManager.getInstance().get(FontConfig.MENU_STANDARD),
@@ -52,6 +55,7 @@ public abstract class MenuBase implements MenuStrategy {
             @Override
             public boolean onAreaTouched(TouchEvent pSceneTouchEvent, float pTouchAreaLocalX, float pTouchAreaLocalY) {
                 if (pSceneTouchEvent.getAction() == TouchEvent.ACTION_DOWN) {
+                    Log.d("MenuBase", "Execute");
                     menuAction.execute(pSceneTouchEvent.getX(), pSceneTouchEvent.getY());
                     MenuBase.this.clear();
                     // unSelect units, as when the a menu option is selected the unit should be unselected
@@ -92,7 +96,7 @@ public abstract class MenuBase implements MenuStrategy {
         // we make sure that the menu is only added once
         if (!this.menuEntities.contains(entity)) {
             this.sprite.attachChild(entity);
-            menuEntities.add(entity);
+            this.menuEntities.add(entity);
             SceneManager.getInstance().getScene().registerTouchArea((ITouchArea)entity);
         }
     }
@@ -101,10 +105,11 @@ public abstract class MenuBase implements MenuStrategy {
     public void clear() {
         final Engine.EngineLock engineLock = SceneManager.getInstance().getEngineLock();
         engineLock.lock();
-        for (final Entity menuEntity: menuEntities) {
+        for (final Entity menuEntity: this.menuEntities) {
+            SceneManager.getInstance().getScene().unregisterTouchArea((ITouchArea)menuEntity);
             this.sprite.detachChild(menuEntity);
         }
-        menuEntities.clear();
+        this.menuEntities.clear();
         engineLock.unlock();
         this.height = 0;
     }
