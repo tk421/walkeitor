@@ -2,7 +2,6 @@ package org.rubenrr.walkeitor.manager;
 
 import android.util.Log;
 import org.andengine.entity.sprite.Sprite;
-import org.andengine.extension.tmx.TMXTile;
 import org.andengine.util.algorithm.path.Path;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.config.status.StatusConfig;
@@ -83,7 +82,7 @@ public class GameManager {
         for (Building building: this.buildings) {
             Storage storage = building.getStorage();
             if (storage != null) {
-                int match = building.getStorage().contains(consumable);
+                int match = building.getStorage().getPercentageOfMatchedConsumable(consumable);
                 if (match > lastMatch) {
                     lastMatch = match;
                     buildingFound = building;

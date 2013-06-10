@@ -12,6 +12,7 @@ import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.manager.command.Command;
 import org.rubenrr.walkeitor.manager.command.Commandable;
 import org.rubenrr.walkeitor.manager.command.primitive.PrimitiveCommand;
+import org.rubenrr.walkeitor.manager.util.Storage;
 import org.rubenrr.walkeitor.menu.MenuExtendable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.util.TileLocatable;
@@ -37,6 +38,7 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
     private ElementConfig elementConfig;
     private UnitStatusConfig unitStatusConfig;
     private MenuStrategy menu;
+    private Storage storage; // all units may be able to store
     TMXTile tmxTile;
 
     public Unit(float pX, float pY, ElementConfig elementConfig, UnitStatusConfig unitStatusConfig) {
@@ -44,6 +46,7 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
         this.unitStatusConfig = unitStatusConfig;
         this.commandQueue = new ArrayBlockingQueue<PrimitiveCommand>(100);
         this.elementConfig = elementConfig;
+        this.storage = elementConfig.getStorage();
         GameManager.getInstance().addUnit(this);
         this.setTiledPosition();
     }
@@ -126,6 +129,18 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
         return success;
     }
 
+    public boolean setReady() {
+        Boolean success = false;
+        if (this.unitStatusConfig.equals(UnitStatusConfig.COMMAND_ON_PROGRESS)) {
+            this.unitStatusConfig = UnitStatusConfig.IDLE;
+            success = true;
+        } else {
+            Log.e("Unit", "Trying to set IDLE a unit that was not Busy!");
+        }
+        return success;
+    }
+
+
     public void addCommand(PrimitiveCommand command) {
         this.commandQueue.add(command);
     }
@@ -144,6 +159,7 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
                 command.execute();
             } else {
                 Log.d("Unit/Command", "Command finished");
+                this.setReady();
             }
 
         } catch (InterruptedException e) {
@@ -160,4 +176,9 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
         }
 
     }
+
+    public Storage getStorage() {
+        return this.storage;
+    }
+
 }

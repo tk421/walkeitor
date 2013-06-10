@@ -12,5 +12,5 @@ import org.rubenrr.walkeitor.element.consumable.Consumable;
  */
 public interface ConsumableUpdatable {
     public boolean addConsumable(Consumable consumable);
-    public boolean removeConsumable(Consumable consumable);
+    public Consumable takeConsumable(Consumable consumable);
 }

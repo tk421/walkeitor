@@ -41,7 +41,7 @@ public class OilRefineryProduction extends ProductionBase {
         Consumable consumableProduced = ElementConfig.REFINERY_OIL.getConsumableProduced();
 
         Log.d("Refinery/Production", "Starting Production ");
-        if ( this.getStorage().removeConsumable(consumableRequired) ) {
+        if ( this.getStorage().takeConsumable(consumableRequired).getAmount() > 0 ) {
 
             Log.d("Refinery/Production", "Requirements are met " + this.getStorage().toString());
 

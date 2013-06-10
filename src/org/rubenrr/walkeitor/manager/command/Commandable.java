@@ -20,4 +20,8 @@ public interface Commandable {
 
     public void nextCommand();
 
+    public boolean setBusy();
+
+    public boolean setReady();
+
 }

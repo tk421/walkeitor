@@ -50,9 +50,11 @@ public class HUDConsumableEntry implements ConsumableUpdatable {
     }
 
     @Override
-    public boolean removeConsumable(Consumable consumable) {
-        //TODO implement method
-        return false;
+    public Consumable takeConsumable(Consumable consumable) {
+        // null implementation
+        Log.w("HUDManager/takeConsumable", "Executing null implementation");
+        Consumable retrieved = consumable.getConsumableConfig().factory();
+        return retrieved;
     }
 
     private void updateHUDValue() {

@@ -2,6 +2,7 @@ package org.rubenrr.walkeitor.manager.util;
 
 import android.util.Log;
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
+import org.rubenrr.walkeitor.config.status.StorageStatusConfig;
 import org.rubenrr.walkeitor.element.consumable.Consumable;
 import org.rubenrr.walkeitor.manager.scene.ConsumableUpdatable;
 
@@ -43,6 +44,21 @@ public class Storage implements ConsumableUpdatable {
             return false;
         }
 
+        boolean success = this.modifyConsumable(consumableVariation, StorageStatusConfig.ADD);
+
+        return success;
+    }
+
+
+    /**
+     * Add or remove a consumable
+     *
+     * @param consumableVariation the consumable type and amount that will be added or removed
+     * @param storageStatus the action that will happen
+     * @return
+     */
+    private boolean modifyConsumable( Consumable consumableVariation, StorageStatusConfig storageStatus) {
+
         boolean success = false;
         Iterator it = this.consumables.entrySet().iterator();
 
@@ -53,7 +69,11 @@ public class Storage implements ConsumableUpdatable {
             Consumable consumable = (Consumable)pairs.getValue();
             if (consumableVariation.getConsumableConfig().equals(consumable.getConsumableConfig())) {
                 Log.d("Storage", "Updating value to consumable " + consumableVariation.getConsumableConfig() + " " + consumableVariation.getAmount());
-                consumable.addAmount(consumableVariation.getAmount());
+                if (storageStatus.equals(StorageStatusConfig.ADD)) {
+                    consumable.addAmount(consumableVariation.getAmount());
+                } else {
+                    consumable.removeAmount(consumableVariation.getAmount());
+                }
                 success = true;
                 break; // only one
             }
@@ -61,18 +81,57 @@ public class Storage implements ConsumableUpdatable {
 
         // if the consumable does not exist then we add it
         if (!success) {
-            Log.d("Storage", "Creating new consumable " + consumableVariation.getConsumableConfig());
-            this.consumables.put(consumableVariation.getConsumableConfig(), consumableVariation);
-            success = true;
+            if (storageStatus.equals(StorageStatusConfig.ADD)) {
+                Log.d("Storage", "Creating new consumable " + consumableVariation.getConsumableConfig());
+                this.consumables.put(consumableVariation.getConsumableConfig(), consumableVariation);
+                success = true;
+            }
         }
-
         return success;
     }
 
+    /**
+     * Take from the storage the required consumable.
+     * If the full amount cannot be met, we will return as much as possible.
+     *
+     * @param consumable
+     * @return
+     */
     @Override
-    public boolean removeConsumable(Consumable consumable) {
-        // TODO implement method
-        return false;
+    public Consumable takeConsumable(Consumable consumable) {
+
+        Consumable retrievedConsumable = consumable.getConsumableConfig().factory();
+
+        Log.d("Storage/takeConsumable", "Transfer request: " + consumable.toString());
+
+        // how much is available in the building
+        float amountAvailable = this.getAmountOfMatchedConsumable(consumable);
+
+        if (amountAvailable > consumable.getAmount()) {
+            retrievedConsumable.setAmount(consumable.getAmount());
+        } else {
+            retrievedConsumable.setAmount(amountAvailable);
+        }
+
+        Log.d("Storage/takeConsumable", "Available: " + retrievedConsumable.toString());
+
+        boolean success = this.modifyConsumable(retrievedConsumable, StorageStatusConfig.REMOVE);
+
+        if (!success) {
+            retrievedConsumable.setAmount(0);
+            Log.w("Storage/takeConsumable", "Cannot take required consumable " + consumable.toString() + " as this " +
+                    "does not have it");
+        }
+
+        return retrievedConsumable;
+    }
+
+    /**
+     * Remove the consumable from the storage
+     *
+     */
+    private void removeConsumable() {
+
     }
 
     /**
@@ -116,12 +175,27 @@ public class Storage implements ConsumableUpdatable {
      * @param consumableSearched
      * @return
      */
-    public int contains(Consumable consumableSearched) {
+    public int getPercentageOfMatchedConsumable(Consumable consumableSearched) {
         int percentage = 0;
         Consumable consumableAvailable = this.consumables.get(consumableSearched.getConsumableConfig());
         if ( consumableAvailable != null ) {
             percentage = Math.round( consumableAvailable.getAmount() * 100 / consumableSearched.getAmount()  );
         }
         return percentage;
+    }
+
+    /**
+     * Return how many units of this consumable contains this storage
+     *
+     * @param consumableSearched
+     * @return
+     */
+    public float getAmountOfMatchedConsumable(Consumable consumableSearched) {
+        float amount = 0;
+        Consumable consumableAvailable = this.consumables.get(consumableSearched.getConsumableConfig());
+        if ( consumableAvailable != null ) {
+            amount = consumableAvailable.getAmount();
+        }
+        return amount;
     }
 }

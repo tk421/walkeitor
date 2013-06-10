@@ -68,7 +68,10 @@ public class HUDManager implements ConsumableUpdatable {
     }
 
     @Override
-    public boolean removeConsumable(Consumable consumable) {
-        return false;
+    public Consumable takeConsumable(Consumable consumable) {
+        // null implementation
+        Log.w("HUDManager/takeConsumable", "Executing null implementation");
+        Consumable retrieved = consumable.getConsumableConfig().factory();
+        return retrieved;
     }
 }

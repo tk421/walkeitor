@@ -43,7 +43,7 @@ public class MoveConsumableToBuildingCommand implements Command {
         } else {
 
             // First, we need to find out who can supply us the required consumable
-            Log.e("MoveConsumableToBuildingCommand/Step1", "Searching for resources");
+            Log.d("MoveConsumableToBuildingCommand/Step1", "Searching for resources");
             Building buildingFrom = GameManager.getInstance().getBuildingThatContains(this.consumable);
 
             if (buildingFrom == null ) {
@@ -58,8 +58,8 @@ public class MoveConsumableToBuildingCommand implements Command {
                 this.unit.addCommand(movetoCommand);
 
                 // Third, we should be able to get from the Storage that consumable
-                //TakeFromPrimitiveCommand takeFromCommand = new TakeFromPrimitiveCommand();
-                //this.unit.addCommand(takeFromCommand);
+                TakeFromPrimitiveCommand takeFromCommand = new TakeFromPrimitiveCommand(unit, buildingFrom, this.consumable);
+                this.unit.addCommand(takeFromCommand);
 
                 // Four, we need to move to the building
                 //MoveToPrimitiveCommand movetoDestinationCommand = new MoveToPrimitiveCommand();
