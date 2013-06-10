@@ -21,7 +21,7 @@ import java.util.concurrent.PriorityBlockingQueue;
  * Time: 1:48 PM
  */
 public class WorkerTask {
-    BlockingQueue queue;
+    BlockingQueue<Command> queue;
     List<Person> idleWorkers = new ArrayList<Person>();
 
     public WorkerTask() {
@@ -30,7 +30,14 @@ public class WorkerTask {
     }
 
     public void addIdleWorker(Person worker) {
-        this.idleWorkers.add(worker);
+
+        if (this.queue.isEmpty()) {
+            this.idleWorkers.add(worker);
+        } else {
+            this.setTaskToWorker();
+        }
+
+
     }
 
     public void removeIdleWorker(Person worker) {
@@ -48,14 +55,27 @@ public class WorkerTask {
             Log.d("WorkerTask/Command", "Task added to a queue " + command.toString());
             this.queue.add(command);
         } else { // we have an idle worker to solve the task
-
-            Person worker = this.idleWorkers.get(0);
-            this.idleWorkers.remove(worker);
-            Log.d("WorkerTask/Command", " Assigning Task" + command.toString() + " to worker " + worker.toString());
-            command.setUnit(worker);
-            command.execute();
+            this.setTaskToWorker(command);
         }
 
+    }
+
+    private void setTaskToWorker() {
+        Command command = null;
+        try {
+            command = this.queue.take();
+            this.setTaskToWorker(command);
+        } catch (InterruptedException e) {
+            Log.e("Queue", "An error happened while trying to take queue", e);
+        }
+    }
+
+    private void setTaskToWorker(Command command) {
+        Person worker = this.idleWorkers.get(0);
+        this.idleWorkers.remove(worker);
+        Log.d("WorkerTask/Command", " Assigning Task" + command.toString() + " to worker " + worker.toString());
+        command.setUnit(worker);
+        command.execute();
     }
 
 }

@@ -11,7 +11,7 @@ import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
 import org.rubenrr.walkeitor.manager.util.OccupiedTiles;
-import org.rubenrr.walkeitor.menu.MenuExtendable;
+import org.rubenrr.walkeitor.manager.util.SpriteAttachable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.production.ProductionStrategy;
 import org.rubenrr.walkeitor.util.TileLocatable;
@@ -21,7 +21,7 @@ import org.rubenrr.walkeitor.util.TileLocatable;
  * Date: 30/03/13
  * Time: 1:07 PM
  */
-public abstract class Building extends Sprite implements MenuExtendable, TileLocatable {
+public abstract class Building extends Sprite implements SpriteAttachable, TileLocatable {
 
     private MenuStrategy menu;
     private ProductionStrategy production;
@@ -80,7 +80,6 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         return this.tmxTile.getTileRow();
     }
 
-
     @Override
     public boolean onAreaTouched(final TouchEvent pSceneTouchEvent, final float pTouchAreaLocalX, final float pTouchAreaLocalY) {
 
@@ -132,7 +131,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         return super.toString();
     }
 
-    protected void setMenu(MenuStrategy menu, MenuExtendable sprite) {
+    protected void setMenu(MenuStrategy menu, SpriteAttachable sprite) {
         menu.setSprite(sprite);
         this.menu = menu;
     }
@@ -164,7 +163,7 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         OccupiedTiles.clearAll();
 
         //start production
-        this.startProduction();
+        this.production.startProduction();
 
     }
 
@@ -172,13 +171,11 @@ public abstract class Building extends Sprite implements MenuExtendable, TileLoc
         return this.elementConfig;
     }
 
-    public void startProduction() {
-        this.production.startProduction();
-    }
-
     public Storage getStorage() {
         return this.storage;
     }
 
-
+    public ProductionStrategy getProduction() {
+        return production;
+    }
 }

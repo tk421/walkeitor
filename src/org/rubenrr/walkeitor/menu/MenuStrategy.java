@@ -2,6 +2,7 @@ package org.rubenrr.walkeitor.menu;
 
 import org.andengine.input.touch.TouchEvent;
 import org.rubenrr.walkeitor.config.status.StatusConfig;
+import org.rubenrr.walkeitor.manager.util.SpriteAttachable;
 
 /**
  * User: Ruben Rubio Rey
@@ -16,7 +17,7 @@ public interface MenuStrategy {
     void display(StatusConfig statusConfig, TouchEvent touchEvent);
 
     // get the parent sprite which the menu will pop up
-    void setSprite(MenuExtendable sprite);
+    void setSprite(SpriteAttachable sprite);
 
     //clear menu from screen
     void clear();

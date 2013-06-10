@@ -54,6 +54,15 @@ public abstract class ProductionBase implements ProductionStrategy {
         SceneManager.getInstance().getHUD().addConsumable(consumableProduced);
     }
 
+    /**
+     * What to do with the consumables that has been used
+     */
+    protected void removeUsedConsumables(Consumable consumableUsed) {
+        // Notify the HUD
+        SceneManager.getInstance().getHUD().removeConsumable(consumableUsed);
+    }
+
+
     @Override
     public void startProduction() {
         TimerHandler timeHandler = this.getProductionHandler();

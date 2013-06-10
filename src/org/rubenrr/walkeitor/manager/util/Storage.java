@@ -126,6 +126,11 @@ public class Storage implements ConsumableUpdatable {
         return retrievedConsumable;
     }
 
+    @Override
+    public void removeConsumable(Consumable consumable) {
+        this.modifyConsumable(consumable, StorageStatusConfig.REMOVE);
+    }
+
     /**
      * Remove the consumable from the storage
      *

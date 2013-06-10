@@ -5,16 +5,16 @@ import org.rubenrr.walkeitor.element.building.Building;
 import org.rubenrr.walkeitor.element.consumable.Consumable;
 import org.rubenrr.walkeitor.element.unit.Unit;
 import org.rubenrr.walkeitor.manager.GameManager;
-import org.rubenrr.walkeitor.manager.command.primitive.GiveToPrimitiveCommand;
+import org.rubenrr.walkeitor.manager.command.primitive.StartProductionPrimitiveCommand;
+import org.rubenrr.walkeitor.manager.command.primitive.TransferConsumablesPrimitiveCommand;
 import org.rubenrr.walkeitor.manager.command.primitive.MoveToPrimitiveCommand;
-import org.rubenrr.walkeitor.manager.command.primitive.TakeFromPrimitiveCommand;
 
 /**
  * User: Ruben Rubio Rey
  * Date: 2/06/13
  * Time: 4:29 PM
  */
-public class MoveConsumableToBuildingCommand implements Command {
+public class MoveConsumableToBuildingCommand implements Command, Comparable<Command> {
 
     // This unit is the one who is going to give it`
     Unit unit;
@@ -58,7 +58,7 @@ public class MoveConsumableToBuildingCommand implements Command {
                 this.unit.addCommand(movetoCommand);
 
                 // Third, we should be able to get from the Storage that consumable
-                TakeFromPrimitiveCommand takeFromCommand = new TakeFromPrimitiveCommand(unit, buildingFrom, this.consumable);
+                TransferConsumablesPrimitiveCommand takeFromCommand = new TransferConsumablesPrimitiveCommand(buildingFrom.getStorage(), unit.getStorage(), this.consumable, unit);
                 this.unit.addCommand(takeFromCommand);
 
                 // Four, we need to move to the building
@@ -66,17 +66,27 @@ public class MoveConsumableToBuildingCommand implements Command {
                 this.unit.addCommand(movetoDestinationCommand);
 
                 // Five, we give the consumable to the building
-                GiveToPrimitiveCommand giveToCommand = new GiveToPrimitiveCommand(unit, this.building, this.consumable);
+                TransferConsumablesPrimitiveCommand giveToCommand = new TransferConsumablesPrimitiveCommand(unit.getStorage(), this.building.getStorage(), this.consumable, unit);
                 this.unit.addCommand(giveToCommand);
 
-                this.unit.startExecuteCommands();
+                // Six, moving resources to a building is to start production.
+                StartProductionPrimitiveCommand startProduction = new StartProductionPrimitiveCommand(this.building.getProduction());
+                this.unit.addCommand(startProduction);
 
+
+                this.unit.startExecuteCommands();
             }
 
 
 
         }
 
+    }
+
+    @Override
+    public int compareTo(Command another) {
+        // TODO for now, null implementation. Priorities needs to be set.
+        return 0;
     }
 
     public void setUnit(Unit unit) {

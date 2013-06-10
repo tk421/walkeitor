@@ -3,6 +3,7 @@ package org.rubenrr.walkeitor.manager.scene;
 import android.util.Log;
 import org.andengine.engine.camera.hud.HUD;
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
+import org.rubenrr.walkeitor.config.status.StorageStatusConfig;
 import org.rubenrr.walkeitor.element.consumable.Consumable;
 
 import java.util.HashMap;
@@ -51,6 +52,11 @@ public class HUDManager implements ConsumableUpdatable {
      * @param consumableVariation
      */
     public boolean addConsumable(Consumable consumableVariation) {
+        boolean success = this.addOrRemoveConsumable(consumableVariation, StorageStatusConfig.ADD);
+        return success;
+    }
+
+    private boolean addOrRemoveConsumable(Consumable consumableVariation, StorageStatusConfig storageStatusConfig) {
         boolean success = false;
         Log.d("HUDManager/updateConsumable", "New update");
         Iterator it = this.consumableEntries.entrySet().iterator();
@@ -58,10 +64,14 @@ public class HUDManager implements ConsumableUpdatable {
             Map.Entry pairs = (Map.Entry)it.next();
             ConsumableConfig consumableConfig = (ConsumableConfig)pairs.getKey();
             HUDConsumableEntry hudConsumableEntry = (HUDConsumableEntry)pairs.getValue();
-            if (hudConsumableEntry.addConsumable(consumableVariation)) {
-                Log.d("HUDManager/updateConsumable", "UPDATE SUCCESSFUL!");
-                success = true;
-                break; // only one
+            if ( storageStatusConfig.equals(StorageStatusConfig.ADD)  ) {
+                if (hudConsumableEntry.addConsumable(consumableVariation)) {
+                    Log.d("HUDManager/updateConsumable", "UPDATE SUCCESSFUL!");
+                    success = true;
+                    break; // only one
+                }
+            } else {
+                hudConsumableEntry.removeConsumable(consumableVariation);
             }
         }
         return success;
@@ -73,5 +83,10 @@ public class HUDManager implements ConsumableUpdatable {
         Log.w("HUDManager/takeConsumable", "Executing null implementation");
         Consumable retrieved = consumable.getConsumableConfig().factory();
         return retrieved;
+    }
+
+    @Override
+    public void removeConsumable(Consumable consumableVariation) {
+        this.addOrRemoveConsumable(consumableVariation, StorageStatusConfig.REMOVE);
     }
 }

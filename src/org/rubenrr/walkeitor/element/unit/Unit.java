@@ -9,19 +9,15 @@ import org.rubenrr.walkeitor.config.status.UnitStatusConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
-import org.rubenrr.walkeitor.manager.command.Command;
 import org.rubenrr.walkeitor.manager.command.Commandable;
 import org.rubenrr.walkeitor.manager.command.primitive.PrimitiveCommand;
 import org.rubenrr.walkeitor.manager.util.Storage;
-import org.rubenrr.walkeitor.menu.MenuExtendable;
+import org.rubenrr.walkeitor.manager.util.SpriteAttachable;
 import org.rubenrr.walkeitor.menu.MenuStrategy;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.TimeUnit;
 
 /**
  * User: Ruben Rubio Rey
@@ -31,7 +27,7 @@ import java.util.concurrent.TimeUnit;
  * Note: this cannot be abstract as I need to recognize the object at GameManager
  *
  */
-public abstract class Unit extends Sprite implements MenuExtendable, TileLocatable, Commandable {
+public abstract class Unit extends Sprite implements SpriteAttachable, TileLocatable, Commandable {
 
     BlockingQueue<PrimitiveCommand> commandQueue;
 
@@ -105,7 +101,7 @@ public abstract class Unit extends Sprite implements MenuExtendable, TileLocatab
         return super.toString();
     }
 
-    protected void setMenu(MenuStrategy menu, MenuExtendable sprite) {
+    protected void setMenu(MenuStrategy menu, SpriteAttachable sprite) {
         menu.setSprite(sprite);
         this.menu = menu;
     }

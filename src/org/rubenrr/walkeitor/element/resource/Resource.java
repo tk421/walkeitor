@@ -6,7 +6,7 @@ import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
 import org.rubenrr.walkeitor.manager.TextureRegionManager;
-import org.rubenrr.walkeitor.menu.MenuExtendable;
+import org.rubenrr.walkeitor.manager.util.SpriteAttachable;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
 /**
@@ -14,7 +14,7 @@ import org.rubenrr.walkeitor.util.TileLocatable;
  * Date: 5/04/13
  * Time: 8:44 PM
  */
-public abstract class Resource extends Sprite  implements MenuExtendable, TileLocatable {
+public abstract class Resource extends Sprite  implements SpriteAttachable, TileLocatable {
 
     ElementConfig elementConfig;
     TMXTile tmxTile;

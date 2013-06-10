@@ -39,6 +39,9 @@ public class Person extends Unit  {
         return true;
     }
 
-
-
+    @Override
+    public boolean setReady() {
+        GameManager.getInstance().addIdleWorker(this);
+        return super.setReady();
+    }
 }

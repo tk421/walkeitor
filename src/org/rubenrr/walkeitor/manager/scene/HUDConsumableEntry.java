@@ -5,6 +5,7 @@ import org.andengine.engine.camera.hud.HUD;
 import org.andengine.entity.text.Text;
 import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.config.element.ConsumableConfig;
+import org.rubenrr.walkeitor.config.status.StorageStatusConfig;
 import org.rubenrr.walkeitor.element.consumable.Consumable;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
@@ -37,16 +38,31 @@ public class HUDConsumableEntry implements ConsumableUpdatable {
 
     @Override
     public boolean addConsumable(Consumable consumable) {
+        boolean success = this.addOrRemoveConsumable(consumable, StorageStatusConfig.ADD);
+        return success;
+    }
+
+    private boolean addOrRemoveConsumable(Consumable consumable, StorageStatusConfig storageStatusConfig) {
         boolean success = false;
         if( consumable.getConsumableConfig().equals(this.consumableConfig) ) {
             Log.d("HUDConsumableEntry/updateConsumable", "SAME consumableConfig");
-            this.consumable.addAmount(consumable.getRoundAmount());
+            if ( storageStatusConfig.equals(StorageStatusConfig.ADD)) {
+                this.consumable.addAmount(consumable.getRoundAmount());
+            } else if (storageStatusConfig.equals(StorageStatusConfig.REMOVE)) {
+                // TODO this is going to creat problems, float and int for this ... not good idea
+                this.consumable.removeAmount(consumable.getRoundAmount());
+            }
             this.updateHUDValue();
             success = true;
         } else {
             Log.d("HUDConsumableEntry/updateConsumable", "Different consumableConfig");
         }
         return success;
+    }
+
+    @Override
+    public void removeConsumable(Consumable consumable) {
+        this.addOrRemoveConsumable(consumable, StorageStatusConfig.REMOVE);
     }
 
     @Override

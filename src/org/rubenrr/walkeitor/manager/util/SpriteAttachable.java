@@ -1,4 +1,4 @@
-package org.rubenrr.walkeitor.menu;
+package org.rubenrr.walkeitor.manager.util;
 
 import org.andengine.entity.IEntity;
 
@@ -9,12 +9,10 @@ import org.andengine.entity.IEntity;
  * Date: 20/04/13
  * Time: 5:14 PM
  */
-public interface MenuExtendable {
+public interface SpriteAttachable {
 
     public void attachChild(IEntity pEntity);
 
     public boolean detachChild(IEntity pEntity);
-
-    public float getWidth();
 
 }

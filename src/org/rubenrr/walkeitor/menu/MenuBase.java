@@ -11,6 +11,7 @@ import org.rubenrr.walkeitor.config.FontConfig;
 import org.rubenrr.walkeitor.manager.FontLoadManager;
 import org.rubenrr.walkeitor.manager.GameManager;
 import org.rubenrr.walkeitor.manager.SceneManager;
+import org.rubenrr.walkeitor.manager.util.SpriteAttachable;
 import org.rubenrr.walkeitor.util.TileLocatable;
 
 import java.util.ArrayList;
@@ -27,12 +28,12 @@ public abstract class MenuBase implements MenuStrategy {
     private int height = 0;
 
     // the sprite that we are generating the menu from
-    private MenuExtendable sprite = null;
+    private SpriteAttachable sprite = null;
 
     // list of all elements are generated as menu
     private ArrayList<Entity> menuEntities = new ArrayList<Entity>();
 
-    public void setSprite(MenuExtendable sprite) {
+    public void setSprite(SpriteAttachable sprite) {
         this.sprite = sprite;
     }
 

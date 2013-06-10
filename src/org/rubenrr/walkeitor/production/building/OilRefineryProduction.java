@@ -49,7 +49,7 @@ public class OilRefineryProduction extends ProductionBase {
             // al requirements has been met. Lets produce.
             if (this.getStorage().addConsumable(consumableProduced)) {
                 Log.d("Refinery/Production", "Production happened "+ this.getStorage().toString());
-
+                success = true;
             } else {
                 // As we cannot use the consumable required, lets return it.
                 this.getStorage().addConsumable(consumableRequired);
@@ -79,7 +79,8 @@ public class OilRefineryProduction extends ProductionBase {
 
 
         if ( success ) {
-            //super.generateProduction(consumable);
+            super.generateProduction(consumableProduced);
+            super.removeUsedConsumables(consumableRequired);
         }
     }
 
