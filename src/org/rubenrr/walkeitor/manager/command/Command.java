@@ -8,6 +8,6 @@ import org.rubenrr.walkeitor.element.unit.Unit;
  * Time: 4:23 PM
  */
 public interface Command {
-    public void execute();
+    public boolean execute();
     public void setUnit(Unit unit);
 }

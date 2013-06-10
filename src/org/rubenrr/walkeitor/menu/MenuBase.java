@@ -67,7 +67,7 @@ public abstract class MenuBase implements MenuStrategy {
 
             @Override
             public String toString() {
-                return "MenuOptionText: " + menuOption.toString() + super.toString();    //To change body of overridden methods use File | Settings | File Templates.
+                return "MenuOptionText: " + menuOption.toString() + super.toString();
             }
 
             @Override

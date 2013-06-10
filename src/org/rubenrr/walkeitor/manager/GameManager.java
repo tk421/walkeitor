@@ -72,6 +72,11 @@ public class GameManager {
      * Get the building that contains the specified amount of consumable,
      * or the building who is closed to the given amount of consumable
      *
+     * TODO This algorithm should take as preference the buildings that
+     * TODO 1) Are storage
+     * TODO 2) Produces the consumable
+     * TODO  - WORK AROUND LIMITED TO MINES
+     *
      * @param consumable
      */
     public Building getBuildingThatContains(Consumable consumable) {
@@ -80,19 +85,21 @@ public class GameManager {
         Building buildingFound = null;
 
         for (Building building: this.buildings) {
-            Storage storage = building.getStorage();
-            if (storage != null) {
-                int match = building.getStorage().getPercentageOfMatchedConsumable(consumable);
-                if (match > lastMatch) {
-                    lastMatch = match;
-                    buildingFound = building;
+            if( building instanceof Mine ) {
+                Storage storage = building.getStorage();
+                if (storage != null) {
+                    int match = building.getStorage().getPercentageOfMatchedConsumable(consumable);
+                    if (match > lastMatch) {
+                        lastMatch = match;
+                        buildingFound = building;
 
-                    if (match == 100) {
-                        break;
+                        if (match == 100) {
+                            break;
+                        }
                     }
+                } else {
+                    Log.w("GameManager/getBuildingThatContains/Command",  "Building has no storage" + building.toString());
                 }
-            } else {
-                Log.w("GameManager/getBuildingThatContains/Command",  "Building has no storage" + building.toString());
             }
         }
 

@@ -3,6 +3,7 @@ package org.rubenrr.walkeitor.production.building;
 import android.util.Log;
 import org.rubenrr.walkeitor.config.ElementConfig;
 import org.rubenrr.walkeitor.element.consumable.CrudeOil;
+import org.rubenrr.walkeitor.manager.util.SpriteAttachable;
 import org.rubenrr.walkeitor.manager.util.Storage;
 import org.rubenrr.walkeitor.production.ProductionBase;
 
@@ -18,8 +19,8 @@ public class OilMineProduction extends ProductionBase {
     // TODO started default to 50.000 units
     private CrudeOil availableCrudeOil = new CrudeOil(50000);
 
-    public OilMineProduction(Storage storage, float timeElapsed) {
-        super(storage, timeElapsed);
+    public OilMineProduction(SpriteAttachable sprite, Storage storage, float timeElapsed) {
+        super(sprite, storage, timeElapsed);
     }
 
     /**

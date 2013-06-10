@@ -1,6 +1,7 @@
 package org.rubenrr.walkeitor.manager.command.primitive;
 
 import org.rubenrr.walkeitor.element.building.Building;
+import org.rubenrr.walkeitor.manager.command.Commandable;
 import org.rubenrr.walkeitor.production.ProductionStrategy;
 
 /**
@@ -11,14 +12,19 @@ import org.rubenrr.walkeitor.production.ProductionStrategy;
 public class StartProductionPrimitiveCommand implements PrimitiveCommand {
 
     // element will start the production
-    ProductionStrategy productor;
+    private ProductionStrategy productor;
 
-    public StartProductionPrimitiveCommand(ProductionStrategy productor) {
+    private Commandable unit;
+
+    public StartProductionPrimitiveCommand(ProductionStrategy productor, Commandable unit) {
         this.productor = productor;
+        this.unit = unit;
     }
 
     @Override
     public void execute() {
         this.productor.startProduction();
+
+        this.unit.nextCommand();
     }
 }

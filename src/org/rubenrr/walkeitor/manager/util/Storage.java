@@ -203,4 +203,12 @@ public class Storage implements ConsumableUpdatable {
         }
         return amount;
     }
+
+    public int getSize() {
+        return size;
+    }
+
+    public Map<ConsumableConfig, Consumable> getConsumables() {
+        return consumables;
+    }
 }

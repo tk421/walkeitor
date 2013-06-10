@@ -7,12 +7,10 @@ Backlog:
   - Construct an Oil Refinery - DONE - 27/04/2013
   - Construct an Tank Factory  - DONE - 28/04/2013
   - Construct Tanks - DONE - 28/04/2013
-  - Implement limit of storage capacity of Consumables
+  - Implement limit of storage capacity of Consumables 10/06/2013
+  - Create the Task manager (Movement, Transport, Building) 10/06/2013
   - Apply customized speed when moving units
   - Apply resources usage when moving units
-  - Create the Task manager (Movement, Transport, Building)
   - Manage resources in GameManager
   - Move units to constant speed
 
-Bugs:
-  - Bug when building clicking on the left of refinery after building a refinery

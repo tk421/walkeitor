@@ -22,7 +22,7 @@ public class OilRefineryProduction extends ProductionBase {
     Refinery refinery;
 
     public OilRefineryProduction(Refinery refinery, Storage storage, float timeElapsed) {
-        super(storage, timeElapsed);
+        super(refinery, storage, timeElapsed);
         this.refinery = refinery;
     }
 

@@ -15,4 +15,8 @@ public interface SpriteAttachable {
 
     public boolean detachChild(IEntity pEntity);
 
+    public float getWidth();
+
+    public float getHeight();
+
 }

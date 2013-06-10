@@ -36,7 +36,9 @@ public class MoveConsumableToBuildingCommand implements Command, Comparable<Comm
     }
 
     @Override
-    public void execute() {
+    public boolean execute() {
+
+        boolean success = false;
 
         if (unit == null) {
             Log.e("Command", "Can't execute command. We do not know who will be doing it!");
@@ -53,7 +55,6 @@ public class MoveConsumableToBuildingCommand implements Command, Comparable<Comm
             } else {
 
                 // Second, we have to move towards that building
-                Log.e("MoveConsumableToBuildingCommand/Step2", "Move unit");
                 MoveToPrimitiveCommand movetoCommand = new MoveToPrimitiveCommand(unit, buildingFrom);
                 this.unit.addCommand(movetoCommand);
 
@@ -70,9 +71,10 @@ public class MoveConsumableToBuildingCommand implements Command, Comparable<Comm
                 this.unit.addCommand(giveToCommand);
 
                 // Six, moving resources to a building is to start production.
-                StartProductionPrimitiveCommand startProduction = new StartProductionPrimitiveCommand(this.building.getProduction());
+                StartProductionPrimitiveCommand startProduction = new StartProductionPrimitiveCommand(this.building.getProduction(), unit);
                 this.unit.addCommand(startProduction);
 
+                success = true;
 
                 this.unit.startExecuteCommands();
             }
@@ -80,6 +82,8 @@ public class MoveConsumableToBuildingCommand implements Command, Comparable<Comm
 
 
         }
+
+        return success;
 
     }
 

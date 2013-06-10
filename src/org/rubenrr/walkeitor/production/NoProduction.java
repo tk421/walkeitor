@@ -10,7 +10,7 @@ import org.rubenrr.walkeitor.manager.util.Storage;
 public class NoProduction extends ProductionBase {
 
     public NoProduction() {
-        super(new Storage(0), 0);
+        super(null, new Storage(0), 0);
     }
 
     @Override

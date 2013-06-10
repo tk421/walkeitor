@@ -115,6 +115,7 @@ public abstract class Unit extends Sprite implements SpriteAttachable, TileLocat
     }
 
     public boolean setBusy() {
+        Log.d("Unit/WorkerTask/Command", "Unit is Busy");
         Boolean success = false;
         if (this.unitStatusConfig.equals(UnitStatusConfig.IDLE)) {
             this.unitStatusConfig = UnitStatusConfig.COMMAND_ON_PROGRESS;
@@ -126,6 +127,7 @@ public abstract class Unit extends Sprite implements SpriteAttachable, TileLocat
     }
 
     public boolean setReady() {
+        Log.d("Unit/WorkerTask/Command", "Unit is Ready");
         Boolean success = false;
         if (this.unitStatusConfig.equals(UnitStatusConfig.COMMAND_ON_PROGRESS)) {
             this.unitStatusConfig = UnitStatusConfig.IDLE;
@@ -138,6 +140,7 @@ public abstract class Unit extends Sprite implements SpriteAttachable, TileLocat
 
 
     public void addCommand(PrimitiveCommand command) {
+        Log.d("Unit/WorkerTask/Command", "Command added");
         this.commandQueue.add(command);
     }
 
@@ -150,16 +153,17 @@ public abstract class Unit extends Sprite implements SpriteAttachable, TileLocat
     @Override
     public void executeCommand() {
         try {
+            Log.d("Unit/WorkerTask/Command", "Executing command, pending " + this.commandQueue.size());
             if (this.commandQueue.size() > 0) {
                 PrimitiveCommand command = this.commandQueue.take();
                 command.execute();
             } else {
-                Log.d("Unit/Command", "Command finished");
+                Log.d("Unit/WorkerTask/Command", "Command finished");
                 this.setReady();
             }
 
         } catch (InterruptedException e) {
-            Log.e("Unit/Command", "Error while consuming the queue, cannot take next element" , e);
+            Log.e("Unit/WorkerTask/Command", "Error while consuming the queue, cannot take next element" , e);
         }
     }
 
@@ -168,7 +172,7 @@ public abstract class Unit extends Sprite implements SpriteAttachable, TileLocat
         if (this.unitStatusConfig.equals(UnitStatusConfig.COMMAND_ON_PROGRESS)) {
             this.executeCommand();
         } else {
-            Log.e("Unit/Command", "Trying to execute a command in a unit that is not COMMAND_ON_PROGRESS!");
+            Log.e("Unit/WorkerTask/Command", "Trying to execute a command in a unit that is not COMMAND_ON_PROGRESS!");
         }
 
     }

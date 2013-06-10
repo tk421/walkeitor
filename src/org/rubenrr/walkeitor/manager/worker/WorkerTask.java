@@ -4,8 +4,7 @@ import android.util.Log;
 import org.rubenrr.walkeitor.element.unit.Person;
 import org.rubenrr.walkeitor.manager.command.Command;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.BlockingDeque;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.PriorityBlockingQueue;
@@ -22,18 +21,22 @@ import java.util.concurrent.PriorityBlockingQueue;
  */
 public class WorkerTask {
     BlockingQueue<Command> queue;
-    List<Person> idleWorkers = new ArrayList<Person>();
+    TreeSet<Person> idleWorkers;
 
     public WorkerTask() {
         this.queue = new PriorityBlockingQueue();
-        this.idleWorkers = new ArrayList<Person>();
+        this.idleWorkers = new TreeSet<Person>();
     }
 
     public void addIdleWorker(Person worker) {
 
+        Log.d("WorkerTask/Command", "New idle worker");
+
         if (this.queue.isEmpty()) {
             this.idleWorkers.add(worker);
+            Log.d("WorkerTask/Command", "Added idle worker to the list " + this.idleWorkers.size());
         } else {
+            Log.d("WorkerTask/Command", "Set task straight away to idle worker");
             this.setTaskToWorker();
         }
 
@@ -63,6 +66,7 @@ public class WorkerTask {
     private void setTaskToWorker() {
         Command command = null;
         try {
+            Log.d("WorkerTask/Command", "setTaskToWorker");
             command = this.queue.take();
             this.setTaskToWorker(command);
         } catch (InterruptedException e) {
@@ -71,11 +75,20 @@ public class WorkerTask {
     }
 
     private void setTaskToWorker(Command command) {
-        Person worker = this.idleWorkers.get(0);
-        this.idleWorkers.remove(worker);
-        Log.d("WorkerTask/Command", " Assigning Task" + command.toString() + " to worker " + worker.toString());
-        command.setUnit(worker);
-        command.execute();
+        Person worker = this.idleWorkers.pollFirst();
+        if (worker != null) {
+            Log.d("WorkerTask/Command", " Assigning Task" + command.toString() + " to worker " + worker.toString());
+            command.setUnit(worker);
+            if ( ! command.execute() ) {
+                // TODO what to do when the task cannot be solved
+                // TODO need to add to the command properties related with how many times it has been tried.
+                this.addIdleWorker(worker);
+            }
+
+        } else {
+            Log.w("WorkerTask/Command", " Assigning Task failed, no workers available");
+        }
+
     }
 
 }

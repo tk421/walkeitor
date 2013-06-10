@@ -130,9 +130,14 @@ public enum ElementConfig {
         if (this.name.equals("mine_oil")) {
             Log.d("ElementConfig/Production", "Generating product strategy for " + this.name + " which production is "
                     + this.productionConfig.toString() + "  and timeElapsed is " + this.getTimeElapsed());
-            productionStrategy = new OilMineProduction(storage, this.getTimeElapsed());
+            productionStrategy = new OilMineProduction(building, storage, this.getTimeElapsed());
         } else if (this.name.equals("refinery_oil")) {
-            productionStrategy = new OilRefineryProduction((Refinery)building, storage, this.getTimeElapsed());
+            if (building instanceof  Refinery ) {
+                productionStrategy = new OilRefineryProduction((Refinery)building, storage, this.getTimeElapsed());
+            } else {
+                Log.e("productionFactory", "Trying to assign a NOT refinery to a refinery ?!!");
+                productionStrategy = new NoProduction();
+            }
         } else {
             productionStrategy = new NoProduction();
         }
