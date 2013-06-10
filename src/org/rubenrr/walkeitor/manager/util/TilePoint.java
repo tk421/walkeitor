@@ -1,5 +1,7 @@
 package org.rubenrr.walkeitor.manager.util;
 
+import org.rubenrr.walkeitor.config.TileConfig;
+
 import java.util.Comparator;
 
 /**
@@ -12,6 +14,15 @@ public class TilePoint  {
     final private int row;
 
     public TilePoint(int column, int row) {
+        // TODO move this to a config file
+        if (column < 0 && column > 40 ) {
+            throw new IllegalArgumentException("TilePoint column out of range: " + column);
+        }
+
+        if (row < 0 && row > 40 ) {
+            throw new IllegalArgumentException("TilePoint row out of range: " + row);
+        }
+
         this.column = column;
         this.row = row;
     }

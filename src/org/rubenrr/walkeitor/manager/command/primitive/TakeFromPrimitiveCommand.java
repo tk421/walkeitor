@@ -56,6 +56,7 @@ public class TakeFromPrimitiveCommand implements PrimitiveCommand {
         Log.d("TakeFromPrimitiveCommand", "After moving Unit: " + this.unit.getStorage().toString());
         Log.d("TakeFromPrimitiveCommand", "After moving Building: " + this.building.getStorage().toString());
 
+        this.unit.nextCommand();
 
     }
 }

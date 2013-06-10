@@ -226,37 +226,45 @@ import java.util.*;
 
         for(int column = tileFromColumn; column < tileToColumn; column = column+1) {
             // top line
-            boundaries.add(new TilePoint(column, tileFromRow - 1));
+            if (tileFromRow - 1 >= 0) {
+                boundaries.add(new TilePoint(column, tileFromRow - 1));
+            }
 
             //bottom line
             boundaries.add(new TilePoint(column, tileToRow));
         }
 
         for(int row = tileFromRow; row < tileToRow; row = row+1) {
-            // left
-            boundaries.add(new TilePoint(tileFromColumn - 1, row));
+            if (tileFromColumn - 1 >= 0) {
+                // left
+                boundaries.add(new TilePoint(tileFromColumn - 1, row));
+            }
 
             // right
             boundaries.add(new TilePoint(tileToColumn, row));
         }
 
         // corner top-left
-        boundaries.add(new TilePoint(tileFromColumn -1, tileFromRow - 1));
+        if (tileFromColumn - 1 >= 0 && tileFromRow - 1 >= 0) {
+            boundaries.add(new TilePoint(tileFromColumn -1, tileFromRow - 1));
+        }
 
         // corner top-right
-        boundaries.add(new TilePoint(tileToColumn, tileFromRow - 1));
+        if (tileFromRow - 1 >= 0) {
+            boundaries.add(new TilePoint(tileToColumn, tileFromRow - 1));
+        }
 
-        // corner bottom-left
-        boundaries.add(new TilePoint(tileFromColumn - 1, tileToRow ));
+        if (tileFromColumn - 1 >= 0) {
+            // corner bottom-left
+            boundaries.add(new TilePoint(tileFromColumn - 1, tileToRow ));
+        }
 
         // corner bottom-right
         boundaries.add(new TilePoint(tileToColumn, tileToRow ));
 
-
         for (TilePoint boundary : boundaries ) {
             this.setTileOrange(boundary);
         }
-
 
         return boundaries;
 

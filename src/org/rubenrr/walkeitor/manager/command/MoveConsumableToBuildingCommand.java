@@ -62,12 +62,12 @@ public class MoveConsumableToBuildingCommand implements Command {
                 this.unit.addCommand(takeFromCommand);
 
                 // Four, we need to move to the building
-                //MoveToPrimitiveCommand movetoDestinationCommand = new MoveToPrimitiveCommand();
-                //this.unit.addCommand(movetoCommand);
+                MoveToPrimitiveCommand movetoDestinationCommand = new MoveToPrimitiveCommand(unit, this.building);
+                this.unit.addCommand(movetoDestinationCommand);
 
                 // Five, we give the consumable to the building
-                //GiveToPrimitiveCommand giveToCommand = new GiveToPrimitiveCommand();
-                //this.unit.addCommand(giveToCommand);
+                GiveToPrimitiveCommand giveToCommand = new GiveToPrimitiveCommand(unit, this.building, this.consumable);
+                this.unit.addCommand(giveToCommand);
 
                 this.unit.startExecuteCommands();
 
